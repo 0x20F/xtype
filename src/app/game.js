@@ -71,15 +71,13 @@ export const game = () => {
                 bullets.shift();
             }
 
-            ctx.clearRect(bullet.x, bullet.y, 10, 10);
-
             let measure = angleDelta(rx + 25, ry + 25, gc.width/2 - 5, gc.height - 60);
-            let vec = new Vector2D(measure.distance / 70, measure.angle);
+            let vec = new Vector2D(measure.distance / 80, measure.angle);
 
             bullet.y -= vec.y;
             bullet.x -= vec.x;
 
-            ctx.fillRect(bullet.x, bullet.y, 10, 10);
+            ctx.fillRect(bullet.x, bullet.y, 5, 5);
         });
 
 
