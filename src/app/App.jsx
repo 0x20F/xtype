@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { game } from './game.js';
+import { game } from './Game.js';
 
 
 export default class App extends Component {
