@@ -1,12 +1,54 @@
 {
   "name": "xtype",
   "version": "1.0.0",
-  "description": "",
+  "description": "Multiplayer type racing game",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack-dev-server --open --mode development",
+    "public-start": "webpack-dev-server --open --mode development --host 0.0.0.0",
+    "build": "webpack --mode production"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0x20F/xtype.git"
+  },
+  "author": "SirTheViking",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0x20F/xtype/issues"
+  },
+  "homepage": "https://github.com/0x20F/xtype#readme",
+  "dependencies": {
+    "identicon.js": "^2.3.3",
+    "react": "^16.13.1",
+    "react-anime": "^3.0.3",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "react-simple-code-editor": "^0.11.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/runtime": "^7.11.2",
+    "autoprefixer": "^9.8.6",
+    "babel-loader": "^8.1.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.6.0",
+    "cssnano": "^4.1.10",
+    "file-loader": "^6.1.0",
+    "html-loader": "^0.5.5",
+    "html-replace-webpack-plugin": "^2.5.6",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.14.1",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
 }
