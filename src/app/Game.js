@@ -1,5 +1,7 @@
 import AngleDelta from 'foundation/AngleDelta';
+
 import Bullet from 'components/Bullet';
+import Player from 'components/Player';
 
 
 
@@ -7,10 +9,7 @@ export const game = () => {
     let gc = document.getElementById("gameCanvas");
     let ctx = gc.getContext("2d");
 
-    let player = {
-        x: gc.width / 2,
-        y: gc.height - 60
-    }
+    let player = new Player(ctx, gc.width / 2, gc.height - 60);
 
     let bullets = [];
 
@@ -82,18 +81,8 @@ export const game = () => {
         });
 
 
-        // Generate player
-        ctx.clearRect(gc.width/2 - 15, gc.height - 60, 30, 30);
-        ctx.fillStyle = 'white';
-        ctx.strokeStyle = 'red';
-        ctx.fillRect(gc.width/2 - 15, gc.height - 60, 30, 30);
-        ctx.strokeRect(gc.width/2 - 15, gc.height - 60, 30, 30);
-
-
+        player.draw();
         requestAnimationFrame(animate);
-
-        // Simulate 10 fps with setTimeout
-        //setTimeout(animate, 100);
     }
 
 
