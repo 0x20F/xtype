@@ -1,4 +1,5 @@
 import AngleDelta from 'foundation/AngleDelta';
+import Bullet from 'components/Bullet';
 
 
 
@@ -6,16 +7,19 @@ export const game = () => {
     let gc = document.getElementById("gameCanvas");
     let ctx = gc.getContext("2d");
 
-    let bullets = []
+    let player = {
+        x: gc.width / 2,
+        y: gc.height - 60
+    }
 
-    let tt = 400;
-    let iv = true;
+    let bullets = [];
+
     let rx = 400;
     let ry = 50;
 
     window.addEventListener('keydown', (e) => {
         console.log(e.key);
-        bullets.push({ x: gc.width/2 - 5, y: gc.height - 60 });
+        bullets.push(new Bullet(ctx, player.x, player.y));
     });
 
 
@@ -35,7 +39,6 @@ export const game = () => {
         // Add a target
         ctx.fillStyle = 'white';
         ctx.fillRect(rx, ry, 60, 60);
-        ctx.fillStyle = 'white';
 
 
 
@@ -69,7 +72,7 @@ export const game = () => {
                 bullets.shift();
             }
 
-            ctx.fillRect(bullet.x, bullet.y, 10, 10);
+            bullet.draw();
 
             ctx.strokeStyle = 'green';
             ctx.beginPath();
