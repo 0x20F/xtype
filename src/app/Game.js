@@ -2,6 +2,7 @@ import AngleDelta from 'foundation/AngleDelta';
 
 import Bullet from 'components/Bullet';
 import Player from 'components/Player';
+import Enemy from './components/Enemy';
 
 
 
@@ -12,9 +13,7 @@ export const game = () => {
     let player = new Player(ctx, gc.width / 2, gc.height - 60);
 
     let bullets = [];
-
-    let rx = 400;
-    let ry = 50;
+    let enemies = [];
 
     window.addEventListener('keydown', (e) => {
         console.log(e.key);
@@ -24,6 +23,8 @@ export const game = () => {
 
     const FRAME_DURATION = 1000 / 60; // 60 fps ~16.66ms
     let lastUpdate = performance.now();
+
+    enemies.push(new Enemy(ctx));
 
     
     const animate = () => {
@@ -35,11 +36,9 @@ export const game = () => {
         ctx.clearRect(0, 0, gc.width, gc.height);
 
 
-        // Add a target
-        ctx.fillStyle = 'white';
-        ctx.fillRect(rx, ry, 60, 60);
-
-
+        enemies.forEach(enemy => {
+            enemy.draw();
+        });
 
 
         bullets.forEach(bullet => {
@@ -52,20 +51,23 @@ export const game = () => {
             }
 
             let enemyDelta = new AngleDelta(
-                gc.width / 2, 
-                gc.height - 60,
-                rx + 30,
-                ry + 30
+                player.x, 
+                player.y,
+                enemies[0].x,
+                enemies[0].y
             );
-            let vec = enemyDelta.getVector(rx + 30, enemyDelta.angle);
+            let vec = enemyDelta.getVector(enemyDelta.distance, enemyDelta.angle);
+
+            let rx = enemies[0].x;
+            let ry = enemies[0].y;
 
             bullet.y += vec.y * (delta / 30);
             bullet.x += vec.x * (delta / 30);
 
             // Check if bullet is in bounds
             if (
-                bullet.x > rx && bullet.x < rx + 50 &&
-                bullet.y > ry && bullet.y < ry + 50
+                bullet.x > rx && bullet.x < rx + enemies[0].width &&
+                bullet.y > ry && bullet.y < ry + enemies[0].height
             ) {
                 console.log('The bullet hit the target! Deleting it.');
                 bullets.shift();
@@ -76,7 +78,7 @@ export const game = () => {
             ctx.strokeStyle = 'green';
             ctx.beginPath();
             ctx.moveTo(bullet.x + 5, bullet.y + 5);
-            ctx.lineTo(rx + 30, ry + 30);
+            ctx.lineTo(rx, ry);
             ctx.stroke(); 
         });
 

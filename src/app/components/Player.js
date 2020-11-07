@@ -1,5 +1,3 @@
-const { withRouter } = require("react-router-dom");
-
 class Player {
     x;
     y;
