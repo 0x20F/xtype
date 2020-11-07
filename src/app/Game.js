@@ -15,16 +15,18 @@ export const game = () => {
     let bullets = [];
     let enemies = [];
 
+    enemies.push(new Enemy(ctx));
+
     window.addEventListener('keydown', (e) => {
-        console.log(e.key);
-        bullets.push(new Bullet(ctx, player.x, player.y));
+        const { key } = e;
+        console.log(key);
+
+        bullets.push(new Bullet(ctx, player.x, player.y, enemies[0]));
     });
 
 
     const FRAME_DURATION = 1000 / 60; // 60 fps ~16.66ms
     let lastUpdate = performance.now();
-
-    enemies.push(new Enemy(ctx));
 
     
     const animate = () => {
@@ -50,36 +52,13 @@ export const game = () => {
                 bullets.shift();
             }
 
-            let enemyDelta = new AngleDelta(
-                player.x, 
-                player.y,
-                enemies[0].x,
-                enemies[0].y
-            );
-            let vec = enemyDelta.getVector(enemyDelta.distance, enemyDelta.angle);
-
-            let rx = enemies[0].x;
-            let ry = enemies[0].y;
-
-            bullet.y += vec.y * (delta / 30);
-            bullet.x += vec.x * (delta / 30);
-
-            // Check if bullet is in bounds
-            if (
-                bullet.x > rx && bullet.x < rx + enemies[0].width &&
-                bullet.y > ry && bullet.y < ry + enemies[0].height
-            ) {
-                console.log('The bullet hit the target! Deleting it.');
-                bullets.shift();
-            }
-
+            bullet.move(delta);
             bullet.draw();
 
-            ctx.strokeStyle = 'green';
-            ctx.beginPath();
-            ctx.moveTo(bullet.x + 5, bullet.y + 5);
-            ctx.lineTo(rx, ry);
-            ctx.stroke(); 
+            // If bullet hit the target, remove it
+            if (bullet.hit()) {
+                bullets.shift();
+            }
         });
 
 
