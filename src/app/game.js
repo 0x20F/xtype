@@ -1,21 +1,4 @@
-
-
-function angleDelta(x1, y1, x2, y2) {
-    let x = x2 - x1;
-    let y = y2 - y1;
-
-    return {
-        distance: Math.sqrt(x * x + y * y),
-        angle: Math.atan2(y, x) * 180 / Math.PI
-    }
-}
-
-function Vector2D(magnitude, angle) {
-    let angleRadians = (angle * Math.PI) / 180;
-
-    this.x = magnitude * Math.cos(angleRadians);
-    this.y = magnitude * Math.sin(angleRadians);
-}
+import AngleDelta from 'foundation/AngleDelta';
 
 
 
@@ -60,25 +43,40 @@ export const game = () => {
         bullets.forEach(bullet => {
             ctx.fillStyle = 'white';
 
+            // This should never happen
             if (bullet.y < 0) {
                 console.log('bullet out of bounds', bullet);
                 bullets.shift();
             }
 
-            let measure = angleDelta(gc.width/2 - 5, gc.height - 60, rx + 40, ry + 30);
-            let vec = new Vector2D(measure.distance / FRAME_DURATION, measure.angle);
+            let enemyDelta = new AngleDelta(
+                gc.width / 2, 
+                gc.height - 60,
+                rx + 30,
+                ry + 30
+            );
+            let vec = enemyDelta.getVector(rx + 30, enemyDelta.angle);
 
-            bullet.y += vec.y * delta;
-            bullet.x += vec.x * delta;
+            bullet.y += vec.y * (delta / 30);
+            bullet.x += vec.x * (delta / 30);
+
+            // Check if bullet is in bounds
+            if (
+                bullet.x > rx && bullet.x < rx + 50 &&
+                bullet.y > ry && bullet.y < ry + 50
+            ) {
+                console.log('The bullet hit the target! Deleting it.');
+                bullets.shift();
+            }
 
             ctx.fillRect(bullet.x, bullet.y, 10, 10);
-        });
 
-        ctx.fillStyle = 'green';
-        ctx.beginPath();
-        ctx.moveTo(gc.width / 2 - 5, gc.height - 60);
-        ctx.lineTo(rx + 35, ry + 30);
-        ctx.stroke(); 
+            ctx.strokeStyle = 'green';
+            ctx.beginPath();
+            ctx.moveTo(bullet.x + 5, bullet.y + 5);
+            ctx.lineTo(rx + 30, ry + 30);
+            ctx.stroke(); 
+        });
 
 
         // Generate player
