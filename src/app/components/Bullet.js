@@ -51,12 +51,13 @@ class Bullet {
 
 
     hit = () => {
-        let tx = this.target.x;
-        let ty = this.target.y;
+        let t = this.target;
+        let tx = t.x;
+        let ty = t.y;
 
         if (
-            this.x > tx && this.x < tx + this.target.width &&
-            this.y > ty && this.y < ty + this.target.height
+            this.x > tx - t.width / 2 && this.x < tx + t.width / 2 &&
+            this.y > ty && this.y < ty + t.height
         ) {
             // Wait until the last bullet hits, then register the kill
             if (this.target.word === '') {

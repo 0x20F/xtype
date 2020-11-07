@@ -1,5 +1,5 @@
 class Enemy {
-    x = 20;
+    x = Math.random() * (400 - 20) + 20;
     y = 20;
 
     width = 50;
@@ -8,14 +8,17 @@ class Enemy {
     color = 'white';
     targetedColor = 'orange';
 
-    word = 'lmao';
+    word;
     targeted = false;
     dead = false;
 
 
 
-    constructor(context) {
+    constructor(context, word) {
         this.context = context;
+        this.word = word;
+
+        console.log(this.x, this.y);
     }
 
 
@@ -39,14 +42,10 @@ class Enemy {
 
 
     takeHit = () => {
-        this.targeted = true;
-
         this.word = this.word.substring(1);
-        console.log('Word is now', this.word);
 
         if (this.word === '') {
             this.dead = true;
-            console.log('You killed it!');
             return;
         }
     }

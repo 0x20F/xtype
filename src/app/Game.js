@@ -16,25 +16,30 @@ export const game = () => {
     let bullets = [];
     let enemies = [];
 
-    enemies.push(new Enemy(ctx));
+    enemies.push(new Enemy(ctx, 'lmao'));
+    enemies.push(new Enemy(ctx, 'rofl'));
 
     window.addEventListener('keydown', (e) => {
         const { key } = e;
 
         // If we already have a target
         if (currentTarget !== null) {
-            currentTarget.word.startsWith(key) && bullets.push(new Bullet(ctx, player.x, player.y, currentTarget));
-            currentTarget.takeHit();
+            if (currentTarget.word.startsWith(key)) {
+                bullets.push(new Bullet(ctx, player.x, player.y, currentTarget));
+                currentTarget.takeHit();
+            }
             return;
         }
 
         // Find an enemy with your character
         for (let i = 0; i < enemies.length; i++) {
-            let enemy = enemies[0];
+            let enemy = enemies[i];
 
             if (enemy.word.startsWith(key)) {
                 currentTarget = enemy;
                 bullets.push(new Bullet(ctx, player.x, player.y, enemy));
+
+                enemy.targeted = true;
                 enemy.takeHit();
                 break;
             }
@@ -53,6 +58,12 @@ export const game = () => {
 
         // Clear canvas
         ctx.clearRect(0, 0, gc.width, gc.height);
+
+
+        if (currentTarget && currentTarget.isDead()) {
+            currentTarget = null;
+        }
+
 
         bullets.forEach(bullet => {
             // This should never happen
