@@ -11,6 +11,7 @@ export const game = () => {
     let ctx = gc.getContext("2d");
 
     let player = new Player(ctx, gc.width / 2, gc.height - 60);
+    let currentTarget = null;
 
     let bullets = [];
     let enemies = [];
@@ -19,14 +20,22 @@ export const game = () => {
 
     window.addEventListener('keydown', (e) => {
         const { key } = e;
-        console.log(key);
+
+        // If we already have a target
+        if (currentTarget !== null) {
+            currentTarget.word.startsWith(key) && bullets.push(new Bullet(ctx, player.x, player.y, currentTarget));
+            currentTarget.takeHit();
+            return;
+        }
 
         // Find an enemy with your character
         for (let i = 0; i < enemies.length; i++) {
             let enemy = enemies[0];
 
             if (enemy.word.startsWith(key)) {
+                currentTarget = enemy;
                 bullets.push(new Bullet(ctx, player.x, player.y, enemy));
+                enemy.takeHit();
                 break;
             }
         }
