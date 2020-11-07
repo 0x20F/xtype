@@ -1,4 +1,4 @@
-import { data } from "autoprefixer";
+
 
 function angleDelta(x1, y1, x2, y2) {
     let x = x2 - x1;
@@ -34,34 +34,28 @@ export const game = () => {
         console.log(e.key);
         bullets.push({ x: gc.width/2 - 5, y: gc.height - 60 });
     });
+
+
+    const FRAME_DURATION = 1000 / 60; // 60 fps ~16.66ms
+    let lastUpdate = performance.now();
+
     
     const animate = () => {
-        requestAnimationFrame(animate);
+        const now = performance.now();
+        const delta = ( now - lastUpdate ) / FRAME_DURATION;
+        lastUpdate = now;
 
         // Clear canvas
         ctx.clearRect(0, 0, gc.width, gc.height);
 
-        // Add a target at 50, 50
+
+        // Add a target
         ctx.fillStyle = 'white';
-
-        if (!iv) {
-            rx -= tt / 1000;
-            if (rx <= 20) {
-                iv = true;
-            }
-        }
-
-        // invert the animation
-        if (iv) {
-            rx += tt / 1000;
-            if (rx >= gc.width - 20) {
-                iv = false;
-            }
-        }
         ctx.fillRect(rx, ry, 60, 60);
-        ctx.fillStyle = 'red';
-        ctx.fillRect(rx + 25, ry + 25, 10, 10);
         ctx.fillStyle = 'white';
+
+
+
 
         bullets.forEach(bullet => {
             ctx.fillStyle = 'white';
@@ -71,14 +65,20 @@ export const game = () => {
                 bullets.shift();
             }
 
-            let measure = angleDelta(rx + 25, ry + 25, gc.width/2 - 5, gc.height - 60);
-            let vec = new Vector2D(measure.distance / 80, measure.angle);
+            let measure = angleDelta(gc.width/2 - 5, gc.height - 60, rx + 40, ry + 30);
+            let vec = new Vector2D(measure.distance / FRAME_DURATION, measure.angle);
 
-            bullet.y -= vec.y;
-            bullet.x -= vec.x;
+            bullet.y += vec.y * delta;
+            bullet.x += vec.x * delta;
 
-            ctx.fillRect(bullet.x, bullet.y, 5, 5);
+            ctx.fillRect(bullet.x, bullet.y, 10, 10);
         });
+
+        ctx.fillStyle = 'green';
+        ctx.beginPath();
+        ctx.moveTo(gc.width / 2 - 5, gc.height - 60);
+        ctx.lineTo(rx + 35, ry + 30);
+        ctx.stroke(); 
 
 
         // Generate player
@@ -87,6 +87,12 @@ export const game = () => {
         ctx.strokeStyle = 'red';
         ctx.fillRect(gc.width/2 - 15, gc.height - 60, 30, 30);
         ctx.strokeRect(gc.width/2 - 15, gc.height - 60, 30, 30);
+
+
+        requestAnimationFrame(animate);
+
+        // Simulate 10 fps with setTimeout
+        //setTimeout(animate, 100);
     }
 
 
