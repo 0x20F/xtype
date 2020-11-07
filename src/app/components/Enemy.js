@@ -33,6 +33,11 @@ class Enemy {
     }
 
 
+    die = () => {
+        this.color = 'black';
+    }
+
+
     takeHit = () => {
         this.targeted = true;
 
@@ -44,6 +49,11 @@ class Enemy {
             console.log('You killed it!');
             return;
         }
+    }
+
+
+    isDead = () => {
+        return this.dead;
     }
 }
 

@@ -58,7 +58,11 @@ class Bullet {
             this.x > tx && this.x < tx + this.target.width &&
             this.y > ty && this.y < ty + this.target.height
         ) {
-            console.log('Bullet hit!');
+            // Wait until the last bullet hits, then register the kill
+            if (this.target.word === '') {
+                this.target.die();
+            }
+
             return true;
         }
 

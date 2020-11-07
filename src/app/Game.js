@@ -54,12 +54,6 @@ export const game = () => {
         // Clear canvas
         ctx.clearRect(0, 0, gc.width, gc.height);
 
-
-        enemies.forEach(enemy => {
-            enemy.draw();
-        });
-
-
         bullets.forEach(bullet => {
             // This should never happen
             if (bullet.y < 0) {
@@ -74,6 +68,11 @@ export const game = () => {
             if (bullet.hit()) {
                 bullets.shift();
             }
+        });
+
+
+        enemies.forEach(enemy => {
+            enemy.draw();
         });
 
 
