@@ -21,7 +21,15 @@ export const game = () => {
         const { key } = e;
         console.log(key);
 
-        bullets.push(new Bullet(ctx, player.x, player.y, enemies[0]));
+        // Find an enemy with your character
+        for (let i = 0; i < enemies.length; i++) {
+            let enemy = enemies[0];
+
+            if (enemy.word.startsWith(key)) {
+                bullets.push(new Bullet(ctx, player.x, player.y, enemy));
+                break;
+            }
+        }
     });
 
 
@@ -44,8 +52,6 @@ export const game = () => {
 
 
         bullets.forEach(bullet => {
-            ctx.fillStyle = 'white';
-
             // This should never happen
             if (bullet.y < 0) {
                 console.log('bullet out of bounds', bullet);
