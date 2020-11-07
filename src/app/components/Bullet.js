@@ -59,11 +59,6 @@ class Bullet {
             this.x > tx - t.width / 2 && this.x < tx + t.width / 2 &&
             this.y > ty && this.y < ty + t.height
         ) {
-            // Wait until the last bullet hits, then register the kill
-            if (this.target.word === '') {
-                this.target.die();
-            }
-
             return true;
         }
 

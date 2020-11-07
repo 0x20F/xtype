@@ -46,7 +46,6 @@ class Enemy {
 
         if (this.word === '') {
             this.dead = true;
-            return;
         }
     }
 

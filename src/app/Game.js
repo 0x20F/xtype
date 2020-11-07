@@ -77,6 +77,11 @@ export const game = () => {
 
             // If bullet hit the target, remove it
             if (bullet.hit()) {
+                // Wait until the last bullet hits, then register the kill
+                if (bullet.target.word === '') {
+                    bullet.target.die();
+                }
+
                 bullets.shift();
             }
         });
