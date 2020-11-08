@@ -18,6 +18,9 @@ export const game = () => {
 
     let paused = false;
 
+    const FRAME_DURATION = 1000 / 60; // 60 fps ~16.66ms
+    let lastUpdate = performance.now();
+
 
     enemies.push(new Enemy(ctx, 'lmao', player));
     enemies.push(new Enemy(ctx, 'rofl', player));
@@ -28,7 +31,16 @@ export const game = () => {
         // Pause on escape
         if (key === 'Escape') {
             paused = !paused;
-            console.log(paused);
+            
+            // Reset time so no new frames get calculated while paused
+            lastUpdate = performance.now();
+            !paused && animate();
+        }
+
+
+        // Don't do anything if paused
+        if (paused) {
+            return;
         }
 
 
@@ -56,12 +68,12 @@ export const game = () => {
         }
     });
 
-
-    const FRAME_DURATION = 1000 / 60; // 60 fps ~16.66ms
-    let lastUpdate = performance.now();
-
     
     const animate = () => {
+        if (paused) {
+            return;
+        }
+
         const now = performance.now();
         const delta = ( now - lastUpdate ) / FRAME_DURATION;
         lastUpdate = now;
