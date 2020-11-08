@@ -3,7 +3,7 @@ import AngleDelta from 'foundation/AngleDelta';
 
 class Enemy {
     x = Math.random() * (400 - 20) + 20;
-    y = 20;
+    y = 0;
 
     initialX;
     initialY;
@@ -74,6 +74,20 @@ class Enemy {
         if (this.word === '') {
             this.dead = true;
         }
+    }
+
+
+    respawn = (word) => {
+        this.x = Math.random() * (400 - 20) + 20;
+        this.y = 0;
+
+        this.initialX = this.x;
+        this.initialY = this.y;
+
+        this.word = word;
+        this.color = 'white';
+        this.dead = false;
+        this.targeted = false;
     }
 
 

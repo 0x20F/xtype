@@ -16,11 +16,21 @@ export const game = () => {
     let bullets = [];
     let enemies = [];
 
+    let paused = false;
+
+
     enemies.push(new Enemy(ctx, 'lmao', player));
     enemies.push(new Enemy(ctx, 'rofl', player));
 
     window.addEventListener('keydown', (e) => {
         const { key } = e;
+
+        // Pause on escape
+        if (key === 'Escape') {
+            paused = !paused;
+            console.log(paused);
+        }
+
 
         // If we already have a target
         if (currentTarget !== null) {
@@ -87,7 +97,13 @@ export const game = () => {
         });
 
 
+        let allDead = enemies.every(enemy => enemy.isDead());
+
         enemies.forEach(enemy => {
+            if (allDead) {
+                enemy.respawn('lmao');
+            }
+
             enemy.move(delta);
             enemy.draw();
         });
