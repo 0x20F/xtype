@@ -64,16 +64,13 @@ class Enemy {
 
 
     die = () => {
+        this.dead = true;
         this.color = 'black';
     }
 
 
     takeHit = () => {
         this.word = this.word.substring(1);
-
-        if (this.word === '') {
-            this.dead = true;
-        }
     }
 
 
