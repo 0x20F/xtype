@@ -11,14 +11,14 @@ class Enemy {
     word;
     targeted = false;
     dead = false;
+    target = null;
 
 
 
-    constructor(context, word) {
+    constructor(context, word, target) {
         this.context = context;
         this.word = word;
-
-        console.log(this.x, this.y);
+        this.target = target;
     }
 
 

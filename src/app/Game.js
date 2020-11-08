@@ -16,8 +16,8 @@ export const game = () => {
     let bullets = [];
     let enemies = [];
 
-    enemies.push(new Enemy(ctx, 'lmao'));
-    enemies.push(new Enemy(ctx, 'rofl'));
+    enemies.push(new Enemy(ctx, 'lmao', player));
+    enemies.push(new Enemy(ctx, 'rofl', player));
 
     window.addEventListener('keydown', (e) => {
         const { key } = e;
