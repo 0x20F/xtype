@@ -1,6 +1,12 @@
+import AngleDelta from 'foundation/AngleDelta';
+
+
 class Enemy {
     x = Math.random() * (400 - 20) + 20;
     y = 20;
+
+    initialX;
+    initialY;
 
     width = 50;
     height = 50;
@@ -19,6 +25,9 @@ class Enemy {
         this.context = context;
         this.word = word;
         this.target = target;
+
+        this.initialX = this.x;
+        this.initialY = this.y;
     }
 
 
@@ -33,6 +42,24 @@ class Enemy {
 
         this.context.textAlign = 'center';
         this.context.fillText(this.word, this.x, this.y + this.height + 12);
+    }
+
+
+    move = (timeDelta) => {
+        if (this.isDead()) {
+            return;
+        }
+
+        let playerDelta = new AngleDelta(
+            this.initialX,
+            this.initialY,
+            this.target.x,
+            this.target.y
+        );
+        let vec = playerDelta.getVector(playerDelta.distance, playerDelta.angle);
+
+        this.x += vec.x * (timeDelta / 1000);
+        this.y += vec.y * (timeDelta / 1000);
     }
 
 

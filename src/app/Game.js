@@ -88,6 +88,7 @@ export const game = () => {
 
 
         enemies.forEach(enemy => {
+            enemy.move(delta);
             enemy.draw();
         });
 
