@@ -100,7 +100,11 @@ export const game = () => {
             // If bullet hit the target, remove it
             if (bullet.hit()) {
                 // Wait until the last bullet hits, then register the kill
-                if (bullet.target.word === '') {
+                if (
+                    bullet.target.word === '' &&
+                    !bullet.target.dying 
+                ) {
+                    currentTarget = null;
                     bullet.target.die();
                 }
 
@@ -112,12 +116,15 @@ export const game = () => {
         let allDead = enemies.every(enemy => enemy.isDead());
 
         enemies.forEach(enemy => {
+            enemy.draw();
+
+            if (!enemy.dying) {
+                enemy.move(delta);
+            }
+            
             if (allDead) {
                 enemy.respawn('lmao');
             }
-
-            enemy.move(delta);
-            enemy.draw();
         });
 
 

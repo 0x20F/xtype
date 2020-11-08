@@ -17,6 +17,7 @@ class Enemy {
     word;
     targeted = false;
     dead = false;
+    dying = false;
     target = null;
 
 
@@ -64,8 +65,14 @@ class Enemy {
 
 
     die = () => {
-        this.dead = true;
         this.color = 'black';
+        this.dying = true;
+
+        // Fake a death animation
+        setTimeout(() => {
+            this.dead = true;
+            console.log('Dead, finally');
+        }, 1000);
     }
 
 
@@ -84,6 +91,7 @@ class Enemy {
         this.word = word;
         this.color = 'white';
         this.dead = false;
+        this.dying = false;
         this.targeted = false;
     }
 
