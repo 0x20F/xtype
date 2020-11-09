@@ -2,6 +2,7 @@ const path  = require('path')
 const hwp   = require('html-webpack-plugin')
 const hwrp  = require('html-replace-webpack-plugin')
 const mp    = require('mini-css-extract-plugin')
+const cp    = require('copy-webpack-plugin')
 const { CleanWebpackPlugin: cleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const info = {
@@ -107,6 +108,12 @@ module.exports = (env, argv) => {
 
             new mp({
                 filename: '[hash].css'
+            }),
+
+            new cp({
+                patterns: [
+                    { from: 'src/data', to: 'data' }
+                ]
             }),
 
             new cleanWebpackPlugin()

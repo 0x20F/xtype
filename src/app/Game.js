@@ -1,18 +1,17 @@
-import AngleDelta from 'foundation/AngleDelta';
-
 import Bullet from 'components/Bullet';
 import Player from 'components/Player';
 import Enemy from './components/Enemy';
 
 
 
-export const game = () => {
+export const game = (wordList) => {
     let gc = document.getElementById("gameCanvas");
     let ctx = gc.getContext("2d");
 
     let player = new Player(ctx, gc.width / 2, gc.height - 60);
     let currentTarget = null;
 
+    let words = wordList.split(/[\s,.]+/gm);
     let bullets = [];
     let enemies = [];
 
@@ -22,8 +21,8 @@ export const game = () => {
     let lastUpdate = performance.now();
 
 
-    enemies.push(new Enemy(ctx, 'lmao', player));
-    enemies.push(new Enemy(ctx, 'rofl', player));
+    enemies.push(new Enemy(ctx, words.shift() || 'lmao', player));
+    enemies.push(new Enemy(ctx, words.shift() || 'rofl', player));
 
     window.addEventListener('keydown', (e) => {
         const { key } = e;
@@ -46,7 +45,7 @@ export const game = () => {
 
         // If we already have a target
         if (currentTarget !== null) {
-            if (currentTarget.word.startsWith(key)) {
+            if (currentTarget.word.toLowerCase().startsWith(key)) {
                 bullets.push(new Bullet(ctx, player.x, player.y, currentTarget));
                 currentTarget.takeHit();
             }
@@ -57,7 +56,7 @@ export const game = () => {
         for (let i = 0; i < enemies.length; i++) {
             let enemy = enemies[i];
 
-            if (enemy.word.startsWith(key)) {
+            if (enemy.word.toLowerCase().startsWith(key)) {
                 currentTarget = enemy;
                 bullets.push(new Bullet(ctx, player.x, player.y, enemy));
 
@@ -123,7 +122,7 @@ export const game = () => {
             }
             
             if (allDead) {
-                enemy.respawn('lmao');
+                enemy.respawn(words.shift() || 'lmao');
             }
         });
 
