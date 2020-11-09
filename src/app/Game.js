@@ -4,16 +4,33 @@ import Enemy from './components/Enemy';
 
 
 
-export const game = (wordList) => {
-    let gc = document.getElementById("gameCanvas");
-    let ctx = gc.getContext("2d");
+let gc = document.getElementById("gameCanvas");
+let ctx = gc.getContext("2d");
 
-    let player = new Player(ctx, gc.width / 2, gc.height - 60);
+let player = new Player(ctx, gc.width / 2, gc.height - 60);
+
+let words = [];
+let bullets = [];
+let enemies = [];
+
+
+
+
+
+const spawnEnemies = amount => {
+    for (let i = 0; i < amount; i++) {
+        enemies.push(new Enemy(ctx, words.shift() || 'lmao', player));
+    }
+}
+
+
+
+
+
+export const game = (wordList) => {
     let currentTarget = null;
 
-    let words = wordList.split(/[\s,.]+/gm);
-    let bullets = [];
-    let enemies = [];
+    words = wordList.split(/[\s,.]+/gm);
 
     let paused = false;
 
@@ -21,11 +38,8 @@ export const game = (wordList) => {
     let lastUpdate = performance.now();
 
 
-    enemies.push(new Enemy(ctx, words.shift() || 'lmao', player));
-    enemies.push(new Enemy(ctx, words.shift() || 'rofl', player));
-    enemies.push(new Enemy(ctx, words.shift() || 'rofl', player));
-    enemies.push(new Enemy(ctx, words.shift() || 'rofl', player));
-    enemies.push(new Enemy(ctx, words.shift() || 'rofl', player));
+    spawnEnemies(5);
+
 
     window.addEventListener('keydown', (e) => {
         const { key } = e;
@@ -51,6 +65,11 @@ export const game = (wordList) => {
             if (currentTarget.word.toLowerCase().startsWith(key)) {
                 bullets.push(new Bullet(ctx, player.x, player.y, currentTarget));
                 currentTarget.takeHit();
+
+                // Release the target while the death animation is playing
+                if (currentTarget.word === '') {
+                    currentTarget = null;
+                }
             }
             return;
         }
@@ -65,6 +84,11 @@ export const game = (wordList) => {
 
                 enemy.targeted = true;
                 enemy.takeHit();
+
+                // Release the target while the death animation is playing
+                if (currentTarget.word === '') {
+                    currentTarget = null;
+                }
                 break;
             }
         }
@@ -109,11 +133,6 @@ export const game = (wordList) => {
                     bullet.target.die();
                 }
 
-                // Release the target while the death animation is playing
-                if (bullet.target.word === '') {
-                    currentTarget = null;
-                }
-
                 bullets.shift();
             }
         });
@@ -121,15 +140,17 @@ export const game = (wordList) => {
 
         let allDead = enemies.every(enemy => enemy.isDead());
 
+        if (allDead) {
+            enemies = [];
+            spawnEnemies(5);
+        }
+
+
         enemies.forEach(enemy => {
             enemy.draw();
 
             if (!enemy.dying) {
                 enemy.move(delta);
-            }
-            
-            if (allDead) {
-                enemy.respawn(words.shift() || 'lmao');
             }
         });
 
