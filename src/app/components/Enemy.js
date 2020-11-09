@@ -3,7 +3,7 @@ import AngleDelta from 'foundation/AngleDelta';
 
 class Enemy {
     x = Math.random() * (400 - 20) + 20;
-    y = 0;
+    y = Math.random() * -100;
 
     initialX;
     initialY;
@@ -91,8 +91,8 @@ class Enemy {
 
 
     respawn = (word) => {
-        this.x = Math.random() * (400 - 20) + 20;
-        this.y = 0;
+        this.x = Math.random() * 500; // Canvas width, don't hard code it
+        this.y = Math.random() * -100;
 
         this.initialX = this.x;
         this.initialY = this.y;

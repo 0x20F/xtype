@@ -106,8 +106,12 @@ export const game = (wordList) => {
                     bullet.target.word === '' &&
                     !bullet.target.dying 
                 ) {
-                    currentTarget = null;
                     bullet.target.die();
+                }
+
+                // Release the target while the death animation is playing
+                if (bullet.target.word === '') {
+                    currentTarget = null;
                 }
 
                 bullets.shift();
