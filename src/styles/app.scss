@@ -9,7 +9,7 @@ html, body {
 }
 
 body {
-    display: flex;
+    display: grid;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -17,11 +17,49 @@ body {
 
     h1#title {
         color: white;
-        text-align: center;
+        grid-column: 1 / span 5;
+        grid-row: 1 / span 1;
+
+        height: 100%;
+        width: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        padding: 0;
+        margin: 0;
     }
 }
 
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 100px);
+    grid-template-rows: repeat(9, 100px);
+}
+
+
 canvas {
+    grid-column: 1 / span 5;
+    grid-row: 2 / span 8;
+
     background-color: #181b21;
     border-radius: 4px;
+}
+
+
+#root {
+    z-index: 10;
+
+    width: 500px;
+    height: 800px;
+
+    //background-color: red;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
 }

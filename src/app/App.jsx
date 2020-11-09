@@ -6,11 +6,6 @@ import axios from 'axios';
 export default class App extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            nothing: 'yet'            
-        };
-
         
         axios.get('/data/test.txt')
             .then(response => response.data)

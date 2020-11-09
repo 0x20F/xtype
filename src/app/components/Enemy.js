@@ -92,7 +92,7 @@ class Enemy {
 
     respawn = (word) => {
         this.x = Math.random() * 500; // Canvas width, don't hard code it
-        this.y = Math.random() * -100;
+        this.y = Math.random() * -100 + -50;
 
         this.initialX = this.x;
         this.initialY = this.y;
