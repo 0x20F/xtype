@@ -23,6 +23,9 @@ export const game = (wordList) => {
 
     enemies.push(new Enemy(ctx, words.shift() || 'lmao', player));
     enemies.push(new Enemy(ctx, words.shift() || 'rofl', player));
+    enemies.push(new Enemy(ctx, words.shift() || 'rofl', player));
+    enemies.push(new Enemy(ctx, words.shift() || 'rofl', player));
+    enemies.push(new Enemy(ctx, words.shift() || 'rofl', player));
 
     window.addEventListener('keydown', (e) => {
         const { key } = e;
@@ -127,6 +130,8 @@ export const game = (wordList) => {
         });
 
 
+
+        currentTarget && currentTarget.draw();
         player.draw();
         requestAnimationFrame(animate);
     }
