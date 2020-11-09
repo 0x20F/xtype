@@ -4,14 +4,21 @@ import Enemy from './components/Enemy';
 
 
 
+const FRAME_DURATION = 1000 / 60;
+
 let gc = document.getElementById("gameCanvas");
 let ctx = gc.getContext("2d");
 
 let player = new Player(ctx, gc.width / 2, gc.height - 60);
+let currentTarget = null;
 
 let words = [];
 let bullets = [];
 let enemies = [];
+
+let paused = false;
+
+let lastUpdate = performance.now();
 
 
 
@@ -28,16 +35,10 @@ const spawnEnemies = amount => {
 
 
 export const game = (wordList) => {
-    let currentTarget = null;
-
+    // Initialize word list
     words = wordList.split(/[\s,.]+/gm);
 
-    let paused = false;
-
-    const FRAME_DURATION = 1000 / 60; // 60 fps ~16.66ms
-    let lastUpdate = performance.now();
-
-
+    // First wave
     spawnEnemies(5);
 
 
