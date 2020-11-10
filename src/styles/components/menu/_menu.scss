@@ -24,15 +24,14 @@
         .shortcutHint {
             width: 20%;
             height: 100%;
-            margin-right: 5px;
+            margin-left: 5px;
 
             color: #364461;
             border-radius: 7px;
             border: 1px solid $border-color;
             
             font-size: 22px;
-            text-transform: uppercase;
-            opacity: 0.6;
+            opacity: 0.4;
 
             @include flex();
 

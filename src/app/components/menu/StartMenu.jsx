@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Button from 'components/general/Button';
+
 
 
 class StartMenu extends Component {
@@ -13,15 +15,8 @@ class StartMenu extends Component {
             <div className='startMenu menu'>
                 <h1 className='startHeader header'>XTYPE</h1>
                 
-                {/* Move this to it's own component */}
-                <div className="buttonContainer">
-                    <div className="shortcutHint">P</div>
-                    <button onClick={() => this.props.startHandler() }>Play</button>
-                </div>
-                <div className="buttonContainer">
-                    <div className="shortcutHint">S</div>
-                    <button>Settings</button>
-                </div>
+                <Button hint='P' text='Play' onClick={ this.props.startHandler }/>
+                <Button hint='S' text='Settings' onClick={ () => {} }/>
             </div>
         );
     }
