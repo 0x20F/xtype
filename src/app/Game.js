@@ -52,7 +52,7 @@ const initEvents = () => {
 
         // If we already have a target
         if (currentTarget !== null) {
-            if (currentTarget.word.toLowerCase().startsWith(key)) {
+            if (currentTarget.word.toLowerCase().startsWith(key.toLowerCase())) {
                 bullets.push(new Bullet(ctx, player.x, player.y, currentTarget));
                 currentTarget.takeHit();
 
@@ -68,7 +68,7 @@ const initEvents = () => {
         for (let i = 0; i < enemies.length; i++) {
             let enemy = enemies[i];
 
-            if (enemy.word.toLowerCase().startsWith(key)) {
+            if (enemy.word.toLowerCase().startsWith(key.toLowerCase())) {
                 currentTarget = enemy;
                 bullets.push(new Bullet(ctx, player.x, player.y, enemy));
 
