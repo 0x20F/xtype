@@ -1,0 +1,13 @@
+@mixin flex($justify: center, $align: center, $direction: row) {
+    display: flex;
+    flex-direction: $direction;
+    
+    // They get inverted
+    @if $direction == column {
+        justify-content: $align;
+        align-items: $justify;
+    } @else {
+        justify-content: $justify;
+        align-items: $align;
+    }
+}

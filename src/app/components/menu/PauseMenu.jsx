@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Button from 'components/general/Button';
+
 
 
 class PauseMenu extends Component {
@@ -12,7 +14,7 @@ class PauseMenu extends Component {
         return (
             <div className='pauseMenu menu'>
                 <h1 className='pauseHeader header'>Paused</h1>
-                <button onClick={ () => this.props.handler() }>Continue</button>
+                <Button hint='esc' text='Continue' onClick={ () => this.props.handler() }/>
             </div>
         );
     }

@@ -1,0 +1,68 @@
+.menu {
+    width: 100%;
+    height: 100%;
+
+    @include flex($direction: column);
+    background-color: $bg-transparent;
+
+    .header {
+        font-size: 62px;
+        color: #fff;
+    }
+
+
+    .buttonContainer {
+        width: 60%;
+        height: 70px;
+        margin-bottom: 5px;
+
+        font-family: Poppins;
+        font-size: 16px;
+        text-transform: lowercase;
+        @include flex();
+
+        .shortcutHint {
+            width: 20%;
+            height: 100%;
+            margin-left: 5px;
+
+            color: #364461;
+            border-radius: 7px;
+            border: 1px solid $border-color;
+            
+            font-size: 22px;
+            opacity: 0.4;
+            cursor: default;
+
+            @include flex();
+
+            font-family: inherit;
+            font-size: inherit;
+        }
+
+        button {
+            width: 80%;
+            height: 100%;
+            outline: none;
+            border: none;
+            background: none;
+
+            transition: all .5s;
+
+            color: #364461;
+            background-color: $bg-transparent;
+            border-radius: 7px;
+            border: 1px solid $border-color;
+
+            font-family: inherit;
+            font-size: inherit;
+            text-transform: inherit;
+
+            &:hover {
+                background-color: #364461;
+                color: #181b21;
+                cursor: pointer;
+            }
+        }
+    }
+}

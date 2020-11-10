@@ -85,7 +85,7 @@ class Enemy extends Entity {
         context.fillRect(this.vector.x - wordWidth / 2, this.vector.y + this.height + 4, wordWidth, 22);
 
         context.fillStyle = this.targeted ? this.targetedColor : this.color;
-        context.font = '16px Montserrat';
+        context.font = '16px Poppins';
         context.textAlign = 'center';
         context.fillText(this.word, this.vector.x, this.vector.y + this.height + 20);
     }
