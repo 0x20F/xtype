@@ -10,11 +10,11 @@ class StartMenu extends Component {
 
     render() {
         return (
-            <>
-                <h1>X Type</h1>
+            <div className='startMenu menu'>
+                <h1 className='startHeader header'>XTYPE</h1>
                 <button onClick={() => this.props.startHandler() }>Start</button>
                 <button>Settings</button>
-            </>
+            </div>
         );
     }
 }

@@ -10,10 +10,10 @@ class PauseMenu extends Component {
 
     render() {
         return (
-            <>
-                <h1>Game Paused</h1>
+            <div className='pauseMenu menu'>
+                <h1 className='pauseHeader header'>Paused</h1>
                 <button onClick={ () => this.props.handler() }>Continue</button>
-            </>
+            </div>
         );
     }
 }

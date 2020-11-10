@@ -6,6 +6,7 @@ $dot-size: 1px;
 $dot-space: 22px;
 
 $bg-color: #181b21;
+$bg-transparent: rgba(0, 0, 0, 0.208);
 $dot-color: #364461;
 
 
@@ -31,24 +32,6 @@ body {
 		$dot-color;
     background-size: $dot-space $dot-space;
 
-
-
-    h1#title {
-        color: white;
-        grid-column: 1 / span 5;
-        grid-row: 1 / span 1;
-
-        height: 100%;
-        width: 100%;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        padding: 0;
-        margin: 0;
-    }
-
     .grid {
         display: grid;
         grid-template-columns: repeat(5, 100px);
@@ -62,8 +45,6 @@ body {
     
         background-color: #181b21;
         border-radius: 4px;
-
-        border: 1px solid $dot-color;
     }
     
     
@@ -73,7 +54,7 @@ body {
         width: 500px;
         height: 800px;
     
-        background-color: transparent;
+        border: 1px solid $dot-color;
     
         grid-column: 1 / span 5;
         grid-row: 1 / span 8;
@@ -83,4 +64,28 @@ body {
         align-items: center;
         flex-direction: column;
     }
+}
+
+
+
+.header {
+    font-size: 62px;
+    color: #fff;
+
+    &.startHeader {
+        font-family: Anurati;
+    }
+}
+
+
+.menu {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    background-color: $bg-transparent;
 }
