@@ -41,8 +41,15 @@ class Enemy {
         if (this.dead || this.dying) {
             return;
         }
+    }
 
+
+    drawWord = () => {
         // Draw the word
+        if (this.word === '') {
+            return;
+        }
+
         let wordWidth = this.context.measureText(this.word).width + 5;
         this.context.fillStyle = 'black';
         this.context.fillRect(this.x - wordWidth / 2, this.y + this.height + 4, wordWidth, 22);
@@ -51,7 +58,6 @@ class Enemy {
         this.context.font = '16px Montserrat';
         this.context.textAlign = 'center';
         this.context.fillText(this.word, this.x, this.y + this.height + 20);
-
     }
 
 

@@ -143,6 +143,7 @@ const animate = () => {
     }
 
 
+    // Draw all the enemies first
     enemies.forEach(enemy => {
         enemy.draw();
 
@@ -151,9 +152,14 @@ const animate = () => {
         }
     });
 
+    // Then draw all their words so they're always on top
+    enemies.forEach(enemy => {
+        enemy.drawWord();
+    });
 
 
-    currentTarget && currentTarget.draw();
+
+    currentTarget && currentTarget.drawWord();
     player.draw();
     requestAnimationFrame(animate);
 }
