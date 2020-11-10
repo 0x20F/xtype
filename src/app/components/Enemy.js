@@ -55,7 +55,7 @@ class Enemy {
         this.context.fillRect(this.x - wordWidth / 2, this.y + this.height + 4, wordWidth, 22);
 
         this.context.fillStyle = this.targeted ? this.targetedColor : this.color;
-        this.context.font = '16px Montserrat';
+        this.context.font = '16px Poppins';
         this.context.textAlign = 'center';
         this.context.fillText(this.word, this.x, this.y + this.height + 20);
     }
