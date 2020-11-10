@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import Game from './Game.js';
 import PauseMenu from 'components/menu/PauseMenu';
+import StartMenu from 'components/menu/StartMenu';
 
 
 
@@ -12,15 +13,17 @@ export default class App extends Component {
 
 
         this.state = {
-            paused: true
+            paused: false,
+            started: false
         }
 
         this.game = Game;
+        this.words = null;
 
         axios.get('/data/test.txt')
             .then(response => response.data)
             .then(words => {
-                this.game.start(words);
+                this.words = words;
             });
     }
 
@@ -63,12 +66,31 @@ export default class App extends Component {
     }
 
 
+    /**
+     * Start the game keep track of states
+     */
+    handleStart = () => {
+        if (!this.words) {
+            return;
+        }
+
+        this.setState(old => {
+            this.game.start(this.words);
+
+            return {
+                started: !old.started
+            }
+        });
+    }
+
+
     render() {
-        const { paused } = this.state;
+        const { paused, started } = this.state;
 
         return (
             <>
-                { paused && <PauseMenu handler={ this.handlePause }/> }
+                { !started && <StartMenu startHandler={ this.handleStart }/> }
+                { (started && paused) && <PauseMenu handler={ this.handlePause }/> }
             </>
         );
     }

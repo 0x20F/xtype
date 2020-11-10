@@ -16,9 +16,9 @@ let words = [];
 let bullets = [];
 let enemies = [];
 
-let paused = true;
+let paused = false;
 
-let lastUpdate = performance.now();
+let lastUpdate;
 
 
 
@@ -175,6 +175,7 @@ const Game = {
     start: wordList => {
         // Intialize word list
         words = wordList.split(/[\s,.]+/gm);
+        lastUpdate = performance.now();
 
         // Spawn some enemies
         spawnEnemies(5);

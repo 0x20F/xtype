@@ -1,5 +1,15 @@
 @import '~styles/fonts';
 
+
+
+$dot-size: 1px;
+$dot-space: 22px;
+
+$bg-color: #181b21;
+$dot-color: #364461;
+
+
+
 html, body {
     width: 100%;
     height: 100%;
@@ -14,6 +24,14 @@ body {
     justify-content: center;
     align-items: center;
     font-family: 'Montserrat', sans-serif;
+
+    background:
+		linear-gradient(90deg, $bg-color ($dot-space - $dot-size), transparent 1%) center,
+		linear-gradient($bg-color ($dot-space - $dot-size), transparent 1%) center,
+		$dot-color;
+    background-size: $dot-space $dot-space;
+
+
 
     h1#title {
         color: white;
@@ -34,16 +52,18 @@ body {
     .grid {
         display: grid;
         grid-template-columns: repeat(5, 100px);
-        grid-template-rows: repeat(9, 100px);
+        grid-template-rows: repeat(8, 100px);
     }
     
     
     canvas {
         grid-column: 1 / span 5;
-        grid-row: 2 / span 8;
+        grid-row: 1 / span 8;
     
         background-color: #181b21;
         border-radius: 4px;
+
+        border: 1px solid $dot-color;
     }
     
     
@@ -56,7 +76,7 @@ body {
         background-color: transparent;
     
         grid-column: 1 / span 5;
-        grid-row: 2 / span 8;
+        grid-row: 1 / span 8;
 
         display: flex;
         justify-content: center;
