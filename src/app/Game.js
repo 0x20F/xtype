@@ -16,7 +16,7 @@ let words = [];
 let bullets = [];
 let enemies = [];
 
-let paused = false;
+let paused = true;
 
 let lastUpdate = performance.now();
 

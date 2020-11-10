@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 import { game } from './Game.js';
 import axios from 'axios';
 
@@ -16,7 +18,17 @@ export default class App extends Component {
 
     render() {
         return (
-           <></>
+           <Router>
+               <Switch>
+                   <Route exact path='/'>
+                       <div>Home</div>
+                   </Route>
+
+                   <Route path='/pause'>
+                       <div>Paused</div>
+                   </Route>
+               </Switch>
+           </Router>
         );
     }
 }
