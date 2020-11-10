@@ -12,8 +12,16 @@ class StartMenu extends Component {
         return (
             <div className='startMenu menu'>
                 <h1 className='startHeader header'>XTYPE</h1>
-                <button onClick={() => this.props.startHandler() }>Start</button>
-                <button>Settings</button>
+                
+                {/* Move this to it's own component */}
+                <div className="buttonContainer">
+                    <div className="shortcutHint">P</div>
+                    <button onClick={() => this.props.startHandler() }>Play</button>
+                </div>
+                <div className="buttonContainer">
+                    <div className="shortcutHint">S</div>
+                    <button>Settings</button>
+                </div>
             </div>
         );
     }
