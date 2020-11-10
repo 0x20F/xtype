@@ -9,6 +9,11 @@ const FRAME_DURATION = 1000 / 60;
 let gc = document.getElementById("gameCanvas");
 let ctx = gc.getContext("2d");
 
+ctx.imageSmoothingEnabled = false;
+ctx.mozImageSmoothingEnabled = false;
+ctx.webkitImageSmoothingEnabled = false;
+ctx.msImageSmoothingEnabled = false;
+
 let player = new Player(ctx, gc.width / 2, gc.height - 60);
 let currentTarget = null;
 

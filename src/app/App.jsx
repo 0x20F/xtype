@@ -47,6 +47,11 @@ export default class App extends Component {
             case 'Escape':
                 this.handlePause();
                 break;
+            case 's':
+                if (!this.state.started) {
+                    this.handleStart();
+                }
+                break;
         }
     }
 

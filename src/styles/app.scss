@@ -1,6 +1,9 @@
 @import '~styles/fonts';
 
-
+canvas {
+    image-rendering: pixelated;
+    image-rendering: optimizespeed;
+}
 
 $dot-size: 1px;
 $dot-space: 22px;

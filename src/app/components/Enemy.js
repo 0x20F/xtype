@@ -1,15 +1,19 @@
 import AngleDelta from 'foundation/AngleDelta';
+import Identicon from "identicon.js";
+import { hashFnv32a } from "foundation/HashFnv32a"
 
 
 class Enemy {
     x = Math.random() * (400 - 20) + 20;
     y = Math.random() * -100;
+    angle = 0;
 
     initialX;
     initialY;
 
-    width = 50;
-    height = 50;
+    width = 30;
+    height = 30;
+    alertTime = 1000;
 
     color = 'white';
     targetedColor = 'orange';
@@ -20,22 +24,51 @@ class Enemy {
     dying = false;
     target = null;
 
+    image;
+    bodyOptions = {
+        background: [24, 27, 33, 1],
+        margin: 0,
+        size: 60,
+        saturation: 0.4,
+        brightness: 0.4,
+        format: 'svg'
+    }
 
 
     constructor(context, word, target) {
+        this.spawned = performance.now();
         this.context = context;
         this.word = word;
         this.target = target;
+        this.alertTime = Math.floor(Math.random() * 3000) + 1000
 
         this.initialX = this.x;
         this.initialY = this.y;
+
+        let hash = hashFnv32a(this.word, 12345) + hashFnv32a(this.word, 54321);
+        let src = 'data:image/svg+xml;base64,' + new Identicon(hash, this.bodyOptions).toString();
+        this.image = new Image();
+        this.image.src = src;
+        
     }
 
 
     draw = () => {
+
+        this.context.save();
+        this.context.translate((this.x - this.width / 2), this.y);
+        this.context.translate(15, 15)
+        this.context.rotate((this.angle) );
         this.context.fillStyle = this.color;
 
-        this.context.fillRect(this.x - this.width / 2, this.y, this.width, this.height);
+        let alpha = 1;
+        if (this.dead) {
+            alpha = 0
+        }
+
+        this.context.drawImage(this.image, -15, -15, this.width * alpha, this.height * alpha);
+
+        this.context.restore();
 
         // Ignore the word if you're dead
         if (this.dead || this.dying) {
@@ -72,10 +105,25 @@ class Enemy {
             this.target.x,
             this.target.y
         );
+
         let vec = playerDelta.getVector(playerDelta.distance, playerDelta.angle);
 
-        this.x += vec.x * (timeDelta / 1000);
+        let oldX = this.x;
+        let oldY = this.y;
+
+        if (performance.now() - this.spawned > this.alertTime) {
+
+            let delta = (performance.now() - this.spawned - this.alertTime) / 1000;
+            delta = delta > 1 ? 1 : delta;
+
+            this.x += vec.x * (timeDelta / 1000) * delta;
+        }
+
         this.y += vec.y * (timeDelta / 1000);
+
+
+        this.angle = Math.atan2(oldY - this.y, oldX - this.x) - (90 * Math.PI / 180);
+
     }
 
 
@@ -87,7 +135,7 @@ class Enemy {
         setTimeout(() => {
             this.dead = true;
             console.log('Dead, finally');
-        }, 1000);
+        }, 500);
     }
 
 
