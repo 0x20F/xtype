@@ -1,18 +1,16 @@
 import AngleDelta from 'foundation/AngleDelta';
 import Identicon from "identicon.js";
 import { hashFnv32a } from "foundation/HashFnv32a"
+import Entity from "../foundation/Entity";
+import Sprite from "../foundation/Sprite";
+import Vector from "../foundation/Vector";
+import Game from "../Game";
 
 
-class Enemy {
-    x = Math.random() * (400 - 20) + 20;
-    y = Math.random() * -100;
+class Enemy extends Entity {
     angle = 0;
+    playerDelta;
 
-    initialX;
-    initialY;
-
-    width = 30;
-    height = 30;
     alertTime = 1000;
 
     color = 'white';
@@ -25,142 +23,113 @@ class Enemy {
     target = null;
 
     image;
-    bodyOptions = {
-        background: [24, 27, 33, 1],
-        margin: 0,
-        size: 60,
-        saturation: 0.4,
-        brightness: 0.4,
-        format: 'svg'
-    }
+    width = 30;
+    height = 30;
+    life = 1;
 
 
-    constructor(context, word, target) {
-        this.spawned = performance.now();
-        this.context = context;
+    constructor(word, target) {
+        let hash = hashFnv32a(word, 12345) + hashFnv32a(word, 54321);
+        let src = 'data:image/svg+xml;base64,' + new Identicon(hash, {
+            background: [24, 27, 33, 1],
+            margin: 0,
+            size: 60,
+            saturation: 0.4,
+            brightness: 0.4,
+            format: 'svg'
+        }).toString();
+
+        super(new Sprite(src, 30, 30));
+
+        this.life = word.length;
+        this.tag = "enemy";
         this.word = word;
         this.target = target;
         this.alertTime = Math.floor(Math.random() * 3000) + 1000
 
-        this.initialX = this.x;
-        this.initialY = this.y;
+        this.vector.x = Math.random() * (400 - 20) + 20;
+        this.vector.y = Math.random() * -100;
 
-        let hash = hashFnv32a(this.word, 12345) + hashFnv32a(this.word, 54321);
-        let src = 'data:image/svg+xml;base64,' + new Identicon(hash, this.bodyOptions).toString();
-        this.image = new Image();
-        this.image.src = src;
-        
+        this.playerDelta = new AngleDelta(
+            this.vector.x,
+            this.vector.y,
+            this.target.vector.x,
+            this.target.vector.y
+        );
     }
 
 
-    draw = () => {
+    draw = (context) => {
+        context.save();
 
-        this.context.save();
-        this.context.translate((this.x - this.width / 2), this.y);
-        this.context.translate(15, 15)
-        this.context.rotate((this.angle) );
-        this.context.fillStyle = this.color;
+        context.translate((this.vector.x - this.sprite.width / 2), this.vector.y);
+        context.translate(this.sprite.width, this.sprite.height)
+        context.rotate((this.angle));
+        context.fillStyle = this.color;
 
-        let alpha = 1;
-        if (this.dead) {
-            alpha = 0
-        }
+        this.sprite.draw(context);
 
-        this.context.drawImage(this.image, -15, -15, this.width * alpha, this.height * alpha);
-
-        this.context.restore();
-
-        // Ignore the word if you're dead
-        if (this.dead || this.dying) {
-            return;
-        }
+        context.restore();
+        this.drawWord(context)
     }
 
 
-    drawWord = () => {
+    drawWord = (context) => {
         // Draw the word
         if (this.word === '') {
             return;
         }
 
-        let wordWidth = this.context.measureText(this.word).width + 7;
-        this.context.fillStyle = 'black';
-        this.context.fillRect(this.x - wordWidth / 2, this.y + this.height + 4, wordWidth, 22);
+        let wordWidth = context.measureText(this.word).width + 7;
+        context.fillStyle = 'black';
+        context.fillRect(this.vector.x - wordWidth / 2, this.vector.y + this.height + 4, wordWidth, 22);
 
-        this.context.fillStyle = this.targeted ? this.targetedColor : this.color;
-        this.context.font = '16px Montserrat';
-        this.context.textAlign = 'center';
-        this.context.fillText(this.word, this.x, this.y + this.height + 20);
+        context.fillStyle = this.targeted ? this.targetedColor : this.color;
+        context.font = '16px Montserrat';
+        context.textAlign = 'center';
+        context.fillText(this.word, this.vector.x, this.vector.y + this.height + 20);
     }
 
 
-    move = (timeDelta) => {
-        if (this.isDead()) {
-            return;
+    onUpdate = (timeDelta) => {
+        if (this.targeted) {
+            this.vector.z = 1
+        }
+        if(this.dying) {
+            this.sprite.setAlpha(this.sprite.alpha - (timeDelta / 10));
         }
 
-        let playerDelta = new AngleDelta(
-            this.initialX,
-            this.initialY,
-            this.target.x,
-            this.target.y
-        );
+        let vec = this.playerDelta.getVector(this.playerDelta.distance, this.playerDelta.angle);
+        let oldVector = new Vector(this.vector.x, this.vector.y)
 
-        let vec = playerDelta.getVector(playerDelta.distance, playerDelta.angle);
+        let delta = (this.timeSinceSpawned() - this.alertTime) / 1000;
+        delta = delta > 1 ? 1 : delta;
 
-        let oldX = this.x;
-        let oldY = this.y;
+        this.vector.x += vec.x * (timeDelta / 1000) * delta;
 
-        if (performance.now() - this.spawned > this.alertTime) {
-
-            let delta = (performance.now() - this.spawned - this.alertTime) / 1000;
-            delta = delta > 1 ? 1 : delta;
-
-            this.x += vec.x * (timeDelta / 1000) * delta;
-        }
-
-        this.y += vec.y * (timeDelta / 1000);
-
-
-        this.angle = Math.atan2(oldY - this.y, oldX - this.x) - (90 * Math.PI / 180);
-
+        this.vector.y += vec.y * (timeDelta / 1000);
+        this.angle = this.vector.getAngleFrom(oldVector);
     }
 
+    takeDamage = () => {
+        this.life--;
 
-    die = () => {
-        this.color = 'black';
-        this.dying = true;
-
-        // Fake a death animation
-        setTimeout(() => {
+        if (this.life === 0) {
             this.dead = true;
-            console.log('Dead, finally');
-        }, 500);
+            Game.remove(this);
+        }
     }
-
 
     takeHit = () => {
         this.word = this.word.substring(1);
+
+        if (this.word === '') {
+            this.dying = true;
+        }
     }
-
-
-    respawn = (word) => {
-        this.x = Math.random() * 500; // Canvas width, don't hard code it
-        this.y = Math.random() * -100 + -50;
-
-        this.initialX = this.x;
-        this.initialY = this.y;
-
-        this.word = word;
-        this.color = 'white';
-        this.dead = false;
-        this.dying = false;
-        this.targeted = false;
-    }
-
 
     isDead = () => {
-        return this.dead;
+        return this.dead || this.dying;
     }
 }
 

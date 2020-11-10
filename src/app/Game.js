@@ -14,19 +14,12 @@ ctx.mozImageSmoothingEnabled = false;
 ctx.webkitImageSmoothingEnabled = false;
 ctx.msImageSmoothingEnabled = false;
 
-let player = new Player(ctx, gc.width / 2, gc.height - 60);
-let currentTarget = null;
+let player = new Player(gc.width / 2, gc.height - 60);
 
 let words = [];
-let bullets = [];
-let enemies = [];
-
+let entities = [];
 let paused = false;
-
 let lastUpdate;
-
-
-
 
 /**
  * Spawns a specific number of enemies
@@ -35,10 +28,9 @@ let lastUpdate;
  */
 const spawnEnemies = amount => {
     for (let i = 0; i < amount; i++) {
-        enemies.push(new Enemy(ctx, words.shift() || 'lmao', player));
+        Game.add(new Enemy(words.shift() || 'lmao', player));
     }
 }
-
 
 /**
  * Initializes all needed events for the game to work properly,
@@ -47,46 +39,14 @@ const spawnEnemies = amount => {
  */
 const initEvents = () => {
     window.addEventListener('keydown', e => {
-        const { key } = e;
-
         // Don't do anything if paused
         if (paused) {
             return;
         }
 
-
-        // If we already have a target
-        if (currentTarget !== null) {
-            if (currentTarget.word.toLowerCase().startsWith(key.toLowerCase())) {
-                bullets.push(new Bullet(ctx, player.x, player.y, currentTarget));
-                currentTarget.takeHit();
-
-                // Release the target while the death animation is playing
-                if (currentTarget.word === '') {
-                    currentTarget = null;
-                }
-            }
-            return;
-        }
-
-        // Find an enemy with your character
-        for (let i = 0; i < enemies.length; i++) {
-            let enemy = enemies[i];
-
-            if (enemy.word.toLowerCase().startsWith(key.toLowerCase())) {
-                currentTarget = enemy;
-                bullets.push(new Bullet(ctx, player.x, player.y, enemy));
-
-                enemy.targeted = true;
-                enemy.takeHit();
-
-                // Release the target while the death animation is playing
-                if (currentTarget.word === '') {
-                    currentTarget = null;
-                }
-                break;
-            }
-        }
+        entities.forEach(entity => {
+            entity.onEvent('keydown', e);
+        });
     });
 }
 
@@ -110,62 +70,22 @@ const animate = () => {
     // Clear canvas
     ctx.clearRect(0, 0, gc.width, gc.height);
 
+    entities.sort((a, b) => {
+        return a.vector.z - b.vector.z
+    })
 
-    if (currentTarget && currentTarget.isDead()) {
-        currentTarget = null;
-    }
-
-
-    bullets.forEach(bullet => {
-        // This should never happen
-        if (bullet.y < 0) {
-            console.log('bullet out of bounds', bullet);
-            bullets.shift();
-        }
-
-        bullet.move(delta);
-        bullet.draw();
-
-        // If bullet hit the target, remove it
-        if (bullet.hit()) {
-            if (
-                bullet.target.word === '' &&
-                !bullet.target.dying 
-            ) {
-                bullet.target.die();
-            }
-
-            bullets.shift();
-        }
+    entities.forEach(entity => {
+        entity.onUpdate(delta);
     });
 
+    entities.forEach(entity => {
+        entity.draw(ctx);
+    });
 
-    let allDead = enemies.every(enemy => enemy.isDead());
-
-    if (allDead) {
-        enemies = [];
+    if (!Game.find('enemy').length) {
         spawnEnemies(5);
     }
 
-
-    // Draw all the enemies first
-    enemies.forEach(enemy => {
-        enemy.draw();
-
-        if (!enemy.dying) {
-            enemy.move(delta);
-        }
-    });
-
-    // Then draw all their words so they're always on top
-    enemies.forEach(enemy => {
-        enemy.drawWord();
-    });
-
-
-
-    currentTarget && currentTarget.drawWord();
-    player.draw();
     requestAnimationFrame(animate);
 }
 
@@ -178,18 +98,32 @@ const animate = () => {
  */
 const Game = {
     start: wordList => {
+        Game.add(player);
+
         // Intialize word list
         words = wordList.split(/[\s,.]+/gm);
         lastUpdate = performance.now();
-
-        // Spawn some enemies
-        spawnEnemies(5);
 
         // Start event listeners
         initEvents();
 
         // Start animating
         animate();
+    },
+
+    add(entity) {
+        entities.push(entity);
+    },
+
+    find(tag) {
+        return entities.filter((a) => a.tag === tag)
+    },
+
+    remove(entity) {
+        const index = entities.indexOf(entity);
+        if (index > -1) {
+            entities.splice(index, 1);
+        }
     },
 
     pause: status => {
