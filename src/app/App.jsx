@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 
 import Game from './Game.js';
-import axios from 'axios';
+import PauseMenu from 'components/menu/PauseMenu';
+
 
 
 export default class App extends Component {
@@ -58,9 +60,7 @@ export default class App extends Component {
 
         return (
             <>
-                {paused &&
-                    <div>Game Paused</div>
-                }
+                { paused && <PauseMenu/> }
             </>
         );
     }

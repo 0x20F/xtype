@@ -50,7 +50,7 @@ class Enemy {
             return;
         }
 
-        let wordWidth = this.context.measureText(this.word).width + 5;
+        let wordWidth = this.context.measureText(this.word).width + 7;
         this.context.fillStyle = 'black';
         this.context.fillRect(this.x - wordWidth / 2, this.y + this.height + 4, wordWidth, 22);
 
