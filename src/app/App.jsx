@@ -21,16 +21,20 @@ export default class App extends Component {
     }
 
 
-    componentDidMount() {
-        document.addEventListener('keydown', this._handleKeyDown, false);
-    }
+    /**
+     * Events need to be added and removed in
+     * unison with the component being born and 
+     * dying.
+     */
+    componentDidMount() { document.addEventListener('keydown', this._handleKeyDown, false); }
+    componentWillUnmount() { document.removeEventListener('keydown', this._handleKeyDown, false); }
 
 
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this._handleKeyDown, false);
-    }
-
-
+    /**
+     * This is where the menu controls are defined.
+     * 
+     * @param {object} e Keydown event from javascript
+     */
     _handleKeyDown = e => {
         switch (e.key) {
             case 'Escape':
