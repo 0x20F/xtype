@@ -42,16 +42,24 @@ export default class App extends Component {
     _handleKeyDown = e => {
         switch (e.key) {
             case 'Escape':
-                // Pause the game here
-                this.setState(old => {
-                    this.game.pause(!old.paused);
-
-                    return {
-                        paused: !old.paused
-                    }
-                });
+                this.handlePause();
                 break;
         }
+    }
+
+
+    /**
+     * Pause handler that can be passed around to other menus
+     */
+    handlePause = () => {
+        // Pause the game here
+        this.setState(old => {
+            this.game.pause(!old.paused);
+
+            return {
+                paused: !old.paused
+            }
+        });
     }
 
 
@@ -60,7 +68,7 @@ export default class App extends Component {
 
         return (
             <>
-                { paused && <PauseMenu/> }
+                { paused && <PauseMenu handler={ this.handlePause }/> }
             </>
         );
     }

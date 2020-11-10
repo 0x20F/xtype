@@ -10,7 +10,10 @@ class PauseMenu extends Component {
 
     render() {
         return (
-            <div>Game Paused</div>
+            <>
+                <h1>Game Paused</h1>
+                <button onClick={ () => this.props.handler() }>Continue</button>
+            </>
         );
     }
 }
