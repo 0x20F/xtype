@@ -1,6 +1,6 @@
 import Bullet from 'components/Bullet';
 import Player from 'components/Player';
-import Enemy from './components/Enemy';
+import Enemy from 'components/Enemy';
 
 
 
