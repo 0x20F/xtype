@@ -23,7 +23,11 @@ let lastUpdate = performance.now();
 
 
 
-
+/**
+ * Spawns a specific number of enemies
+ * 
+ * @param {number} amount How many enemies to spawn
+ */
 const spawnEnemies = amount => {
     for (let i = 0; i < amount; i++) {
         enemies.push(new Enemy(ctx, words.shift() || 'lmao', player));
@@ -31,6 +35,11 @@ const spawnEnemies = amount => {
 }
 
 
+/**
+ * Initializes all needed events for the game to work properly,
+ * as well as what should happen every time those events
+ * get called.
+ */
 const initEvents = () => {
     window.addEventListener('keydown', e => {
         const { key } = e;
@@ -77,6 +86,13 @@ const initEvents = () => {
 }
 
 
+/**
+ * The main animation loop.
+ * This is where all objects in view get rendered,
+ * where enemies move, where bullets move, etc.
+ * 
+ * All calculations about positioning are made here.
+ */
 const animate = () => {
     if (paused) {
         return;
@@ -143,7 +159,12 @@ const animate = () => {
 }
 
 
-
+/**
+ * The Game.
+ * 
+ * An interface to the outside world in order to 
+ * control what the game does/should do.
+ */
 const Game = {
     start: wordList => {
         // Intialize word list

@@ -42,7 +42,7 @@ export default class App extends Component {
             case 'Escape':
                 // Pause the game here
                 this.setState(old => {
-                    this.game.pause(false);
+                    this.game.pause(!old.paused);
 
                     return {
                         paused: !old.paused
