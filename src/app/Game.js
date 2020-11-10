@@ -31,29 +31,9 @@ const spawnEnemies = amount => {
 }
 
 
-
-
-
-export const game = (wordList) => {
-    // Initialize word list
-    words = wordList.split(/[\s,.]+/gm);
-
-    // First wave
-    spawnEnemies(5);
-
-
-    window.addEventListener('keydown', (e) => {
+const initEvents = () => {
+    window.addEventListener('keydown', e => {
         const { key } = e;
-
-        // Pause on escape
-        if (key === 'Escape') {
-            paused = !paused;
-            
-            // Reset time so no new frames get calculated while paused
-            lastUpdate = performance.now();
-            !paused && animate();
-        }
-
 
         // Don't do anything if paused
         if (paused) {
@@ -94,74 +74,99 @@ export const game = (wordList) => {
             }
         }
     });
-
-    
-    const animate = () => {
-        if (paused) {
-            return;
-        }
-
-        const now = performance.now();
-        const delta = ( now - lastUpdate ) / FRAME_DURATION;
-        lastUpdate = now;
-
-        // Clear canvas
-        ctx.clearRect(0, 0, gc.width, gc.height);
+}
 
 
-        if (currentTarget && currentTarget.isDead()) {
-            currentTarget = null;
-        }
+const animate = () => {
+    if (paused) {
+        return;
+    }
+
+    const now = performance.now();
+    const delta = ( now - lastUpdate ) / FRAME_DURATION;
+    lastUpdate = now;
+
+    // Clear canvas
+    ctx.clearRect(0, 0, gc.width, gc.height);
 
 
-        bullets.forEach(bullet => {
-            // This should never happen
-            if (bullet.y < 0) {
-                console.log('bullet out of bounds', bullet);
-                bullets.shift();
-            }
-
-            bullet.move(delta);
-            bullet.draw();
-
-            // If bullet hit the target, remove it
-            if (bullet.hit()) {
-                // Wait until the last bullet hits, then register the kill
-                if (
-                    bullet.target.word === '' &&
-                    !bullet.target.dying 
-                ) {
-                    bullet.target.die();
-                }
-
-                bullets.shift();
-            }
-        });
-
-
-        let allDead = enemies.every(enemy => enemy.isDead());
-
-        if (allDead) {
-            enemies = [];
-            spawnEnemies(5);
-        }
-
-
-        enemies.forEach(enemy => {
-            enemy.draw();
-
-            if (!enemy.dying) {
-                enemy.move(delta);
-            }
-        });
-
-
-
-        currentTarget && currentTarget.draw();
-        player.draw();
-        requestAnimationFrame(animate);
+    if (currentTarget && currentTarget.isDead()) {
+        currentTarget = null;
     }
 
 
-    animate();
+    bullets.forEach(bullet => {
+        // This should never happen
+        if (bullet.y < 0) {
+            console.log('bullet out of bounds', bullet);
+            bullets.shift();
+        }
+
+        bullet.move(delta);
+        bullet.draw();
+
+        // If bullet hit the target, remove it
+        if (bullet.hit()) {
+            if (
+                bullet.target.word === '' &&
+                !bullet.target.dying 
+            ) {
+                bullet.target.die();
+            }
+
+            bullets.shift();
+        }
+    });
+
+
+    let allDead = enemies.every(enemy => enemy.isDead());
+
+    if (allDead) {
+        enemies = [];
+        spawnEnemies(5);
+    }
+
+
+    enemies.forEach(enemy => {
+        enemy.draw();
+
+        if (!enemy.dying) {
+            enemy.move(delta);
+        }
+    });
+
+
+
+    currentTarget && currentTarget.draw();
+    player.draw();
+    requestAnimationFrame(animate);
 }
+
+
+
+const Game = {
+    start: wordList => {
+        // Intialize word list
+        words = wordList.split(/[\s,.]+/gm);
+
+        // Spawn some enemies
+        spawnEnemies(5);
+
+        // Start event listeners
+        initEvents();
+
+        // Start animating
+        animate();
+    },
+
+    pause: status => {
+        paused = status;
+            
+        // Reset time so no new frames get calculated while paused
+        lastUpdate = performance.now();
+        !paused && animate();
+    }
+}
+
+
+export default Game;

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { game } from './Game.js';
+import Game from './Game.js';
 import axios from 'axios';
 
 
@@ -13,10 +13,12 @@ export default class App extends Component {
             paused: true
         }
 
+        this.game = Game;
+
         axios.get('/data/test.txt')
             .then(response => response.data)
             .then(words => {
-                this.game = game(words);
+                this.game.start(words);
             });
     }
 
@@ -40,6 +42,8 @@ export default class App extends Component {
             case 'Escape':
                 // Pause the game here
                 this.setState(old => {
+                    this.game.pause(false);
+
                     return {
                         paused: !old.paused
                     }
