@@ -1,6 +1,6 @@
 import AngleDelta from 'foundation/AngleDelta';
-import Entity from "../foundation/Entity";
-import Sprite from "../foundation/Sprite";
+import Entity from "foundation/Entity";
+import Sprite from "foundation/Sprite";
 import Identicon from "identicon.js";
 import { hashFnv32a } from "foundation/HashFnv32a"
 import Game from "../Game";

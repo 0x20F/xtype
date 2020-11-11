@@ -13,12 +13,12 @@ class Sprite {
         this.height = height;
     }
 
-    setAlpha(alpha) {
-        alpha = alpha > 0 ? alpha : 0
-        this.alpha = alpha < 1 ? alpha : 1
+    setAlpha = (alpha) => {
+        alpha = alpha > 0 ? alpha : 0;
+        this.alpha = alpha < 1 ? alpha : 1;
     }
 
-    draw(context) {
+    draw = (context) => {
         context.save();
 
         //context.translate((0 - this.width / 2), 0);

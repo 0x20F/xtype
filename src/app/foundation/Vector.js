@@ -9,7 +9,7 @@ class Vector {
         this.z = z;
     }
 
-    getAngleFrom(vector) {
+    getAngleFrom = (vector) => {
         return Math.atan2(vector.y - this.y, vector.x - this.x) - (90 * Math.PI / 180)
     }
 }

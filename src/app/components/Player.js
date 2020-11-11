@@ -1,6 +1,6 @@
-import Bullet from "./Bullet";
-import Entity from "../foundation/Entity";
-import Sprite from "../foundation/Sprite";
+import Bullet from "components/Bullet";
+import Entity from "foundation/Entity";
+import Sprite from "foundation/Sprite";
 import Identicon from "identicon.js";
 import { hashFnv32a } from "foundation/HashFnv32a"
 import Game from "../Game";
@@ -32,8 +32,7 @@ class Player extends Entity {
         this.vector.y = y;
     }
 
-    onEvent(eventType, event)
-    {
+    onEvent = (eventType, event) => {
         if (eventType === 'keydown') {
             const { key } = event;
 
@@ -45,7 +44,7 @@ class Player extends Entity {
 
     }
 
-    getTarget(key) {
+    getTarget = (key) => {
         if (!this.target) {
             let enemies = Game.find('enemy');
 
@@ -63,7 +62,7 @@ class Player extends Entity {
         return this.target;
     }
 
-    makeAttack(target, key) {
+    makeAttack = (target, key) => {
         if (target.word.toLowerCase().startsWith(key.toLowerCase())) {
             Game.add(new Bullet(this.vector.x, this.vector.y, target))
 

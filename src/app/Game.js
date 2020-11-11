@@ -115,11 +115,11 @@ const Game = {
         entities.push(entity);
     },
 
-    find(tag) {
-        return entities.filter((a) => a.tag === tag)
+    find: tag => {
+        return entities.filter((a) => a.tag === tag);
     },
 
-    remove(entity) {
+    remove: entity => {
         const index = entities.indexOf(entity);
         if (index > -1) {
             entities.splice(index, 1);

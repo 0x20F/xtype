@@ -1,9 +1,9 @@
 import AngleDelta from 'foundation/AngleDelta';
 import Identicon from "identicon.js";
 import { hashFnv32a } from "foundation/HashFnv32a"
-import Entity from "../foundation/Entity";
-import Sprite from "../foundation/Sprite";
-import Vector from "../foundation/Vector";
+import Entity from "foundation/Entity";
+import Sprite from "foundation/Sprite";
+import Vector from "foundation/Vector";
 import Game from "../Game";
 
 
@@ -70,7 +70,7 @@ class Enemy extends Entity {
         this.sprite.draw(context);
 
         context.restore();
-        this.drawWord(context)
+        this.drawWord(context);
     }
 
 
