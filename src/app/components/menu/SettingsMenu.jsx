@@ -63,7 +63,7 @@ class SettingsMenu extends Component {
                 
                 <input type='text' defaultValue='0x20F' onChange={ this.handleChange } required autoFocus/>
 
-                <Button text='Save' onClick={ () => this.props.handler(playerName) }/>
+                <Button text='Save' hint='ret' onClick={ () => this.props.handler(playerName) }/>
             </div>
         );
     }
