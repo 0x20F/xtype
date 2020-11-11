@@ -78,8 +78,14 @@ const animate = () => {
         entity.onUpdate(delta);
     });
 
+    // Draw all ships first
     entities.forEach(entity => {
         entity.draw(ctx);
+    });
+
+    // Draw all words on top of the ships
+    Game.find('enemy').forEach(enemy => {
+        enemy.drawWord(ctx);
     });
 
     if (!Game.find('enemy').length) {

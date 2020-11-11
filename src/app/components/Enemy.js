@@ -70,7 +70,6 @@ class Enemy extends Entity {
         this.sprite.draw(context);
 
         context.restore();
-        this.drawWord(context);
     }
 
 
