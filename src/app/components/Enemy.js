@@ -34,8 +34,6 @@ class Enemy extends Entity {
             background: [24, 27, 33, 1],
             margin: 0,
             size: 60,
-            saturation: 0.4,
-            brightness: 0.4,
             format: 'svg'
         }).toString();
 
