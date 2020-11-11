@@ -20,6 +20,7 @@ let words = [];
 let entities = [];
 let paused = false;
 let lastUpdate;
+let wave = 0;
 
 /**
  * Spawns a specific number of enemies
@@ -27,8 +28,18 @@ let lastUpdate;
  * @param {number} amount How many enemies to spawn
  */
 const spawnEnemies = amount => {
-    for (let i = 0; i < amount; i++) {
-        Game.add(new Enemy(words.shift() || 'lmao', player));
+    Game.add(new Enemy(words.shift() || 'lmao', player));
+    amount--;
+
+    let delay = 0;
+    for (let i = 1; i <= amount; i++) {
+        if (i%3 === 0) {
+            delay += 1000;
+        }
+
+        setTimeout(() => {
+            Game.add(new Enemy(words.shift() || 'lmao', player));
+        }, delay)
     }
 }
 
@@ -89,7 +100,9 @@ const animate = () => {
     });
 
     if (!Game.find('enemy').length) {
-        spawnEnemies(5);
+        wave++;
+
+        spawnEnemies(5*wave);
     }
 
     requestAnimationFrame(animate);
@@ -118,6 +131,7 @@ const Game = {
         animate();
     },
 
+
     add: entity => {
         entities.push(entity);
     },
@@ -131,6 +145,10 @@ const Game = {
         if (index > -1) {
             entities.splice(index, 1);
         }
+    },
+
+    getCurrentWave: () => {
+        return wave;
     },
 
     pause: status => {
