@@ -23,7 +23,7 @@
 
         .rounded {
             border-radius: 7px !important;
-            width: 100%;
+            width: 100% !important;
         }
 
         .shortcutHint {
@@ -43,7 +43,7 @@
             font-size: inherit;
         }
 
-        .button {
+        div:first-child {
             width: 80%;
             height: 100%;
             outline: none;

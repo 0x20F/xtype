@@ -61,7 +61,7 @@ class SettingsMenu extends Component {
                     <img src={playerShip} alt='Visual representation of the player ship'/>
                 </div>
                 
-                <input type='text' defaultValue='0x20F' onChange={ this.handleChange } required/>
+                <input type='text' defaultValue='0x20F' onChange={ this.handleChange } required autoFocus/>
 
                 <Button text='Save' onClick={ () => this.props.handler(playerName) }/>
             </div>
