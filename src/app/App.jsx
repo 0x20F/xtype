@@ -4,6 +4,7 @@ import axios from 'axios';
 import Game from './Game.js';
 import PauseMenu from 'components/menu/PauseMenu';
 import StartMenu from 'components/menu/StartMenu';
+import SettingsMenu from 'components/menu/SettingsMenu';
 
 
 
@@ -47,11 +48,6 @@ export default class App extends Component {
             case 'Escape':
                 this.handlePause();
                 break;
-            case 's':
-                if (!this.state.started) {
-                    this.handleStart();
-                }
-                break;
         }
     }
 
@@ -94,8 +90,7 @@ export default class App extends Component {
 
         return (
             <>
-                { !started && <StartMenu startHandler={ this.handleStart }/> }
-                { (started && paused) && <PauseMenu handler={ this.handlePause }/> }
+                <SettingsMenu/>
             </>
         );
     }

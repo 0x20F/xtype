@@ -2,7 +2,7 @@ import Bullet from "components/Bullet";
 import Entity from "foundation/Entity";
 import Sprite from "foundation/Sprite";
 import Identicon from "identicon.js";
-import { hashFnv32a } from "foundation/HashFnv32a"
+import { hashFnv32a } from "foundation/HashFnv32a";
 import Game from "../Game";
 
 class Player extends Entity {

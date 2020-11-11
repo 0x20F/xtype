@@ -21,6 +21,11 @@
         text-transform: lowercase;
         @include flex();
 
+        .rounded {
+            border-radius: 7px !important;
+            width: 100%;
+        }
+
         .shortcutHint {
             width: 20%;
             height: 100%;
