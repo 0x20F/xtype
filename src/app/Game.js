@@ -111,7 +111,7 @@ const Game = {
         animate();
     },
 
-    add(entity) {
+    add: entity => {
         entities.push(entity);
     },
 
