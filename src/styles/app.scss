@@ -4,6 +4,7 @@
 
 @import '~styles/components/menu/startMenu';
 @import '~styles/components/menu/pauseMenu';
+@import '~styles/components/hud';
 
 
 $dot-size: 1px;
@@ -59,6 +60,7 @@ body {
         height: 800px;
     
         border: 1px solid $dot-color;
+        position: relative;
     
         grid-column: 1 / span 5;
         grid-row: 1 / span 8;

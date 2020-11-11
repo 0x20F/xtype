@@ -4,6 +4,7 @@ import axios from 'axios';
 import Game from './Game.js';
 import PauseMenu from 'components/menu/PauseMenu';
 import StartMenu from 'components/menu/StartMenu';
+import HUD from 'components/menu/HUD';
 
 
 
@@ -11,14 +12,32 @@ export default class App extends Component {
     constructor(props) {
         super(props);
 
+        this.game = Game;
+        this.words = null;
+
 
         this.state = {
             paused: false,
-            started: false
+            started: false,
+            wave: this.game.getCurrentWave()
         }
 
-        this.game = Game;
-        this.words = null;
+        let fn = () => {
+            setTimeout(() => {
+                if (this.state.wave !== this.game.getCurrentWave()) {
+
+                    this.setState(() => {
+                        return {
+                            wave: this.game.getCurrentWave()
+                        }
+                    });
+                }
+
+                fn();
+            }, 50);
+        }
+
+        fn();
 
         axios.get('/data/test.txt')
             .then(response => response.data)
@@ -96,6 +115,7 @@ export default class App extends Component {
             <>
                 { !started && <StartMenu startHandler={ this.handleStart }/> }
                 { (started && paused) && <PauseMenu handler={ this.handlePause }/> }
+                    { (started && !paused) && <HUD wave={this.state.wave} /> }
             </>
         );
     }
