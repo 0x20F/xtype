@@ -14,7 +14,7 @@ ctx.mozImageSmoothingEnabled = false;
 ctx.webkitImageSmoothingEnabled = false;
 ctx.msImageSmoothingEnabled = false;
 
-let player = new Player(gc.width / 2, gc.height - 60);
+let player;
 
 let words = [];
 let entities = [];
@@ -116,7 +116,8 @@ const animate = () => {
  * control what the game does/should do.
  */
 const Game = {
-    start: wordList => {
+    start: (wordList, playerName) => {
+        player = new Player(gc.width / 2, gc.height - 60, playerName);
         Game.add(player);
 
         // Intialize word list

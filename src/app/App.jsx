@@ -4,6 +4,7 @@ import axios from 'axios';
 import Game from './Game.js';
 import PauseMenu from 'components/menu/PauseMenu';
 import StartMenu from 'components/menu/StartMenu';
+import SettingsMenu from 'components/menu/SettingsMenu';
 import HUD from 'components/menu/HUD';
 
 
@@ -19,6 +20,8 @@ export default class App extends Component {
         this.state = {
             paused: false,
             started: false,
+            inSettings: false,
+            playerName: '0x20F',
             wave: this.game.getCurrentWave()
         }
 
@@ -66,11 +69,6 @@ export default class App extends Component {
             case 'Escape':
                 this.handlePause();
                 break;
-            case 's':
-                if (!this.state.started) {
-                    this.handleStart();
-                }
-                break;
         }
     }
 
@@ -99,7 +97,7 @@ export default class App extends Component {
         }
 
         this.setState(old => {
-            this.game.start(this.words);
+            this.game.start(this.words, old.playerName);
 
             return {
                 started: !old.started
@@ -108,14 +106,46 @@ export default class App extends Component {
     }
 
 
+    /**
+     * Keep track of the settings menu
+     */
+    handleSettings = (playerName) => {
+        this.setState(old => {
+            return {
+                playerName: playerName || '',
+                inSettings: !old.inSettings
+            }
+        });
+    }
+
+
     render() {
-        const { paused, started } = this.state;
+        const { paused, started, inSettings, playerName } = this.state;
+
+        let content = <div></div>;
+
+        if (!started && !inSettings) {
+            content = <StartMenu 
+                startHandler={ this.handleStart } 
+                settingsHandler={ this.handleSettings } 
+                playerName={ playerName }/>;
+        }
+
+        if (paused) {
+            content = <PauseMenu handler={ this.handlePause }/>;
+        }
+
+        if (started && !paused) {
+            content = <HUD wave={ this.state.wave }/>;
+        }
+
+        if (inSettings) {
+            content = <SettingsMenu handler={ this.handleSettings }/>;
+        }
 
         return (
             <>
-                { !started && <StartMenu startHandler={ this.handleStart }/> }
-                { (started && paused) && <PauseMenu handler={ this.handlePause }/> }
-                    { (started && !paused) && <HUD wave={this.state.wave} /> }
+                { content }
             </>
         );
     }
