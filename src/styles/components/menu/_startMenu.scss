@@ -2,8 +2,21 @@
 
 
 .startMenu {
-    .startHeader {
-        font-size: 84px !important;
-        font-family: Anurati;
+    header {
+        width: 60%;
+        margin-bottom: 70px;
+
+        @include flex($direction: column);
+
+        .startHeader {
+            font-size: 78px !important;
+            font-family: Anurati;
+            margin: 0;
+            padding: 0;
+        }
+
+        .username {
+            color: $border-color;
+        }
     }
 }

@@ -2,7 +2,7 @@ import Bullet from "components/Bullet";
 import Entity from "foundation/Entity";
 import Sprite from "foundation/Sprite";
 import Identicon from "identicon.js";
-import { hashFnv32a } from "foundation/HashFnv32a"
+import { hashFnv32a } from "foundation/HashFnv32a";
 import Game from "../Game";
 
 class Player extends Entity {
@@ -16,14 +16,12 @@ class Player extends Entity {
     color = 'white';
     strokeColor = 'red';
 
-    constructor(x, y) {
-        let hash = hashFnv32a('player', 12345) + hashFnv32a('player', 54321);
+    constructor(x, y, playerName) {
+        let hash = hashFnv32a(playerName, 12345) + hashFnv32a(playerName, 54321);
         let src = 'data:image/svg+xml;base64,' + new Identicon(hash, {
             background: [24, 27, 33, 1],
             margin: 0,
             size: 60,
-            saturation: 0.4,
-            brightness: 0.4,
             format: 'svg'
         }).toString();
 

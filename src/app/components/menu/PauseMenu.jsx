@@ -14,7 +14,7 @@ class PauseMenu extends Component {
         return (
             <div className='pauseMenu menu'>
                 <h1 className='pauseHeader header'>Paused</h1>
-                <Button hint='esc' text='Continue' onClick={ () => this.props.handler() }/>
+                <Button hint='esc' text='Continue' onClick={ this.props.handler }/>
             </div>
         );
     }
