@@ -1,10 +1,5 @@
 @import '~styles/fonts';
 
-canvas {
-    image-rendering: pixelated;
-    image-rendering: optimizespeed;
-}
-
 $dot-size: 1px;
 $dot-space: 22px;
 
@@ -48,6 +43,9 @@ body {
     
         background-color: #181b21;
         border-radius: 4px;
+
+        image-rendering: pixelated;
+        image-rendering: optimizespeed;
     }
     
     

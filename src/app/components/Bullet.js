@@ -6,6 +6,17 @@ import { hashFnv32a } from "foundation/HashFnv32a"
 import Game from "../Game";
 
 
+const hash = hashFnv32a('bullet', 12345) + hashFnv32a('bullet', 54321);
+const src = 'data:image/svg+xml;base64,' + new Identicon(hash, {
+    background: [24, 27, 33, 1],
+    margin: 0,
+    size: 20,
+    saturation: 0.4,
+    brightness: 0.4,
+    format: 'svg'
+}).toString();
+
+
 class Bullet extends Entity {
 
     width = 10;
@@ -15,16 +26,6 @@ class Bullet extends Entity {
     enemyDelta;
 
     constructor(x, y, target) {
-        let hash = hashFnv32a('bullet', 12345) + hashFnv32a('bullet', 54321);
-        let src = 'data:image/svg+xml;base64,' + new Identicon(hash, {
-            background: [24, 27, 33, 1],
-            margin: 0,
-            size: 20,
-            saturation: 0.4,
-            brightness: 0.4,
-            format: 'svg'
-        }).toString();
-
         super(new Sprite(src, 10, 10));
 
         this.vector.x = x;
