@@ -15,7 +15,9 @@ export default class App extends Component {
 
         this.state = {
             paused: false,
-            started: false
+            started: false,
+            inSettings: false,
+            playerName: '0x20F'
         }
 
         this.game = Game;
@@ -76,7 +78,7 @@ export default class App extends Component {
         }
 
         this.setState(old => {
-            this.game.start(this.words);
+            this.game.start(this.words, old.playerName);
 
             return {
                 started: !old.started
@@ -85,12 +87,42 @@ export default class App extends Component {
     }
 
 
+    /**
+     * Keep track of the settings menu
+     */
+    handleSettings = (playerName) => {
+        this.setState(old => {
+            return {
+                playerName: playerName || '',
+                inSettings: !old.inSettings
+            }
+        });
+    }
+
+
     render() {
-        const { paused, started } = this.state;
+        const { paused, started, inSettings, playerName } = this.state;
+
+        let content = <div></div>;
+
+        if (!started && !inSettings) {
+            content = <StartMenu 
+                startHandler={ this.handleStart } 
+                settingsHandler={ this.handleSettings } 
+                playerName={ playerName }/>;
+        }
+
+        if (paused) {
+            content = <PauseMenu handler={ this.handlePause }/>;
+        }
+
+        if (inSettings) {
+            content = <SettingsMenu handler={ this.handleSettings }/>;
+        }
 
         return (
             <>
-                <SettingsMenu/>
+                { content }
             </>
         );
     }

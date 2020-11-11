@@ -53,7 +53,7 @@ class SettingsMenu extends Component {
 
 
     render() {
-        const { playerShip } = this.state;
+        const { playerShip, playerName } = this.state;
 
         return (
             <div className='settingsMenu menu'>
@@ -63,7 +63,7 @@ class SettingsMenu extends Component {
                 
                 <input type='text' defaultValue='0x20F' onChange={ this.handleChange } required/>
 
-                <Button text='Save' onClick={ () => this.props.handler() }/>
+                <Button text='Save' onClick={ () => this.props.handler(playerName) }/>
             </div>
         );
     }

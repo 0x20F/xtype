@@ -16,8 +16,8 @@ class Player extends Entity {
     color = 'white';
     strokeColor = 'red';
 
-    constructor(x, y) {
-        let hash = hashFnv32a('player', 12345) + hashFnv32a('player', 54321);
+    constructor(x, y, playerName) {
+        let hash = hashFnv32a(playerName, 12345) + hashFnv32a(playerName, 54321);
         let src = 'data:image/svg+xml;base64,' + new Identicon(hash, {
             background: [24, 27, 33, 1],
             margin: 0,

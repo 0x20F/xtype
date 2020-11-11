@@ -11,12 +11,17 @@ class StartMenu extends Component {
 
 
     render() {
+        const { playerName } = this.props;
+
         return (
             <div className='startMenu menu'>
-                <h1 className='startHeader header'>XTYPE</h1>
+                <header>
+                    <h1 className='startHeader header'>XTYPE</h1>
+                    <div className='username'>Playing as { playerName }</div>
+                </header>
                 
                 <Button hint='P' text='Play' onClick={ this.props.startHandler }/>
-                <Button hint='S' text='Settings' onClick={ () => {} }/>
+                <Button hint='S' text='Settings' onClick={ this.props.settingsHandler }/>
             </div>
         );
     }
