@@ -1,4 +1,4 @@
-import Vector from "./Vector";
+import Vector from "foundation/Vector";
 
 class Entity {
     sprite;
@@ -13,19 +13,19 @@ class Entity {
         this.spawned = performance.now();
     }
 
-    timeSinceSpawned() {
+    timeSinceSpawned = () => {
         return performance.now() - this.spawned;
     }
 
-    onUpdate(timeDelta) {
+    onUpdate = (timeDelta) => {
 
     }
 
-    onEvent(eventType, event) {
+    onEvent = (eventType, event) => {
 
     }
 
-    draw(context) {
+    draw = (context) => {
         context.save();
 
         context.translate(this.vector.x, this.vector.y)

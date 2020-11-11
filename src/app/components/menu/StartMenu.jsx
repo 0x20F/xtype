@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Button from 'components/general/Button';
+
 
 
 class StartMenu extends Component {
@@ -12,8 +14,9 @@ class StartMenu extends Component {
         return (
             <div className='startMenu menu'>
                 <h1 className='startHeader header'>XTYPE</h1>
-                <button onClick={() => this.props.startHandler() }>Start</button>
-                <button>Settings</button>
+                
+                <Button hint='P' text='Play' onClick={ this.props.startHandler }/>
+                <Button hint='S' text='Settings' onClick={ () => {} }/>
             </div>
         );
     }
