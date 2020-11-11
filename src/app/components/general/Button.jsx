@@ -13,7 +13,7 @@ class Button extends Component {
 
         return (
             <div className="buttonContainer">
-                <button onClick={ onClick }>{ text }</button>
+                <div className="button" onClick={ onClick }>{ text }</div>
                 <div className="shortcutHint">{ hint }</div>
             </div>
         );

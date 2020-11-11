@@ -24,14 +24,12 @@
         .shortcutHint {
             width: 20%;
             height: 100%;
-            margin-left: 5px;
 
             color: #364461;
-            border-radius: 7px;
+            border-radius: 0 7px 7px 0;
             border: 1px solid $border-color;
+            border-left: none;
             
-            font-size: 22px;
-            opacity: 0.4;
             cursor: default;
 
             @include flex();
@@ -40,19 +38,23 @@
             font-size: inherit;
         }
 
-        button {
+        .button {
             width: 80%;
             height: 100%;
             outline: none;
             border: none;
             background: none;
+            margin: 0;
+            padding: 0;
 
             transition: all .5s;
 
             color: #364461;
             background-color: $bg-transparent;
-            border-radius: 7px;
+            border-radius: 7px 0 0 7px;
             border: 1px solid $border-color;
+
+            @include flex();
 
             font-family: inherit;
             font-size: inherit;
