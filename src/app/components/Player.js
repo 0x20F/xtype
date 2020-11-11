@@ -30,9 +30,19 @@ class Player extends Entity {
         this.vector.y = y;
     }
 
+    shouldResetTarget = (key) => {
+        return key.toLowerCase() == 'backspace' && this.target !== null;
+    }
+
     onEvent = (eventType, event) => {
         if (eventType === 'keydown') {
             const { key } = event;
+
+            if (this.shouldResetTarget(key)) {
+                this.target.targeted = false;
+                this.target = null;
+            }
+
 
             let target = this.getTarget(key);
             if (target) {
