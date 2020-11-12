@@ -52,7 +52,14 @@ export default class App extends Component {
             console.log('Shot ', missed ? 'missed' : 'hit');
         });
 
-        this.emitter.on('waveEnd', this.waveEnded);
+        this.emitter.on('waveEnd', () => {
+            this.handlePause();
+            this.setState({ 
+                intermission: true
+            });
+        });
+
+        this.emitter.on('nextWave', this.nextWave);
     }
     componentWillUnmount() { document.removeEventListener('keydown', this._handleKeyDown, false); }
 
@@ -75,6 +82,10 @@ export default class App extends Component {
      * Pause handler that can be passed around to other menus
      */
     handlePause = () => {
+        if (this.state.intermission) {
+            return;
+        }
+
         // Pause the game here
         this.setState(old => {
             this.game.pause(!old.paused);
@@ -120,25 +131,16 @@ export default class App extends Component {
     }
 
 
-    waveEnded = () => {
-        // Pause the game
-        this.setState({ 
-            intermission: true
+    nextWave = () => {
+        // Unpause the game and move to the next wave
+        this.game.nextWave(this.state.wave);
+        this.setState(old => { 
+            return { 
+                wave: old.wave + 1,
+                intermission: false
+            }; 
         });
         this.handlePause();
-
-        // Give the player some time to see how they did
-        // then unpause the game and move to the next wave
-        setTimeout(() => {
-            this.game.nextWave(this.state.wave);
-            this.handlePause();
-            this.setState(old => { 
-                return { 
-                    wave: old.wave + 1,
-                    intermission: false
-                }; 
-            });
-        }, 5000);
     }
 
 
@@ -163,7 +165,7 @@ export default class App extends Component {
         }
 
         if (intermission && paused) {
-            content = <WaveMenu wave={ this.state.wave }/>;
+            content = <WaveMenu wave={ this.state.wave } emitter={ this.emitter }/>;
         }
 
         return (

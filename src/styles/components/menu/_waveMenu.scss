@@ -1,14 +1,34 @@
 .hud {
-    width: 150px;
-    height: 150px;
+    width: 100%;
+    height: 100%;
 
-    border-radius: 50%;
+    @include flex($align: flex-start, $direction: column);
 
-    @include flex($justify: space-around, $direction: row);
-    background-color: $bg-transparent;
+    .wave {
+        width: 100%;
+        height: 150px;
 
-    span {
         font-size: 24px;
         color: #fff;
+        text-align: center;
+
+        background-color: $bg-transparent;
+
+        @include flex($direction: column);
+    }
+
+    .timer {
+        font-size: 32px;
+
+        position: absolute;
+        bottom: 100px;
+
+        color: #fff;
+        width: 50px;
+        padding: 10px 50px;
+
+        @include flex();
+        background-color: $bg-transparent;
+        border-radius: 11px;
     }
 }

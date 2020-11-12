@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Timer from 'components/general/Timer';
 import AnimatedComponent from 'foundation/components/AnimatedComponent';
 
 
@@ -9,15 +10,24 @@ class WaveMenu extends AnimatedComponent {
     }
 
 
+    handleNextWave = () => {
+        this.props.emitter.emit('nextWave');
+    }
+
+
     render() {
         return this.smoothly(
-
             <div className='hud'>
-                <span></span>
-                <span>wave {this.props.wave}</span>
-                <span></span>
-            </div>
+                <div className='wave'>
+                    wave 
+                    <br/>
+                    {this.props.wave}
+                </div>
 
+                <div className='timer'>
+                    <Timer from={5} whenDone={ this.handleNextWave }/>
+                </div>
+            </div>
         );
     }
 }
