@@ -90,10 +90,15 @@ const animate = () => {
         entity.draw(ctx);
     });
 
+    let target;
     // Draw all words on top of the ships
     Game.find('enemy').forEach(enemy => {
+        if (enemy.targeted) {
+            target = enemy;
+        }
         enemy.drawWord(ctx);
     });
+    target && target.drawWord(ctx);
 
     if (!Game.find('enemy').length) {
         wave++;
