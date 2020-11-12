@@ -155,9 +155,11 @@ const Game = {
     pause: status => {
         paused = status;
             
-        // Reset time so no new frames get calculated while paused
-        lastUpdate = performance.now();
-        !paused && animate();
+        if (!paused) {
+            // Reset time so no new frames get calculated while paused
+            lastUpdate = performance.now();
+            animate();
+        }
     }
 }
 
