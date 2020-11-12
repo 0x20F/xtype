@@ -28,7 +28,7 @@ let wave = 0;
  * @param {number} amount How many enemies to spawn
  */
 const spawnEnemies = amount => {
-    Game.add(new Enemy(words.shift() || 'lmao', player));
+    Game.add(new Enemy(_.sample(words), player));
     amount--;
 
     let delay = 0;
