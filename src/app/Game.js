@@ -1,6 +1,6 @@
-import Bullet from 'components/Bullet';
 import Player from 'components/Player';
 import Enemy from 'components/Enemy';
+import _ from 'underscore';
 
 
 
@@ -38,7 +38,7 @@ const spawnEnemies = amount => {
         }
 
         setTimeout(() => {
-            Game.add(new Enemy(words.shift() || 'lmao', player));
+            Game.add(new Enemy(_.sample(words), player));
         }, delay)
     }
 }
