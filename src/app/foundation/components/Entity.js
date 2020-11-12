@@ -5,7 +5,7 @@ class Entity {
     angle = 0;
     spawned;
     tag = "entity";
-    handlers;
+    emitter;
 
     constructor(sprite) {
         this.sprite = sprite;
@@ -33,6 +33,15 @@ class Entity {
         this.sprite.draw(context);
 
         context.restore();
+    }
+
+    withEmitter = emitter => {
+        this.emitter = emitter;
+        return this;
+    }
+
+    emit = (e, ...data) => {
+        this.emitter.emit(e, ...data);
     }
 }
 

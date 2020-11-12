@@ -60,8 +60,16 @@ export default class App extends Component {
     componentDidMount() { 
         document.addEventListener('keydown', this._handleKeyDown, false);
 
-        this.emitter.on('test', (data) => {
-            console.log('Event emitted', data);
+        this.emitter.on('enemyDeath', () => {
+            console.log('enemy just died yooooo');
+        });
+
+        this.emitter.on('missedShot', () => {
+            console.log('Shot missed');
+        });
+
+        this.emitter.on('gameStarted', () => {
+            console.log('Game just started');
         });
     }
     componentWillUnmount() { document.removeEventListener('keydown', this._handleKeyDown, false); }

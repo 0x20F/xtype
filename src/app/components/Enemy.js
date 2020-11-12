@@ -16,6 +16,7 @@ class Enemy extends Entity {
     targetedColor = 'orange';
 
     word;
+    originalWord;
     targeted = false;
     dead = false;
     dying = false;
@@ -33,8 +34,9 @@ class Enemy extends Entity {
         this.life = word.length;
         this.tag = "enemy";
         this.word = word;
+        this.originalWord = word;
         this.target = target;
-        this.alertTime = Math.floor(Math.random() * 3000) + 1000
+        this.alertTime = Math.floor(Math.random() * 3000) + 1000;
 
         this.vector.x = Math.random() * (400 - 20) + 20;
         this.vector.y = Math.random() * -100;
@@ -112,6 +114,7 @@ class Enemy extends Entity {
         this.word = this.word.substring(1);
 
         if (this.word === '') {
+            this.emit('enemyDeath');
             this.dying = true;
         }
     }

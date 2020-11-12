@@ -24,13 +24,29 @@ let lastUpdate;
 let wave = 0;
 
 
+
+
+
+const entity = name => {
+    let entity;
+
+    switch (name) {
+        case 'enemy':
+            entity = new Enemy(_.sample(words), player, events);
+            break;
+    }
+
+    return entity.withEmitter(events);
+}
+
+
 /**
  * Spawns a specific number of enemies
  * 
  * @param {number} amount How many enemies to spawn
  */
 const spawnEnemies = amount => {
-    Game.add(new Enemy(_.sample(words), player));
+    Game.add(entity('enemy'));
     amount--;
 
     let delay = 0;
@@ -40,7 +56,7 @@ const spawnEnemies = amount => {
         }
 
         setTimeout(() => {
-            Game.add(new Enemy(_.sample(words), player));
+            Game.add(entity('enemy'));
         }, delay)
     }
 }
@@ -121,7 +137,7 @@ const animate = () => {
 const Game = {
     start: (wordList, playerName, emitter) => {
         events = emitter;
-        player = new Player(gc.width / 2, gc.height - 60, playerName);
+        player = new Player(gc.width / 2, gc.height - 60, playerName).withEmitter(events);
         Game.add(player);
 
         // Intialize word list
@@ -133,8 +149,6 @@ const Game = {
 
         // Start animating
         animate();
-
-        events.emit('test', 'GAME STARTED YOOOOO');
     },
 
 
