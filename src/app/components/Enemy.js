@@ -1,9 +1,8 @@
 import AngleDelta from 'foundation/AngleDelta';
-import Identicon from "identicon.js";
-import { hashFnv32a } from "foundation/HashFnv32a"
 import Entity from "foundation/Entity";
 import Sprite from "foundation/Sprite";
 import Vector from "foundation/Vector";
+import { createIdenticon } from 'foundation/Identicon';
 import Game from "../Game";
 
 
@@ -29,15 +28,7 @@ class Enemy extends Entity {
 
 
     constructor(word, target) {
-        let hash = hashFnv32a(word, 12345) + hashFnv32a(word, 54321);
-        let src = 'data:image/svg+xml;base64,' + new Identicon(hash, {
-            background: [24, 27, 33, 1],
-            margin: 0,
-            size: 60,
-            format: 'svg'
-        }).toString();
-
-        super(new Sprite(src, 30, 30));
+        super(new Sprite(createIdenticon(word), 30, 30));
 
         this.life = word.length;
         this.tag = "enemy";

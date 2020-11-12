@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import Identicon from 'identicon.js';
-import { hashFnv32a } from "foundation/HashFnv32a"
 
 import Button from 'components/general/Button';
+import { createIdenticon } from 'foundation/Identicon';
 
 
 
@@ -37,16 +36,8 @@ class SettingsMenu extends Component {
 
     updateShip = () => {
         this.setState(old => {
-            let hash = hashFnv32a(old.playerName, 12345) + hashFnv32a(old.playerName, 54321);
-            let src = 'data:image/svg+xml;base64,' + new Identicon(hash, {
-                background: [24, 27, 33, 1],
-                margin: 0,
-                size: 200,
-                format: 'svg'
-            }).toString();
-
             return {
-                playerShip: src
+                playerShip: createIdenticon(old.playerName, { size: 200 })
             }
         });
     }

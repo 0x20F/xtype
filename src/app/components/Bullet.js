@@ -1,20 +1,11 @@
 import AngleDelta from 'foundation/AngleDelta';
 import Entity from "foundation/Entity";
 import Sprite from "foundation/Sprite";
-import Identicon from "identicon.js";
-import { hashFnv32a } from "foundation/HashFnv32a"
+import { createIdenticon } from 'foundation/Identicon';
 import Game from "../Game";
 
 
-const hash = hashFnv32a('bullet', 12345) + hashFnv32a('bullet', 54321);
-const src = 'data:image/svg+xml;base64,' + new Identicon(hash, {
-    background: [24, 27, 33, 1],
-    margin: 0,
-    size: 20,
-    saturation: 0.4,
-    brightness: 0.4,
-    format: 'svg'
-}).toString();
+const bulletSprite = createIdenticon('bullet');
 
 
 class Bullet extends Entity {
@@ -26,7 +17,7 @@ class Bullet extends Entity {
     enemyDelta;
 
     constructor(x, y, target) {
-        super(new Sprite(src, 10, 10));
+        super(new Sprite(bulletSprite, 10, 10));
 
         this.vector.x = x;
         this.vector.y = y;
