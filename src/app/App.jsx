@@ -23,6 +23,7 @@ export default class App extends Component {
             paused: false,
             started: false,
             inSettings: false,
+            intermission: false,
             playerName: '0x20F',
             wave: 1
         }
@@ -51,10 +52,7 @@ export default class App extends Component {
             console.log('Shot ', missed ? 'missed' : 'hit');
         });
 
-        this.emitter.on('waveEnd', () => {
-            this.game.nextWave(this.state.wave);
-            this.setState(old => { return { wave: old.wave + 1 }; });
-        });
+        this.emitter.on('waveEnd', this.waveEnded);
     }
     componentWillUnmount() { document.removeEventListener('keydown', this._handleKeyDown, false); }
 
@@ -96,13 +94,10 @@ export default class App extends Component {
             return;
         }
 
-        let wave = this.state.wave;
-        let name = this.state.playerName;
+        const { wave, playerName } = this.state;
 
-        this.game.start(this.words, name, this.emitter);
+        this.game.start(this.words, playerName, this.emitter);
         this.game.nextWave(wave);
-
-        console.log(wave);
 
         this.setState(old => {
             return {
@@ -125,8 +120,30 @@ export default class App extends Component {
     }
 
 
+    waveEnded = () => {
+        // Pause the game
+        this.setState({ 
+            intermission: true
+        });
+        this.handlePause();
+
+        // Give the player some time to see how they did
+        // then unpause the game and move to the next wave
+        setTimeout(() => {
+            this.game.nextWave(this.state.wave);
+            this.handlePause();
+            this.setState(old => { 
+                return { 
+                    wave: old.wave + 1,
+                    intermission: false
+                }; 
+            });
+        }, 5000);
+    }
+
+
     render() {
-        const { paused, started, inSettings, playerName } = this.state;
+        const { paused, started, inSettings, playerName, intermission } = this.state;
 
         let content = <div></div>;
 
@@ -141,12 +158,12 @@ export default class App extends Component {
             content = <PauseMenu handler={ this.handlePause }/>;
         }
 
-        if (started && !paused) {
-            content = <WaveMenu wave={ this.state.wave }/>;
-        }
-
         if (inSettings) {
             content = <SettingsMenu handler={ this.handleSettings }/>;
+        }
+
+        if (intermission && paused) {
+            content = <WaveMenu wave={ this.state.wave }/>;
         }
 
         return (
