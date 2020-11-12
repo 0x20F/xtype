@@ -24,25 +24,8 @@ export default class App extends Component {
             started: false,
             inSettings: false,
             playerName: '0x20F',
-            wave: this.game.getCurrentWave()
+            wave: 1
         }
-
-        let fn = () => {
-            setTimeout(() => {
-                if (this.state.wave !== this.game.getCurrentWave()) {
-
-                    this.setState(() => {
-                        return {
-                            wave: this.game.getCurrentWave()
-                        }
-                    });
-                }
-
-                fn();
-            }, 50);
-        }
-
-        fn();
 
         axios.get('/data/test.txt')
             .then(response => response.data)
@@ -69,7 +52,8 @@ export default class App extends Component {
         });
 
         this.emitter.on('waveEnd', () => {
-            console.log('Wave ended');
+            this.game.nextWave(this.state.wave);
+            this.setState(old => { return { wave: old.wave + 1 }; });
         });
     }
     componentWillUnmount() { document.removeEventListener('keydown', this._handleKeyDown, false); }
@@ -112,9 +96,15 @@ export default class App extends Component {
             return;
         }
 
-        this.setState(old => {
-            this.game.start(this.words, old.playerName, this.emitter);
+        let wave = this.state.wave;
+        let name = this.state.playerName;
 
+        this.game.start(this.words, name, this.emitter);
+        this.game.nextWave(wave);
+
+        console.log(wave);
+
+        this.setState(old => {
             return {
                 started: !old.started
             }

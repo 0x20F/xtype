@@ -21,7 +21,6 @@ let words = [];
 let entities = [];
 let paused = false;
 let lastUpdate;
-let wave = 0;
 
 
 
@@ -120,10 +119,7 @@ const animate = () => {
 
     if (!Game.find('enemy').length) {
         events.emit('waveEnd');
-
-        wave++;
-
-        spawnEnemies(5*wave);
+        return;
     }
 
     requestAnimationFrame(animate);
@@ -148,15 +144,17 @@ const Game = {
 
         // Start event listeners
         initEvents();
+    },
 
-        // Start animating
+
+    nextWave: number => {
+        spawnEnemies(5 * number);
         animate();
     },
 
 
     add: entity => {
         entities.push(entity);
-
 
         entities.sort((a, b) => {
             return a.vector.z - b.vector.z
@@ -172,10 +170,6 @@ const Game = {
         if (index > -1) {
             entities.splice(index, 1);
         }
-    },
-
-    getCurrentWave: () => {
-        return wave;
     },
 
     pause: status => {
