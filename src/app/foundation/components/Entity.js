@@ -5,6 +5,7 @@ class Entity {
     angle = 0;
     spawned;
     tag = "entity";
+    handlers;
 
     constructor(sprite) {
         this.sprite = sprite;

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 
 import Game from './Game.js';
+import Emitter from 'foundation/components/Emitter';
 import PauseMenu from 'components/menu/PauseMenu';
 import StartMenu from 'components/menu/StartMenu';
 import SettingsMenu from 'components/menu/SettingsMenu';
@@ -13,6 +14,7 @@ export default class App extends Component {
     constructor(props) {
         super(props);
 
+        this.emitter = new Emitter();
         this.game = Game;
         this.words = null;
 
@@ -55,7 +57,13 @@ export default class App extends Component {
      * unison with the component being born and 
      * dying.
      */
-    componentDidMount() { document.addEventListener('keydown', this._handleKeyDown, false); }
+    componentDidMount() { 
+        document.addEventListener('keydown', this._handleKeyDown, false);
+
+        this.emitter.on('test', (data) => {
+            console.log('Event emitted', data);
+        });
+    }
     componentWillUnmount() { document.removeEventListener('keydown', this._handleKeyDown, false); }
 
 
@@ -97,7 +105,7 @@ export default class App extends Component {
         }
 
         this.setState(old => {
-            this.game.start(this.words, old.playerName);
+            this.game.start(this.words, old.playerName, this.emitter);
 
             return {
                 started: !old.started

@@ -15,12 +15,14 @@ ctx.webkitImageSmoothingEnabled = false;
 ctx.msImageSmoothingEnabled = false;
 
 let player;
+let events;
 
 let words = [];
 let entities = [];
 let paused = false;
 let lastUpdate;
 let wave = 0;
+
 
 /**
  * Spawns a specific number of enemies
@@ -117,7 +119,8 @@ const animate = () => {
  * control what the game does/should do.
  */
 const Game = {
-    start: (wordList, playerName) => {
+    start: (wordList, playerName, emitter) => {
+        events = emitter;
         player = new Player(gc.width / 2, gc.height - 60, playerName);
         Game.add(player);
 
@@ -130,6 +133,8 @@ const Game = {
 
         // Start animating
         animate();
+
+        events.emit('test', 'GAME STARTED YOOOOO');
     },
 
 
