@@ -22,6 +22,9 @@ class SettingsMenu extends Component {
     }
 
 
+    handleFocus = e => e.target.select();
+
+
     handleChange = e => {
         e.stopPropagation();
         e.preventDefault();
@@ -52,7 +55,13 @@ class SettingsMenu extends Component {
                     <img src={playerShip} alt='Visual representation of the player ship'/>
                 </div>
                 
-                <input type='text' defaultValue='0x20F' onChange={ this.handleChange } required autoFocus/>
+                <input 
+                    type='text' 
+                    defaultValue='0x20F' 
+                    onChange={ this.handleChange } 
+                    onFocus={ this.handleFocus }
+                    required 
+                    autoFocus/>
 
                 <Button text='Save' hint='ret' onClick={ () => this.props.handler(playerName) }/>
             </div>
