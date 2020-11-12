@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import Button from 'components/general/Button';
+import AnimatedComponent from 'foundation/components/AnimatedComponent';
 
 
 
-class StartMenu extends Component {
+class StartMenu extends AnimatedComponent {
     constructor(props) {
         super(props);
     }
@@ -13,7 +14,7 @@ class StartMenu extends Component {
     render() {
         const { playerName } = this.props;
 
-        return (
+        return this.smoothly(
             <div className='startMenu menu'>
                 <header>
                     <h1 className='startHeader header'>XTYPE</h1>

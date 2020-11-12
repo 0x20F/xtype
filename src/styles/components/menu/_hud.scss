@@ -1,0 +1,14 @@
+.hud {
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+
+    @include flex($justify: space-around, $direction: row);
+    background-color: $bg-transparent;
+
+    span {
+        font-size: 24px;
+        color: #fff;
+    }
+}

@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import Button from 'components/general/Button';
+import AnimatedComponent from 'foundation/components/AnimatedComponent';
 import { createIdenticon } from 'foundation/Identicon';
 
 
 
-class SettingsMenu extends Component {
+class SettingsMenu extends AnimatedComponent {
     constructor(props) {
         super(props);
 
@@ -13,12 +14,15 @@ class SettingsMenu extends Component {
             playerName: '0x20F',
             playerShip: ''
         }
+
+        this.changed = false;
     }
 
 
     componentDidMount() {
         // Have something there when loading in
         this.updateShip();
+        this.changed = true;
     }
 
 
@@ -49,7 +53,7 @@ class SettingsMenu extends Component {
     render() {
         const { playerShip, playerName } = this.state;
 
-        return (
+        let content = 
             <div className='settingsMenu menu'>
                 <div className='settingsHeader'>
                     <img src={playerShip} alt='Visual representation of the player ship'/>
@@ -64,8 +68,9 @@ class SettingsMenu extends Component {
                     autoFocus/>
 
                 <Button text='Save' hint='ret' onClick={ () => this.props.handler(playerName) }/>
-            </div>
-        );
+            </div>;
+
+        return this.changed ? content : this.smoothly(content);
     }
 }
 

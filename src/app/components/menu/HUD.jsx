@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
+
+import AnimatedComponent from 'foundation/components/AnimatedComponent';
 
 
-class HUD extends Component {
+class HUD extends AnimatedComponent {
     constructor(props) {
         super(props);
     }
 
 
     render() {
-        return (
+        return this.smoothly(
 
             <div className='hud'>
                 <span></span>
