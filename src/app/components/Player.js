@@ -44,19 +44,27 @@ class Player extends Entity {
     }
 
     getTarget = (key) => {
-        if (!this.target) {
-            let enemies = Game.find('enemy');
-
-            for (let i = 0; i < enemies.length; i++) {
-                let enemy = enemies[i];
-
-                if (enemy.word.toLowerCase().startsWith(key.toLowerCase())) {
-                    this.target = enemy;
-                    this.target.targeted = true;
-                    break;
-                }
-            }
+        if (this.target) {
+            return this.target;
         }
+
+        // Find all enemies that start with your key
+        let enemies = Game.find('enemy').filter(e => 
+            e.word.toLowerCase().startsWith(key.toLowerCase())
+        );
+
+        if (enemies.length === 0) {
+            return;
+        }
+
+        // Sort them based on distance from the player
+        enemies = enemies.sort((a, b) => a.vector.y - b.vector.y);
+
+        // Get the closest one
+        let enemy = enemies.pop();
+
+        this.target = enemy;
+        this.target.targeted = true;
 
         return this.target;
     }

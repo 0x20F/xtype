@@ -49,7 +49,6 @@ class Bullet extends Entity {
 
     hit = () => {
         let t = this.target;
-        let tx = t.vector.x;
         let ty = t.vector.y;
 
         if (
