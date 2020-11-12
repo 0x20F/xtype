@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import animate from 'foundation/components/Animator';
+import animate from 'support/Animator';
 
 
 class AnimatedComponent extends Component {

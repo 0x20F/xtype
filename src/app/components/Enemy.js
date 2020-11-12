@@ -1,7 +1,7 @@
-import AngleDelta from 'foundation/AngleDelta';
-import Entity from "foundation/Entity";
+import AngleDelta from 'foundation/math/AngleDelta';
+import Entity from "foundation/components/Entity";
 import Sprite from "foundation/Sprite";
-import Vector from "foundation/Vector";
+import Vector from "foundation/math/Vector";
 import { createIdenticon } from 'foundation/Identicon';
 import Game from "../Game";
 

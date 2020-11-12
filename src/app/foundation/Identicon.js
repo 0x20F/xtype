@@ -1,5 +1,5 @@
 import Identicon from 'identicon.js';
-import { hashFnv32a } from 'foundation/Hashes';
+import { hashFnv32a } from 'foundation/math/Hashes';
 
 
 export const createIdenticon = (seed, options) => {

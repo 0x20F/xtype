@@ -1,4 +1,4 @@
-import Vector from "foundation/Vector";
+import Vector from "foundation/math/Vector";
 
 class Entity {
     sprite;

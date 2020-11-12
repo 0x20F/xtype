@@ -1,5 +1,5 @@
 import Bullet from "components/Bullet";
-import Entity from "foundation/Entity";
+import Entity from "foundation/components/Entity";
 import Sprite from "foundation/Sprite";
 import { createIdenticon } from 'foundation/Identicon';
 import Game from "../Game";
