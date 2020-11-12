@@ -5,7 +5,7 @@ import Game from './Game.js';
 import PauseMenu from 'components/menu/PauseMenu';
 import StartMenu from 'components/menu/StartMenu';
 import SettingsMenu from 'components/menu/SettingsMenu';
-import HUD from 'components/menu/HUD';
+import WaveMenu from 'components/menu/WaveMenu';
 
 
 
@@ -136,7 +136,7 @@ export default class App extends Component {
         }
 
         if (started && !paused) {
-            content = <HUD wave={ this.state.wave }/>;
+            content = <WaveMenu wave={ this.state.wave }/>;
         }
 
         if (inSettings) {

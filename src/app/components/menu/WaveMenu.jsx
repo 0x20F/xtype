@@ -3,7 +3,7 @@ import React from 'react';
 import AnimatedComponent from 'foundation/components/AnimatedComponent';
 
 
-class HUD extends AnimatedComponent {
+class WaveMenu extends AnimatedComponent {
     constructor(props) {
         super(props);
     }
@@ -23,4 +23,4 @@ class HUD extends AnimatedComponent {
 }
 
 
-export default HUD;
+export default WaveMenu;
