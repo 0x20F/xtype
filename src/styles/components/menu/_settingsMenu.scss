@@ -7,11 +7,15 @@
         width: 200px;
         height: 200px;
         margin-bottom: 50px;
+
+        background-color: $bg-button;
+        padding: 50px;
+        border-radius: 11px;
     }
 
     input {
         border-radius: 7px;
-        border: 1px solid $border-color;
+        border: none;
         background: none;
         background-color: $transparent-grey;
         color: #fff;
