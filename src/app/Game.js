@@ -81,10 +81,6 @@ const animate = () => {
     // Clear canvas
     ctx.clearRect(0, 0, gc.width, gc.height);
 
-    entities.sort((a, b) => {
-        return a.vector.z - b.vector.z
-    })
-
     entities.forEach(entity => {
         entity.onUpdate(delta);
     });
@@ -134,6 +130,11 @@ const Game = {
 
     add: entity => {
         entities.push(entity);
+
+
+        entities.sort((a, b) => {
+            return a.vector.z - b.vector.z
+        });
     },
 
     find: tag => {
