@@ -68,8 +68,8 @@ export default class App extends Component {
             console.log('Shot ', missed ? 'missed' : 'hit');
         });
 
-        this.emitter.on('gameStarted', () => {
-            console.log('Game just started');
+        this.emitter.on('waveEnd', () => {
+            console.log('Wave ended');
         });
     }
     componentWillUnmount() { document.removeEventListener('keydown', this._handleKeyDown, false); }

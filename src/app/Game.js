@@ -119,6 +119,8 @@ const animate = () => {
     target && target.drawWord(ctx);
 
     if (!Game.find('enemy').length) {
+        events.emit('waveEnd');
+
         wave++;
 
         spawnEnemies(5*wave);
