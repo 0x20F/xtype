@@ -16,6 +16,11 @@ class WaveMenu extends AnimatedComponent {
 
 
     render() {
+        const { shotsFired, shotsMissed } = this.props;
+        const accuracy = ((1 - ( shotsMissed / shotsFired )) * 100).toFixed(2);
+
+        console.log(shotsFired, shotsMissed, accuracy);
+
         return this.smoothly(
             <div className='hud'>
                 <div className='wave'>
@@ -23,6 +28,8 @@ class WaveMenu extends AnimatedComponent {
                     <br/>
                     {this.props.wave}
                 </div>
+
+                Accuracy {accuracy}%
 
                 <div className='timer'>
                     <Timer from={5} whenDone={ this.handleNextWave }/>

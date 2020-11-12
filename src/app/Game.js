@@ -117,6 +117,7 @@ const animate = () => {
     });
     target && target.drawWord(ctx);
 
+    // If there are no enemies, wave is done
     if (!Game.find('enemy').length) {
         events.emit('waveEnd');
         return;
