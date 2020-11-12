@@ -70,6 +70,8 @@ class Player extends Entity {
     }
 
     makeAttack = (target, key) => {
+        let missed = true;
+
         if (target.word.toLowerCase().startsWith(key.toLowerCase())) {
             Game.add(new Bullet(this.vector.x, this.vector.y, target))
 
@@ -78,7 +80,11 @@ class Player extends Entity {
             if (target.isDead()) {
                 this.target = null;
             }
+
+            missed = false;
         }
+
+        this.emit('shotFired', missed);
     }
 }
 

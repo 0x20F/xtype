@@ -64,8 +64,8 @@ export default class App extends Component {
             console.log('enemy just died yooooo');
         });
 
-        this.emitter.on('missedShot', () => {
-            console.log('Shot missed');
+        this.emitter.on('shotFired', missed => {
+            console.log('Shot ', missed ? 'missed' : 'hit');
         });
 
         this.emitter.on('gameStarted', () => {
