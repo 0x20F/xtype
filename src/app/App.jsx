@@ -148,7 +148,8 @@ export default class App extends Component {
     render() {
         const { paused, started, inSettings, playerName, intermission } = this.state;
 
-        let content = <div></div>;
+        let content;
+        let background;
 
         if (!started && !inSettings) {
             content = <StartMenu 
@@ -171,10 +172,14 @@ export default class App extends Component {
                 emitter={ this.emitter }/>;
         }
 
+        if (paused || intermission || inSettings || !started) {
+            background = <Background/>;
+        }
+
         return (
             <>
                 { content }
-                <Background/>
+                { background }
             </>
         );
     }
