@@ -28,7 +28,7 @@ export default class App extends Component {
             wave: 1
         }
 
-        this.waveData = []
+        this.waveData = [];
 
         axios.get('/data/test.txt')
             .then(response => response.data)
