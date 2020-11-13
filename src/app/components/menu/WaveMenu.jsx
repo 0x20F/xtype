@@ -19,8 +19,6 @@ class WaveMenu extends AnimatedComponent {
     render() {
         const { waveData } = this.props;
 
-        console.log(waveData);
-
         const finishedWave = waveData.length;
         const { shotsMissed, shotsFired, waveStart, waveEnd } = _.last(waveData);
 
@@ -38,9 +36,16 @@ class WaveMenu extends AnimatedComponent {
                     { finishedWave }
                 </div>
 
-                Accuracy {accuracy}%
-                <br/>
-                Wpm {wpm}
+                <div className='waveStats'>
+                    <div className='stat'>
+                        <div className='marker accuracy'></div>
+                        Accuracy {accuracy}%
+                    </div>
+                    <div className='stat'>
+                        <div className='marker wpm'></div>
+                        Wpm {wpm}
+                    </div>
+                </div>
 
                 <div className='timer'>
                     <Timer from={5} whenDone={ this.handleNextWave }/>
