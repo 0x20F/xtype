@@ -21,10 +21,13 @@ export default class App extends Component {
 
 
         this.state = {
+            inMenu: true,
+
             paused: false,
             started: false,
             inSettings: false,
             intermission: false,
+            
             playerName: '0x20F',
             wave: 1
         }
@@ -87,6 +90,7 @@ export default class App extends Component {
             return;
         }
 
+        this.toggleMenu();
         // Pause the game here
         this.setState(old => {
             this.game.pause(!old.paused);
@@ -110,7 +114,8 @@ export default class App extends Component {
 
         this.game.start(this.words, playerName, this.emitter);
         this.game.nextWave(wave);
-
+        
+        this.toggleMenu();
         this.setState(old => {
             return {
                 started: !old.started
@@ -132,6 +137,15 @@ export default class App extends Component {
     }
 
 
+    toggleMenu = () => {
+        this.setState(old => {
+            return {
+                inMenu: !old.inMenu
+            }
+        });
+    }
+
+
     nextWave = () => {
         // Unpause the game and move to the next wave
         this.game.nextWave(this.state.wave);
@@ -146,10 +160,10 @@ export default class App extends Component {
 
 
     render() {
-        const { paused, started, inSettings, playerName, intermission } = this.state;
+        const { inMenu, paused, started, inSettings, playerName, intermission } = this.state;
 
         let content;
-        let background;
+        let background = <Background hidden={ !inMenu }/>;
 
         if (!started && !inSettings) {
             content = <StartMenu 
@@ -170,10 +184,6 @@ export default class App extends Component {
             content = <WaveMenu 
                 waveData={ this.waveData }
                 emitter={ this.emitter }/>;
-        }
-
-        if (paused || intermission || inSettings || !started) {
-            background = <Background/>;
         }
 
         return (

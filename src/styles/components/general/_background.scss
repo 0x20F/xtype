@@ -3,47 +3,68 @@
     width: 100%;
     height: 100%;
     position: absolute !important;
+    transition: all .5s;
 
-    .liquid {
+    &.hidden {
+        margin-top: 1500px;
+    }
+
+    .filler {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 500px;
-        height: 800px;
-        background: #272f3a;
-        box-shadow: inset 0 0 50px rgba(0, 0, 0, .5);
-        transition: .5s;
+        width: 1500px;
+        height: 600px;
+        top: 350px;
+        left: -700px;
+        background-color: #272f3a;
+        
+        &.front {
+            animation: animate 70s linear infinite;
+        }
+
+        &.back {
+            opacity: 0.8;
+            animation: animate 80s linear infinite;
+            top: 381px;
+        }
+
+        &.bumpy {
+            opacity: 0.2;
+            animation: animate 50s linear infinite;
+        }
     }
 
-    .liquid::after,
-    .liquid::before {
-        content: '';
-        width: 200%;
-        height: 200%;
+    svg {
+        width: 1500px;
+        left: -700px;
         position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translate(-50%, -75%);
-    }
+        top: 50px;
 
-    .liquid::before {
-        border-radius: 45%;
-        background: rgba(24, 27, 33, 1);
-        animation: animate 40s linear infinite;
-    }
+        path {
+            fill: #272f3a;
+        }
 
-    .liquid::after {
-        border-radius: 40%;
-        background: rgba(24, 27, 33, 0.4);
-        animation: animate 60s linear infinite;
+        &.front {
+            animation: animate 70s linear infinite;
+        }
+    
+        &.back {
+            animation: animate 80s linear infinite;
+        }
+    
+        &.bumpy {
+            animation: animate 50s linear infinite;
+        }
     }
 
     @keyframes animate {
         0% {
-            transform: translate(-50%, -75%) rotate(0deg);
+            transform: translate(-20%, 50px);
+        }
+        50% {
+            transform: translate(20%, -50px);
         }
         100% {
-            transform: translate(-50%, -75%) rotate(360deg);
+            transform: translate(-20%, 50px);
         }
     }
 }

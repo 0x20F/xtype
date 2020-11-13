@@ -4,6 +4,10 @@
 
     @include flex($direction: column);
 
+    canvas {
+        background-color: #272f3a;
+    }
+
     .wave {
         width: 150px;
         height: 150px;
@@ -32,7 +36,6 @@
         margin-top: 50px;
 
         @include flex($direction: column);
-        background-color: $bg-color;
 
         header {
             font-size: 16px;
