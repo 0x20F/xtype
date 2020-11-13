@@ -146,6 +146,7 @@ const animate = () => {
             shotsFired,
             shotsMissed
         });
+
         return;
     }
 
@@ -177,6 +178,8 @@ const Game = {
     nextWave: number => {
         // TODO: This needs to update when unpausing
         waveStart = Date.now();
+        shotsFired = 0;
+        shotsMissed = 0;
 
         spawnEnemies(5 * number);
         animate();
