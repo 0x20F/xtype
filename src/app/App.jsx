@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 
 import Game from './Game.js';
+import Background from 'components/general/Background';
 import Emitter from 'foundation/components/Emitter';
 import PauseMenu from 'components/menu/PauseMenu';
 import StartMenu from 'components/menu/StartMenu';
@@ -173,6 +174,7 @@ export default class App extends Component {
         return (
             <>
                 { content }
+                <Background/>
             </>
         );
     }

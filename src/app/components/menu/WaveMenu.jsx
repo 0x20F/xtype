@@ -97,11 +97,11 @@ class WaveMenu extends AnimatedComponent {
                 <div className='waveStats'>
                     <div className='stat'>
                         <div className='marker accuracy'></div>
-												Accuracy {accuracy}%
-										</div>
+                        Accuracy {accuracy}%
+                    </div>
                     <div className='stat'>
                         <div className='marker wpm'></div>
-												Wpm {wpm}
+                        Wpm {wpm}
                     </div>
                 </div>
 
@@ -110,6 +110,7 @@ class WaveMenu extends AnimatedComponent {
                 </div>
 
                 <div className='timer'>
+                    <header>next wave in</header>
                     <Timer from={5} whenDone={this.handleNextWave} />
                 </div>
             </div>

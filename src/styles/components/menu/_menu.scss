@@ -3,7 +3,7 @@
     height: 100%;
 
     @include flex($direction: column);
-    background-color: $bg-transparent;
+    //background-color: $bg-transparent;
 
     .header {
         font-size: 62px;

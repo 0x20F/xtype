@@ -4,7 +4,7 @@ import Anime from 'react-anime';
 
 
 let defaultAnimation = {
-    opacity: [0, 1],
+    //opacity: [0, 1],
     scale: [0.9, 1]
 };
 

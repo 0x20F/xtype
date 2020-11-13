@@ -17,7 +17,8 @@
         border-radius: 7px;
         border: none;
         background: none;
-        background-color: $transparent-grey;
+        background-color: $bg-button;
+        border: 1px solid $border-color;
         color: #fff;
     
         text-align: center;
