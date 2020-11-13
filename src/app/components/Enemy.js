@@ -39,7 +39,7 @@ class Enemy extends Entity {
         this.alertTime = Math.floor(Math.random() * 3000) + 1000;
 
         this.vector.x = Math.random() * (400 - 20) + 20;
-        this.vector.y = Math.random() * -100;
+        this.vector.y = Math.random() * (-100 - 50) + -50;
 
         this.playerDelta = new AngleDelta(
             this.vector.x,
