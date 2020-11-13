@@ -59,6 +59,15 @@ class Bullet extends Entity {
 
         return false;
     }
+
+
+    draw = (context) => {
+        context.fillStyle = '#272f3a';
+
+        context.beginPath();
+        context.arc(this.vector.x, this.vector.y, 6, 0, 2 * Math.PI);
+        context.fill();
+    }
 }
 
 
