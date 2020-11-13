@@ -22,6 +22,12 @@ let entities = [];
 let paused = false;
 let lastUpdate;
 
+let waveStart = 0;
+let waveEnd = 0;
+let enemiesKilled = 0;
+let shotsFired = 0;
+let shotsMissed = 0;
+
 
 
 
@@ -76,6 +82,18 @@ const initEvents = () => {
             entity.onEvent('keydown', e);
         });
     });
+
+    events.on('enemyDeath', () => {
+        enemiesKilled++;
+    });
+
+    events.on('shotFired', missed => {
+        if (missed) {
+            shotsMissed++;
+        }
+
+        shotsFired++;
+    });
 }
 
 
@@ -119,7 +137,15 @@ const animate = () => {
 
     // If there are no enemies, wave is done
     if (!Game.find('enemy').length) {
-        events.emit('waveEnd');
+        waveEnd = Date.now();
+
+        events.emit('waveEnd', {
+            waveStart,
+            waveEnd,
+            enemiesKilled,
+            shotsFired,
+            shotsMissed
+        });
         return;
     }
 
@@ -149,6 +175,9 @@ const Game = {
 
 
     nextWave: number => {
+        // TODO: This needs to update when unpausing
+        waveStart = Date.now();
+
         spawnEnemies(5 * number);
         animate();
     },

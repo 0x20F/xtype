@@ -28,8 +28,7 @@ export default class App extends Component {
             wave: 1
         }
 
-        this.shotsFired = 0;
-        this.shotsMissed = 0;
+        this.waveData = []
 
         axios.get('/data/test.txt')
             .then(response => response.data)
@@ -51,16 +50,9 @@ export default class App extends Component {
             console.log('enemy just died yooooo');
         });
 
-        this.emitter.on('shotFired', missed => {
-            console.log('Shot ', missed ? 'missed' : 'hit');
-            if (missed) {
-                this.shotsMissed++;
-            }
+        this.emitter.on('waveEnd', (data) => {
+            this.waveData.push(data);
 
-            this.shotsFired++;
-        });
-
-        this.emitter.on('waveEnd', () => {
             this.handlePause();
             this.setState({ 
                 intermission: true
@@ -174,9 +166,7 @@ export default class App extends Component {
 
         if (intermission && paused) {
             content = <WaveMenu 
-                wave={ this.state.wave }
-                shotsFired={ this.shotsFired }
-                shotsMissed={ this.shotsMissed }
+                waveData={ this.waveData }
                 emitter={ this.emitter }/>;
         }
 
