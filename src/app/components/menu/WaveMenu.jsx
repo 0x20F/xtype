@@ -41,9 +41,30 @@ class WaveMenu extends AnimatedComponent {
                 ]
             },
             options: {
-                title: {
-                    display: true,
-                    //text: 'World population per region (in millions)'
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        display: false,
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)"
+                        }
+                    }],
+                    yAxes: [{
+                        display: false,
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)"
+                        }
+                    }]
+                },
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 10,
+                        top: 10,
+                        bottom: 10
+                    }
                 }
             }
         });
@@ -58,8 +79,6 @@ class WaveMenu extends AnimatedComponent {
     calculateWpm = wave => {
         let shotsHit = wave.shotsFired - wave.shotsMissed;
         let waveTime = (wave.waveEnd - wave.waveStart) / 1000 / 60;
-
-        console.log(shotsHit, waveTime);
 
         return ((shotsHit / 5) / waveTime).toFixed(2);
     }
@@ -99,7 +118,7 @@ class WaveMenu extends AnimatedComponent {
                 </div>
 
                 <div className='chartContainer'>
-                    <canvas width='400' height='300' ref={this.chart}></canvas>
+                    <canvas width='300' height='150' ref={this.chart}></canvas>
                 </div>
 
                 <div className='timer'>

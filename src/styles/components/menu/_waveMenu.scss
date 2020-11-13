@@ -2,12 +2,15 @@
     width: 100%;
     height: 100%;
 
-    @include flex($align: flex-start, $direction: column);
+    @include flex($direction: column);
 
     .wave {
-        width: 100%;
+        width: 150px;
         height: 150px;
 
+        margin-bottom: 50px;
+
+        border-radius: 50%;
         font-size: 24px;
         color: #fff;
         text-align: center;
@@ -20,12 +23,10 @@
     .timer {
         font-size: 32px;
 
-        position: absolute;
-        bottom: 100px;
-
         color: #fff;
         width: 50px;
         padding: 10px 50px;
+        margin-top: 50px;
 
         @include flex();
         background-color: $bg-transparent;
