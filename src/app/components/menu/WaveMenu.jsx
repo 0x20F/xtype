@@ -4,6 +4,7 @@ import Chart from 'chart.js';
 
 import Timer from 'components/general/Timer';
 import AnimatedComponent from 'foundation/components/AnimatedComponent';
+import { calculateWpm, calculateAccuracy } from 'foundation/math/PlayerData';
 
 
 class WaveMenu extends AnimatedComponent {
@@ -25,7 +26,7 @@ class WaveMenu extends AnimatedComponent {
                 datasets: [
                     // Accuracy
                     {
-                        data: waves.map(wave => this.calculateAccuracy(wave)),
+                        data: waves.map(wave => calculateAccuracy(wave)),
                         label: "Accuracy",
                         borderColor: "#3e95cd",
                         fill: false
@@ -33,7 +34,7 @@ class WaveMenu extends AnimatedComponent {
 
                     // Words per minute
                     {
-                        data: waves.map(wave => this.calculateWpm(wave)),
+                        data: waves.map(wave => calculateWpm(wave)),
                         label: "Wpm",
                         borderColor: "#78ebcc",
                         fill: false
@@ -76,27 +77,14 @@ class WaveMenu extends AnimatedComponent {
     }
 
 
-    calculateWpm = wave => {
-        let shotsHit = wave.shotsFired - wave.shotsMissed;
-        let waveTime = (wave.waveEnd - wave.waveStart) / 1000 / 60;
-
-        return ((shotsHit / 5) / waveTime).toFixed(2);
-    }
-
-
-    calculateAccuracy = wave => {
-        return ((1 - (wave.shotsMissed / wave.shotsFired)) * 100).toFixed(2);
-    }
-
-
     render() {
         const { waveData } = this.props;
 
         const finishedWave = waveData.length;
         const wave = _.last(waveData);
 
-        const accuracy = this.calculateAccuracy(wave);
-        const wpm = this.calculateWpm(wave);
+        const accuracy = calculateAccuracy(wave);
+        const wpm = calculateWpm(wave);
 
         return this.smoothly(
             <div className='hud'>
