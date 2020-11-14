@@ -38,7 +38,6 @@ class Player extends Entity {
             this.target = null;
         }
 
-
         let target = this.getTarget(key);
         if (target) {
             this.makeAttack(target, key);

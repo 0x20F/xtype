@@ -32,17 +32,6 @@ let shotsMissed = 0;
 
 
 
-const entity = name => {
-    let entity;
-
-    switch (name) {
-        case 'enemy':
-            entity = new Enemy(_.sample(words), player);
-            break;
-    }
-
-    return entity;
-}
 
 
 /**
@@ -51,7 +40,7 @@ const entity = name => {
  * @param {number} amount How many enemies to spawn
  */
 const spawnEnemies = amount => {
-    Game.add(entity('enemy'));
+    Game.add(new Enemy(_.sample(words), player));
     amount--;
 
     let delay = 0;
@@ -61,7 +50,7 @@ const spawnEnemies = amount => {
         }
 
         setTimeout(() => {
-            Game.add(entity('enemy'));
+            Game.add(new Enemy(_.sample(words), player));
         }, delay)
     }
 }
