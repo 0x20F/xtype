@@ -150,6 +150,8 @@ const animate = () => {
         return;
     }
 
+    // Draw the player last so it's on top of everything
+    player.draw(ctx);
     requestAnimationFrame(animate);
 }
 
