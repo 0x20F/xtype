@@ -19,6 +19,16 @@ class Emitter {
             callback(...data);
         });
     }
+
+    static getInstance() {
+        if (!Emitter._instance) {
+            Emitter._instance = new Emitter();
+        }
+
+        return Emitter._instance;
+    }
 }
 
-export default Emitter;
+export const events = (function() { 
+    return Emitter.getInstance() 
+})();

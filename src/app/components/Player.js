@@ -2,6 +2,7 @@ import Bullet from "components/Bullet";
 import Entity from "foundation/components/Entity";
 import Sprite from "foundation/Sprite";
 import { createIdenticon } from 'foundation/Identicon';
+import { events } from 'foundation/components/Emitter';
 import Game from "../Game";
 
 class Player extends Entity {
@@ -26,21 +27,22 @@ class Player extends Entity {
     }
 
     onEvent = (eventType, event) => {
-        if (eventType === 'keydown') {
-            const { key } = event;
-
-            if (this.shouldResetTarget(key)) {
-                this.target.targeted = false;
-                this.target = null;
-            }
-
-
-            let target = this.getTarget(key);
-            if (target) {
-                this.makeAttack(target, key);
-            }
+        if (eventType !== 'keydown') {
+            return;
         }
 
+        const { key } = event;
+
+        if (this.shouldResetTarget(key)) {
+            this.target.targeted = false;
+            this.target = null;
+        }
+
+
+        let target = this.getTarget(key);
+        if (target) {
+            this.makeAttack(target, key);
+        }
     }
 
     getTarget = (key) => {
@@ -84,7 +86,7 @@ class Player extends Entity {
             missed = false;
         }
 
-        this.emit('shotFired', missed);
+        events.emit('shotFired', missed);
     }
 }
 

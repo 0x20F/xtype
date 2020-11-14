@@ -3,6 +3,7 @@ import Entity from "foundation/components/Entity";
 import Sprite from "foundation/Sprite";
 import Vector from "foundation/math/Vector";
 import { createIdenticon } from 'foundation/Identicon';
+import { events } from 'foundation/components/Emitter';
 import Game from "../Game";
 
 
@@ -114,7 +115,7 @@ class Enemy extends Entity {
         this.word = this.word.substring(1);
 
         if (this.word === '') {
-            this.emit('enemyDeath');
+            events.emit('enemyDeath');
             this.dying = true;
         }
     }

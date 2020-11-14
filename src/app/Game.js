@@ -1,5 +1,6 @@
 import Player from 'components/Player';
 import Enemy from 'components/Enemy';
+import { events } from 'foundation/components/Emitter';
 import _ from 'underscore';
 
 
@@ -15,7 +16,6 @@ ctx.webkitImageSmoothingEnabled = false;
 ctx.msImageSmoothingEnabled = false;
 
 let player;
-let events;
 
 let words = [];
 let entities = [];
@@ -37,11 +37,11 @@ const entity = name => {
 
     switch (name) {
         case 'enemy':
-            entity = new Enemy(_.sample(words), player, events);
+            entity = new Enemy(_.sample(words), player);
             break;
     }
 
-    return entity.withEmitter(events);
+    return entity;
 }
 
 
@@ -161,9 +161,8 @@ const animate = () => {
  * control what the game does/should do.
  */
 const Game = {
-    start: (wordList, playerName, emitter) => {
-        events = emitter;
-        player = new Player(gc.width / 2, gc.height - 60, playerName).withEmitter(events);
+    start: (wordList, playerName) => {
+        player = new Player(gc.width / 2, gc.height - 60, playerName);
         Game.add(player);
 
         // Intialize word list

@@ -3,22 +3,21 @@ import axios from 'axios';
 
 import Game from './Game.js';
 import Background from 'components/general/Background';
-import Emitter from 'foundation/components/Emitter';
 import PauseMenu from 'components/menu/PauseMenu';
 import StartMenu from 'components/menu/StartMenu';
 import SettingsMenu from 'components/menu/SettingsMenu';
 import WaveMenu from 'components/menu/WaveMenu';
+import { events } from 'foundation/components/Emitter';
 
 
 
 export default class App extends Component {
     constructor(props) {
         super(props);
-
-        this.emitter = new Emitter();
         this.game = Game;
         this.words = null;
 
+        console.log(events);
 
         this.state = {
             inMenu: true,
@@ -50,11 +49,11 @@ export default class App extends Component {
     componentDidMount() { 
         document.addEventListener('keydown', this._handleKeyDown, false);
 
-        this.emitter.on('enemyDeath', () => {
+        events.on('enemyDeath', () => {
             console.log('enemy just died yooooo');
         });
 
-        this.emitter.on('waveEnd', (data) => {
+        events.on('waveEnd', (data) => {
             this.waveData.push(data);
 
             this.handlePause();
@@ -63,7 +62,7 @@ export default class App extends Component {
             });
         });
 
-        this.emitter.on('nextWave', this.nextWave);
+        events.on('nextWave', this.nextWave);
     }
     componentWillUnmount() { document.removeEventListener('keydown', this._handleKeyDown, false); }
 
@@ -182,8 +181,7 @@ export default class App extends Component {
 
         if (intermission && paused) {
             content = <WaveMenu 
-                waveData={ this.waveData }
-                emitter={ this.emitter }/>;
+                waveData={ this.waveData }/>;
         }
 
         return (

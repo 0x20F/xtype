@@ -5,6 +5,7 @@ import Chart from 'chart.js';
 import Timer from 'components/general/Timer';
 import AnimatedComponent from 'foundation/components/AnimatedComponent';
 import { calculateWpm, calculateAccuracy } from 'foundation/math/PlayerData';
+import { events } from 'foundation/components/Emitter';
 
 
 class WaveMenu extends AnimatedComponent {
@@ -73,7 +74,7 @@ class WaveMenu extends AnimatedComponent {
 
 
     handleNextWave = () => {
-        this.props.emitter.emit('nextWave');
+        events.emit('nextWave');
     }
 
 
