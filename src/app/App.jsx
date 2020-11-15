@@ -7,7 +7,7 @@ import StartMenu from 'components/menu/StartMenu';
 import SettingsMenu from 'components/menu/SettingsMenu';
 import WaveMenu from 'components/menu/WaveMenu';
 import { events } from 'foundation/components/Emitter';
-import { get, set } from 'foundation/components/LocalStorage';
+import { storage } from 'foundation/components/LocalStorage';
 
 
 
@@ -24,7 +24,7 @@ export default class App extends Component {
             inSettings: false,
             intermission: false,
 
-            playerName: get('playerName') || '0x20F',
+            playerName: storage.get('playerName') || '0x20F',
             wave: 1
         }
 
@@ -60,7 +60,7 @@ export default class App extends Component {
                 inSettings: false
             });
 
-            set('playerName', playerName);
+            storage.set('playerName', playerName);
         });
 
         /**
