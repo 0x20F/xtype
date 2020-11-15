@@ -36,12 +36,15 @@ class Button extends Component {
 
 
     render() {
-        const { hint, text, onClick } = this.props;
+        const { hint, text, onClick, mini, disabled } = this.props;
 
         let classes = !hint ? 'rounded' : '';
+        let containerClasses = 'buttonContainer' 
+            + (mini ? ' sub' : '')
+            + (disabled ? ' disabled' : '');
 
         return (
-            <div className="buttonContainer">
+            <div className={containerClasses}>
                 <div className={ classes } onClick={ onClick }>{ text }</div>
                 { hint && <div className="shortcutHint">{ hint }</div> }
             </div>

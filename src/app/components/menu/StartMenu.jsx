@@ -23,7 +23,7 @@ class StartMenu extends AnimatedComponent {
                 
                 <Button hint='P' text='Singleplayer' onClick={ this.props.startHandler }/>
                 <Button hint='M' text='Multiplayer' onClick={ () => console.log('Multiplayer is WIP') }/>
-                <Button hint='S' text='Settings' onClick={ this.props.settingsHandler }/>
+                <Button mini={true} hint='S' text='Settings' onClick={ this.props.settingsHandler }/>
             </div>
         );
     }

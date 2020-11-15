@@ -1,0 +1,67 @@
+.buttonContainer {
+    width: 60%;
+    height: 80px;
+    margin-bottom: 15px;
+
+    font-family: Poppins;
+    font-size: 16px;
+    text-transform: lowercase;
+    @include flex();
+
+    &.sub {
+        width: 40%;
+        height: 60px;
+        margin-top: 50px;
+        font-size: 14px;
+    }
+
+    .rounded {
+        border-radius: 7px !important;
+        width: 100% !important;
+    }
+
+    .shortcutHint {
+        width: 20%;
+        height: 100%;
+
+        color: $bg-button;
+        background-color: $border-color;
+        border-radius: 0 7px 7px 0;
+        border-left: none;
+        
+        cursor: default;
+
+        @include flex();
+
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    div:first-child {
+        width: 80%;
+        height: 100%;
+        outline: none;
+        border: none;
+        background: none;
+        margin: 0;
+        padding: 0;
+
+        transition: all .5s;
+
+        color: #364461;
+        background-color: $bg-button;
+        border-radius: 7px 0 0 7px;
+
+        @include flex();
+
+        font-family: inherit;
+        font-size: inherit;
+        text-transform: inherit;
+
+        &:hover {
+            background-color: #364461;
+            color: #181b21;
+            cursor: pointer;
+        }
+    }
+}
