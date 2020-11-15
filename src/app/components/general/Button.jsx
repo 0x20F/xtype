@@ -42,10 +42,11 @@ class Button extends Component {
         let containerClasses = 'buttonContainer' 
             + (mini ? ' sub' : '')
             + (disabled ? ' disabled' : '');
+        let click = disabled ? () => {} : onClick;
 
         return (
             <div className={containerClasses}>
-                <div className={ classes } onClick={ onClick }>{ text }</div>
+                <div className={ classes } onClick={ click }>{ text }</div>
                 { hint && <div className="shortcutHint">{ hint }</div> }
             </div>
         );

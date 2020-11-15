@@ -86,23 +86,31 @@ class WaveMenu extends AnimatedComponent {
 
         const accuracy = calculateAccuracy(wave);
         const wpm = calculateWpm(wave);
+        const score = wave.enemiesKilled;
 
         return this.smoothly(
             <div className='hud'>
                 <div className='wave'>
-                    wave
-				    <br />
-                    {finishedWave}
+                    <div className='waveNumber'>
+                        wave
+                        <br />
+                        {finishedWave}
+                    </div>
+
+                    <div className='score'>
+                        {score}
+                    </div>
                 </div>
 
                 <div className='waveStats'>
                     <div className='stat'>
                         <div className='marker accuracy'></div>
-                        Accuracy {accuracy}%
+                        <span className='faded'>accuracy</span>&nbsp;{accuracy}%
                     </div>
+                    
                     <div className='stat'>
                         <div className='marker wpm'></div>
-                        Wpm {wpm}
+                        <span className='faded'>wpm </span>&nbsp;{wpm}
                     </div>
                 </div>
 

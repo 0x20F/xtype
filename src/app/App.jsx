@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 
 import Game from './Game.js';
 import Background from 'components/general/Background';
