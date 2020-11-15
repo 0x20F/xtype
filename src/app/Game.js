@@ -1,7 +1,7 @@
 import Player from 'components/Player';
 import Enemy from 'components/Enemy';
 import { events } from 'foundation/components/Emitter';
-import _ from 'underscore';
+import WordList from 'foundation/components/WordList';
 
 
 
@@ -40,7 +40,7 @@ let shotsMissed = 0;
  * @param {number} amount How many enemies to spawn
  */
 const spawnEnemies = amount => {
-    Game.add(new Enemy(_.sample(words), player));
+    Game.add(new Enemy(words.next(), player));
     amount--;
 
     let delay = 0;
@@ -50,7 +50,7 @@ const spawnEnemies = amount => {
         }
 
         setTimeout(() => {
-            Game.add(new Enemy(_.sample(words), player));
+            Game.add(new Enemy(words.next(), player));
         }, delay)
     }
 }
@@ -152,12 +152,14 @@ const animate = () => {
  * control what the game does/should do.
  */
 const Game = {
-    start: (wordList, playerName) => {
+    start: async (playerName) => {
+        words = new WordList();
+        await words.load();
+
         player = new Player(gc.width / 2, gc.height - 60, playerName);
         Game.add(player);
 
         // Intialize word list
-        words = wordList.split(/[\s,.]+/gm);
         lastUpdate = performance.now();
 
         // Start event listeners

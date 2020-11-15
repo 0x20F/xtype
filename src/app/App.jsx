@@ -15,9 +15,6 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         this.game = Game;
-        this.words = null;
-
-        console.log(events);
 
         this.state = {
             inMenu: true,
@@ -32,12 +29,6 @@ export default class App extends Component {
         }
 
         this.waveData = [];
-
-        axios.get('/data/test.txt')
-            .then(response => response.data)
-            .then(words => {
-                this.words = words;
-            });
     }
 
 
@@ -104,14 +95,10 @@ export default class App extends Component {
     /**
      * Start the game keep track of states
      */
-    handleStart = () => {
-        if (!this.words) {
-            return;
-        }
-
+    handleStart = async () => {
         const { wave, playerName } = this.state;
 
-        this.game.start(this.words, playerName, this.emitter);
+        await this.game.start(playerName, this.emitter);
         this.game.nextWave(wave);
         
         this.toggleMenu();
