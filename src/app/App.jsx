@@ -147,30 +147,14 @@ export default class App extends Component {
     render() {
         const { inMenu, paused, started, inSettings, playerName, intermission } = this.state;
 
-        let content;
-        let background = <Background hidden={ !inMenu }/>;
-
-        if (!started && !inSettings) {
-            content = <StartMenu playerName={ playerName }/>;
-        }
-
-        if (paused) {
-            content = <PauseMenu/>;
-        }
-
-        if (inSettings) {
-            console.log('Should render in settings now! with name: ', this.state.playerName);
-            content = <SettingsMenu playerName={ playerName }/>;
-        }
-
-        if (intermission && paused) {
-            content = <WaveMenu waveData={ this.waveData }/>;
-        }
-
         return (
             <>
-                { content }
-                { background }
+                { !started && !inSettings &&    <StartMenu playerName={ playerName }/> }
+                { paused && !intermission &&    <PauseMenu/> }
+                { inSettings &&                 <SettingsMenu playerName={ playerName }/> }
+                { intermission && paused &&     <WaveMenu waveData={ this.waveData }/> }
+                
+                <Background hidden={ !inMenu }/>
             </>
         );
     }
