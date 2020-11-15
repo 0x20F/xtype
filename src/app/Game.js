@@ -1,7 +1,7 @@
 import Player from 'components/Player';
 import Enemy from 'components/Enemy';
 import { events } from 'foundation/components/Emitter';
-import WordList from 'foundation/components/WordList';
+import WordList from 'foundation/WordList';
 import { sleep } from 'support/Helpers';
 
 
