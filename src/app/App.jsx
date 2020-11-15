@@ -40,6 +40,7 @@ export default class App extends Component {
     componentDidMount() { 
         document.addEventListener('keydown', this._handleKeyDown, false);
 
+        events.on('nextWave', this.nextWave);
         events.on('waveEnd', (data) => {
             this.waveData.push(data);
 
@@ -49,14 +50,40 @@ export default class App extends Component {
             });
         });
 
-        events.on('nextWave', this.nextWave);
-
-        // Settings saved
+        /**
+         * Settings events
+         */
+        events.on('settingsOpened', () => this.setState({ inSettings: true }));
         events.on('settingsSaved', playerName => {
-            this.setState({ playerName });
-            this.handleSettings();
+            this.setState({ 
+                playerName,
+                inSettings: false
+            });
+
             set('playerName', playerName);
         });
+
+        /**
+         * Game events
+         */
+        events.on('gameStarted', async () => {
+            const { wave, playerName } = this.state;
+
+            await this.game.start(playerName, this.emitter);
+            this.game.nextWave(wave);
+            
+            this.toggleMenu();
+            this.setState(old => {
+                return {
+                    started: !old.started
+                }
+            });
+        });
+
+        /**
+         * Pause events
+         */
+        events.on('unpause', this.handlePause);
     }
     componentWillUnmount() { document.removeEventListener('keydown', this._handleKeyDown, false); }
 
@@ -95,36 +122,6 @@ export default class App extends Component {
     }
 
 
-    /**
-     * Start the game keep track of states
-     */
-    handleStart = async () => {
-        const { wave, playerName } = this.state;
-
-        await this.game.start(playerName, this.emitter);
-        this.game.nextWave(wave);
-        
-        this.toggleMenu();
-        this.setState(old => {
-            return {
-                started: !old.started
-            }
-        });
-    }
-
-
-    /**
-     * Keep track of the settings menu
-     */
-    handleSettings = () => {
-        this.setState(old => {
-            return {
-                inSettings: !old.inSettings
-            }
-        });
-    }
-
-
     toggleMenu = () => {
         this.setState(old => {
             return {
@@ -154,14 +151,11 @@ export default class App extends Component {
         let background = <Background hidden={ !inMenu }/>;
 
         if (!started && !inSettings) {
-            content = <StartMenu 
-                startHandler={ this.handleStart } 
-                settingsHandler={ this.handleSettings } 
-                playerName={ playerName }/>;
+            content = <StartMenu playerName={ playerName }/>;
         }
 
         if (paused) {
-            content = <PauseMenu handler={ this.handlePause }/>;
+            content = <PauseMenu/>;
         }
 
         if (inSettings) {
@@ -170,8 +164,7 @@ export default class App extends Component {
         }
 
         if (intermission && paused) {
-            content = <WaveMenu 
-                waveData={ this.waveData }/>;
+            content = <WaveMenu waveData={ this.waveData }/>;
         }
 
         return (
