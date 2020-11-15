@@ -2,6 +2,7 @@ import Player from 'components/Player';
 import Enemy from 'components/Enemy';
 import { events } from 'foundation/components/Emitter';
 import WordList from 'foundation/components/WordList';
+import { sleep } from 'support/Helpers';
 
 
 
@@ -39,19 +40,13 @@ let shotsMissed = 0;
  * 
  * @param {number} amount How many enemies to spawn
  */
-const spawnEnemies = amount => {
-    Game.add(new Enemy(words.next(), player));
-    amount--;
-
-    let delay = 0;
+const spawnEnemies = async amount => {
     for (let i = 1; i <= amount; i++) {
-        if (i%3 === 0) {
-            delay += 1000;
+        Game.add(new Enemy(words.next(), player));
+        
+        if (i % 3 === 0) {
+            await sleep(1000);
         }
-
-        setTimeout(() => {
-            Game.add(new Enemy(words.next(), player));
-        }, delay)
     }
 }
 
