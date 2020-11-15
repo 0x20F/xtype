@@ -7,6 +7,7 @@ import StartMenu from 'components/menu/StartMenu';
 import SettingsMenu from 'components/menu/SettingsMenu';
 import WaveMenu from 'components/menu/WaveMenu';
 import { events } from 'foundation/components/Emitter';
+import { get, set } from 'foundation/components/LocalStorage';
 
 
 
@@ -22,8 +23,8 @@ export default class App extends Component {
             started: false,
             inSettings: false,
             intermission: false,
-            
-            playerName: '0x20F',
+
+            playerName: get('playerName') || '0x20F',
             wave: 1
         }
 
@@ -39,10 +40,6 @@ export default class App extends Component {
     componentDidMount() { 
         document.addEventListener('keydown', this._handleKeyDown, false);
 
-        events.on('enemyDeath', () => {
-            console.log('enemy just died yooooo');
-        });
-
         events.on('waveEnd', (data) => {
             this.waveData.push(data);
 
@@ -53,6 +50,13 @@ export default class App extends Component {
         });
 
         events.on('nextWave', this.nextWave);
+
+        // Settings saved
+        events.on('settingsSaved', playerName => {
+            this.setState({ playerName });
+            this.handleSettings();
+            set('playerName', playerName);
+        });
     }
     componentWillUnmount() { document.removeEventListener('keydown', this._handleKeyDown, false); }
 
@@ -112,10 +116,9 @@ export default class App extends Component {
     /**
      * Keep track of the settings menu
      */
-    handleSettings = (playerName) => {
+    handleSettings = () => {
         this.setState(old => {
             return {
-                playerName: playerName || '',
                 inSettings: !old.inSettings
             }
         });
@@ -162,7 +165,8 @@ export default class App extends Component {
         }
 
         if (inSettings) {
-            content = <SettingsMenu handler={ this.handleSettings }/>;
+            console.log('Should render in settings now! with name: ', this.state.playerName);
+            content = <SettingsMenu playerName={ playerName }/>;
         }
 
         if (intermission && paused) {

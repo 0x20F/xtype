@@ -3,6 +3,7 @@ import React from 'react';
 import Button from 'components/general/Button';
 import AnimatedComponent from 'foundation/components/AnimatedComponent';
 import { createIdenticon } from 'foundation/Identicon';
+import { events } from 'foundation/components/Emitter';
 
 
 
@@ -11,7 +12,7 @@ class SettingsMenu extends AnimatedComponent {
         super(props);
 
         this.state = {
-            playerName: '0x20F',
+            playerName: props.playerName,
             playerShip: ''
         }
 
@@ -50,6 +51,11 @@ class SettingsMenu extends AnimatedComponent {
     }
 
 
+    saveSettings = () => {
+        events.emit('settingsSaved', this.state.playerName);
+    }
+
+
     render() {
         const { playerShip, playerName } = this.state;
 
@@ -61,13 +67,13 @@ class SettingsMenu extends AnimatedComponent {
                 
                 <input 
                     type='text' 
-                    defaultValue='0x20F' 
+                    defaultValue={ playerName }
                     onChange={ this.handleChange } 
                     onFocus={ this.handleFocus }
                     required 
                     autoFocus/>
 
-                <Button text='Save' hint='ret' onClick={ () => this.props.handler(playerName) }/>
+                <Button text='Save' hint='ret' onClick={ this.saveSettings }/>
             </div>;
 
         return this.changed ? content : this.smoothly(content);
