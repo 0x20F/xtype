@@ -6,6 +6,7 @@ import Timer from 'components/general/Timer';
 import AnimatedComponent from 'foundation/components/AnimatedComponent';
 import { calculateWpm, calculateAccuracy } from 'foundation/math/PlayerData';
 import { events } from 'foundation/components/Emitter';
+import { abbreviateNumber } from 'support/Helpers';
 
 
 class WaveMenu extends AnimatedComponent {
@@ -86,7 +87,7 @@ class WaveMenu extends AnimatedComponent {
 
         const accuracy = calculateAccuracy(wave);
         const wpm = calculateWpm(wave);
-        const score = wave.enemiesKilled;
+        const score = abbreviateNumber(wave.enemiesKilled);
 
         return this.smoothly(
             <div className='hud'>
