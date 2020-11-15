@@ -16,6 +16,11 @@
 
         div:first-child {
             color: $text-subtext !important;
+
+            &:hover {
+                background-color: $text-subtext;
+                color: $text-dark !important;
+            }
         }
 
         .shortcutHint {
@@ -67,8 +72,8 @@
         text-transform: inherit;
 
         &:hover {
-            background-color: #364461;
-            color: #181b21;
+            background-color: $text-accent;
+            color: $text-dark;
             cursor: pointer;
         }
     }
