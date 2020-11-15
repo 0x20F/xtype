@@ -6,7 +6,7 @@ class WordList {
     text;
     list;
     counter = 0;
-    sentenceMode = true;
+    orderedMode = true;
 
 
     load = async () => {
@@ -35,7 +35,7 @@ class WordList {
 
         let word;
 
-        if (this.sentenceMode) {
+        if (this.orderedMode) {
             /**
              * WIP:
              * - This needs to return all words in a sentence
