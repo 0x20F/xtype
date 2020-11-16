@@ -28,6 +28,7 @@ class WordList {
     split = () => {
         // lmao
         this.list = this.text.split(/[\s,.()\/\\=?<>`´!"#¤%&\[\]§_:;\*'^~¨\-\+{}|]/gm);
+        this.list = this.list.filter(w => w.length > 0);
         console.log(this.list);
     }
 
