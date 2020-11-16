@@ -59,10 +59,10 @@ class WordList {
              * - This needs to return all words in a sentence
              * - all ships in a wave should be the amount of words in a sentence
              */
-            return this.list[this.counter++];
+            return this.list[this.counter++].trim();
         }
 
-        return _.sample(this.list);
+        return _.sample(this.list).trim();
     }
 }
 

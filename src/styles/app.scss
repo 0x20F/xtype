@@ -48,12 +48,8 @@ body {
     canvas {
         grid-column: 1 / span 5;
         grid-row: 1 / span 8;
-    
-        background-color: #181b21;
-        border-radius: 4px;
 
-        image-rendering: pixelated;
-        image-rendering: optimizespeed;
+        border-radius: 4px;
     }
     
     

@@ -1,4 +1,6 @@
+import * as PIXI from 'pixi.js';
 import Vector from "foundation/math/Vector";
+
 
 class Entity {
     sprite;
@@ -7,7 +9,7 @@ class Entity {
     tag = "entity";
 
     constructor(sprite) {
-        this.sprite = sprite;
+        this.sprite = new PIXI.Sprite.from(sprite);
         this.vector = new Vector(0,0,0);
 
         this.spawned = performance.now();

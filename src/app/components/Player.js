@@ -1,30 +1,45 @@
 import Bullet from "components/Bullet";
-import Entity from "foundation/components/Entity";
-import Sprite from "foundation/Sprite";
 import { createIdenticon } from 'foundation/Identicon';
 import { events } from 'foundation/components/Emitter';
 import Game from "../Game";
 
-class Player extends Entity {
-    x;
-    y;
+import * as PIXI from 'pixi.js';
+
+
+
+class Player {
+    entity;
 
     width = 50;
     height = 50;
     target;
 
-    color = 'white';
-    strokeColor = 'red';
+    constructor(playerName, x, y) {
+        let container = new PIXI.Container();
+        let sprite = new PIXI.Sprite.from(createIdenticon(playerName));
 
-    constructor(x, y, playerName) {
-        super(new Sprite(createIdenticon(playerName), 50, 50));
-        this.vector.x = x;
-        this.vector.y = y;
+        // Move anchor to the middle
+        sprite.anchor.set(0.5);
+        container.addChild(sprite);
+
+        // Center the sprite inside the container
+        container.pivot.x = Math.round(container.width / 2);
+        container.pivot.y = Math.round(container.height / 2);
+
+        // Move container to player position
+        container.x = x;
+        container.y = y;
+
+        this.entity = container;
     }
 
     shouldResetTarget = (key) => {
         return key.toLowerCase() == 'backspace' && this.target !== null;
     }
+
+    onUpdate = () => {}
+
+    draw = () => {}
 
     onEvent = (eventType, event) => {
         if (eventType !== 'keydown') {
@@ -59,7 +74,7 @@ class Player extends Entity {
         }
 
         // Sort them based on distance from the player
-        enemies = enemies.sort((a, b) => a.vector.y - b.vector.y);
+        enemies = enemies.sort((a, b) => a.entity.y - b.entity.y);
 
         // Get the closest one
         let enemy = enemies.pop();
@@ -74,7 +89,7 @@ class Player extends Entity {
         let missed = true;
 
         if (target.word.toLowerCase().startsWith(key.toLowerCase())) {
-            Game.add(new Bullet(this.vector.x, this.vector.y, target))
+            Game.add(new Bullet(this.entity.x, this.entity.y, target))
 
             target.takeHit();
 
