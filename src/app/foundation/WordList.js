@@ -10,7 +10,7 @@ class WordList {
 
 
     load = async () => {
-        let res = await axios.get('/data/test.txt');
+        let res = await axios.get(window.location.href + '/data/test.txt');
         let text = res.data;
 
         this.text = text;
