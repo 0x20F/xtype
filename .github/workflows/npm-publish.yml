@@ -18,8 +18,6 @@ jobs:
         run: |
           npm install
           npm run build
-          ls | grep -v "public" | xargs rm -rf
-          cd public
           mv -v * ..
           
       - name: Deploy
