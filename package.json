@@ -22,6 +22,7 @@
     "axios": "^0.21.0",
     "chart.js": "^2.9.4",
     "identicon.js": "^2.3.3",
+    "pixi.js": "^5.3.3",
     "react": "^16.13.1",
     "react-anime": "^3.0.3",
     "react-dom": "^16.13.1",

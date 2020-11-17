@@ -1,10 +1,11 @@
 import AngleDelta from 'foundation/math/AngleDelta';
 import Entity from "foundation/components/Entity";
-import Sprite from "foundation/Sprite";
-import Vector from "foundation/math/Vector";
 import { createIdenticon } from 'foundation/Identicon';
 import { events } from 'foundation/components/Emitter';
 import Game from "../Game";
+
+import * as PIXI from 'pixi.js';
+
 
 
 class Enemy extends Entity {
@@ -12,9 +13,6 @@ class Enemy extends Entity {
     playerDelta;
 
     alertTime = 1000;
-
-    color = 'white';
-    targetedColor = 'orange';
 
     word;
     originalWord;
@@ -30,7 +28,24 @@ class Enemy extends Entity {
 
 
     constructor(word, target) {
-        super(new Sprite(createIdenticon(word), 30, 30));
+        super(
+            Math.random() * (400 - 20) + 20,
+            Math.random() * (-100 - 50) + -50
+        );
+
+
+        this.sprite(createIdenticon(word));
+        this.part('sprite').width = 30;
+        this.part('sprite').height = 30;
+
+        
+        let text = this.createWordText(word);
+        let style = text.style;
+        let textMetrics = PIXI.TextMetrics.measureText(word, style);
+
+        this.add('blackBar', this.createBlackBar(textMetrics.width, textMetrics.height));
+        this.add('text', text);
+
 
         this.life = word.length;
         this.tag = "enemy";
@@ -39,68 +54,49 @@ class Enemy extends Entity {
         this.target = target;
         this.alertTime = Math.floor(Math.random() * 3000) + 1000;
 
-        this.vector.x = Math.random() * (400 - 20) + 20;
-        this.vector.y = Math.random() * (-100 - 50) + -50;
-
         this.playerDelta = new AngleDelta(
-            this.vector.x,
-            this.vector.y,
-            this.target.vector.x,
-            this.target.vector.y
+            this.container.x,
+            this.container.y,
+            this.target.container.x,
+            this.target.container.y
         );
     }
 
 
-    draw = (context) => {
-        context.save();
-
-        context.translate((this.vector.x - this.sprite.width / 2), this.vector.y);
-        context.translate(this.sprite.width, this.sprite.height)
-        context.rotate((this.angle));
-        context.fillStyle = this.color;
-
-        this.sprite.draw(context);
-
-        context.restore();
-    }
-
-
-    drawWord = (context) => {
-        // Draw the word
-        if (this.word === '') {
-            return;
-        }
-
-        let wordWidth = context.measureText(this.word).width + 7;
-        context.fillStyle = 'black';
-        context.fillRect(this.vector.x - wordWidth / 2, this.vector.y + this.height + 4, wordWidth, 22);
-
-        context.fillStyle = this.targeted ? this.targetedColor : this.color;
-        context.font = '16px Poppins';
-        context.textAlign = 'center';
-        context.fillText(this.word, this.vector.x, this.vector.y + this.height + 20);
-    }
-
-
-    onUpdate = (timeDelta) => {
+    draw = (delta) => {
         if (this.targeted) {
-            this.vector.z = 1
+            this.part('text').style.fill = 0xff8f00;
+        } else {
+            this.part('text').style.fill = 0xffffff;
         }
+
+        this.drawWord();
+    }
+
+
+    drawWord = () => {
+        let textMetrics = PIXI.TextMetrics.measureText(this.word, this.part('text').style);
+        this.part('blackBar').width = textMetrics.width + 10;
+
+        if (this.word === '') {
+            this.part('blackBar').alpha = 0;   
+        }
+
+        this.part('text').text = this.word;
+    }
+
+
+    onUpdate = (delta) => {
         if(this.dying) {
-            this.sprite.setAlpha(this.sprite.alpha - (timeDelta / 10));
+            this.part('sprite').alpha -= 0.1 * delta;
         }
 
         let vec = this.playerDelta.getVector(this.playerDelta.distance, this.playerDelta.angle);
-        let oldVector = new Vector(this.vector.x, this.vector.y)
 
-        let delta = (this.timeSinceSpawned() - this.alertTime) / 1000;
-        delta = delta > 1 ? 1 : delta;
-
-        this.vector.x += vec.x * (timeDelta / 1000) * delta;
-
-        this.vector.y += vec.y * (timeDelta / 1000);
-        this.angle = this.vector.getAngleFrom(oldVector);
+        this.container.x += vec.x * (delta / 1000);
+        this.container.y += vec.y * (delta / 1000);
     }
+
 
     takeDamage = () => {
         this.life--;
@@ -111,6 +107,7 @@ class Enemy extends Entity {
         }
     }
 
+
     takeHit = () => {
         this.word = this.word.substring(1);
 
@@ -120,8 +117,47 @@ class Enemy extends Entity {
         }
     }
 
+
     isDead = () => {
         return this.dead || this.dying;
+    }
+
+
+    isTargeted = (status) => {
+        if (status) {
+            events.emit('enemyTargeted', this);
+        }
+
+        this.targeted = status;
+    }
+
+
+    createBlackBar = (width, height) => {
+        let block = new PIXI.Sprite.from(PIXI.Texture.WHITE);
+
+        block.anchor.set(0.5);
+        block.width = width;
+        block.height = height;
+        block.tint = 0x000000;
+        block.y = 30;
+
+        return block;
+    }
+
+
+    createWordText = (from) => {
+        let textStyle = new PIXI.TextStyle({ 
+            fontFamily: 'Poppins', 
+            fontSize: 16,
+            align: 'center',
+            fill: 0xffffff
+        });
+        let text = new PIXI.Text(from, textStyle);
+
+        text.anchor.set(0.5);
+        text.y = 30;
+
+        return text;
     }
 }
 

@@ -1,7 +1,6 @@
 import AngleDelta from 'foundation/math/AngleDelta';
-import Entity from "foundation/components/Entity";
-import Sprite from "foundation/Sprite";
 import { createIdenticon } from 'foundation/Identicon';
+import Entity from "foundation/components/Entity";
 import Game from "../Game";
 
 
@@ -9,7 +8,6 @@ const bulletSprite = createIdenticon('bullet');
 
 
 class Bullet extends Entity {
-
     width = 10;
     height = 10;
 
@@ -17,28 +15,34 @@ class Bullet extends Entity {
     enemyDelta;
 
     constructor(x, y, target) {
-        super(new Sprite(bulletSprite, 10, 10));
+        super(x, y);
 
-        this.vector.x = x;
-        this.vector.y = y;
+        this.sprite(bulletSprite);
+
+        this.part('sprite').width = this.width;
+        this.part('sprite').height = this.height;
 
         this.target = target;
 
         // These never changev
         this.enemyDelta = new AngleDelta(
-            this.vector.x,
-            this.vector.y,
-            this.target.vector.x,
-            this.target.vector.y
+            this.container.x,
+            this.container.y,
+            this.target.container.x,
+            this.target.container.y
         );
     }
 
 
-    onUpdate = (timeDelta) => {
+    onUpdate = (delta) => {
+        if (this.target.dead || this.target.dying) {
+            this.part('sprite').alpha -= 0.1 * (delta / 2);
+        }
+
         let vec = this.enemyDelta.getVector(this.enemyDelta.distance, this.enemyDelta.angle);
 
-        this.vector.x += vec.x * (timeDelta / 30);
-        this.vector.y += vec.y * (timeDelta / 30);
+        this.container.x += vec.x * (delta / 30);
+        this.container.y += vec.y * (delta / 30);
 
         if (this.hit()) {
             this.target.takeDamage();
@@ -49,10 +53,10 @@ class Bullet extends Entity {
 
     hit = () => {
         let t = this.target;
-        let ty = t.vector.y;
+        let ty = t.container.y;
 
         if (
-            this.vector.y > ty && this.vector.y < ty + t.height
+            this.container.y > ty && this.container.y < ty + t.container.height
         ) {
             return true;
         }
@@ -60,14 +64,7 @@ class Bullet extends Entity {
         return false;
     }
 
-
-    draw = (context) => {
-        context.fillStyle = '#272f3a';
-
-        context.beginPath();
-        context.arc(this.vector.x, this.vector.y, 6, 0, 2 * Math.PI);
-        context.fill();
-    }
+    draw = () => {};
 }
 
 

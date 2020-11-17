@@ -4,30 +4,29 @@ import { events } from 'foundation/components/Emitter';
 import WordList from 'foundation/WordList';
 import { sleep } from 'support/Helpers';
 
+import * as PIXI from 'pixi.js';
 
 
-const FRAME_DURATION = 1000 / 60;
 
-let gc = document.getElementById("gameCanvas");
-let ctx = gc.getContext("2d");
 
-ctx.imageSmoothingEnabled = false;
-ctx.mozImageSmoothingEnabled = false;
-ctx.webkitImageSmoothingEnabled = false;
-ctx.msImageSmoothingEnabled = false;
+
+let app;
+
+let width;
+let height;
 
 let player;
 
 let words = [];
 let entities = [];
 let paused = false;
-let lastUpdate;
 
 let waveStart = 0;
 let waveEnd = 0;
 let enemiesKilled = 0;
 let shotsFired = 0;
 let shotsMissed = 0;
+
 
 
 
@@ -71,6 +70,12 @@ const initEvents = () => {
         enemiesKilled++;
     });
 
+    // Draw the target on top of everything else
+    events.on('enemyTargeted', enemy => {
+        Game.remove(enemy);
+        Game.add(enemy);
+    });
+
     events.on('shotFired', missed => {
         if (missed) {
             shotsMissed++;
@@ -81,6 +86,7 @@ const initEvents = () => {
 }
 
 
+
 /**
  * The main animation loop.
  * This is where all objects in view get rendered,
@@ -88,36 +94,16 @@ const initEvents = () => {
  * 
  * All calculations about positioning are made here.
  */
-const animate = () => {
-    if (paused) {
-        return;
-    }
-
-    const now = performance.now();
-    const delta = ( now - lastUpdate ) / FRAME_DURATION;
-    lastUpdate = now;
-
-    // Clear canvas
-    ctx.clearRect(0, 0, gc.width, gc.height);
-
+const animate = delta => {
     entities.forEach(entity => {
         entity.onUpdate(delta);
     });
 
-    // Draw all ships first
+    
     entities.forEach(entity => {
-        entity.draw(ctx);
+        entity.draw(delta);
     });
 
-    let target;
-    // Draw all words on top of the ships
-    Game.find('enemy').forEach(enemy => {
-        if (enemy.targeted) {
-            target = enemy;
-        }
-        enemy.drawWord(ctx);
-    });
-    target && target.drawWord(ctx);
 
     // If there are no enemies, wave is done
     if (!Game.find('enemy').length) {
@@ -131,13 +117,12 @@ const animate = () => {
             shotsMissed
         });
 
+        app.ticker.stop();
         return;
     }
-
-    // Draw the player last so it's on top of everything
-    player.draw(ctx);
-    requestAnimationFrame(animate);
 }
+
+
 
 
 /**
@@ -148,17 +133,29 @@ const animate = () => {
  */
 const Game = {
     start: async (playerName) => {
+        app = new PIXI.Application({
+            width: 500,
+            height: 800,
+            antialias: true,
+            backgroundColor: 0x181b21,
+            resolution: window.devicePixelRatio || 1
+        });
+        document.body.querySelector('.grid').appendChild(app.view);
+
+        width = app.screen.width;
+        height = app.screen.height;
+
         words = new WordList();
         await words.load();
 
-        player = new Player(gc.width / 2, gc.height - 60, playerName);
+        player = new Player(playerName, width / 2, height - 60);
         Game.add(player);
-
-        // Intialize word list
-        lastUpdate = performance.now();
 
         // Start event listeners
         initEvents();
+
+        app.ticker.stop();
+        app.ticker.add(animate);
     },
 
 
@@ -169,16 +166,13 @@ const Game = {
         shotsMissed = 0;
 
         spawnEnemies(5 * number);
-        animate();
+        app.ticker.start();
     },
 
 
     add: entity => {
         entities.push(entity);
-
-        entities.sort((a, b) => {
-            return a.vector.z - b.vector.z
-        });
+        app.stage.addChild(entity.container);
     },
 
     find: tag => {
@@ -186,6 +180,8 @@ const Game = {
     },
 
     remove: entity => {
+        app.stage.removeChild(entity.container);
+
         const index = entities.indexOf(entity);
         if (index > -1) {
             entities.splice(index, 1);
@@ -194,11 +190,11 @@ const Game = {
 
     pause: status => {
         paused = status;
-            
-        if (!paused) {
-            // Reset time so no new frames get calculated while paused
-            lastUpdate = performance.now();
-            animate();
+
+        if (paused) {
+            app.ticker.stop();
+        } else {
+            app.ticker.start();
         }
     }
 }

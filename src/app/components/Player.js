@@ -1,30 +1,28 @@
 import Bullet from "components/Bullet";
-import Entity from "foundation/components/Entity";
-import Sprite from "foundation/Sprite";
 import { createIdenticon } from 'foundation/Identicon';
 import { events } from 'foundation/components/Emitter';
+import Entity from 'foundation/components/Entity';
 import Game from "../Game";
 
-class Player extends Entity {
-    x;
-    y;
 
+
+class Player extends Entity {
     width = 50;
     height = 50;
     target;
 
-    color = 'white';
-    strokeColor = 'red';
 
-    constructor(x, y, playerName) {
-        super(new Sprite(createIdenticon(playerName), 50, 50));
-        this.vector.x = x;
-        this.vector.y = y;
+    constructor(playerName, x, y) {
+        super(x, y);
+
+        this.sprite(createIdenticon(playerName));
     }
+
 
     shouldResetTarget = (key) => {
         return key.toLowerCase() == 'backspace' && this.target !== null;
     }
+
 
     onEvent = (eventType, event) => {
         if (eventType !== 'keydown') {
@@ -34,7 +32,7 @@ class Player extends Entity {
         const { key } = event;
 
         if (this.shouldResetTarget(key)) {
-            this.target.targeted = false;
+            this.target.isTargeted(false);
             this.target = null;
         }
 
@@ -43,6 +41,7 @@ class Player extends Entity {
             this.makeAttack(target, key);
         }
     }
+
 
     getTarget = (key) => {
         if (this.target) {
@@ -59,22 +58,23 @@ class Player extends Entity {
         }
 
         // Sort them based on distance from the player
-        enemies = enemies.sort((a, b) => a.vector.y - b.vector.y);
+        enemies = enemies.sort((a, b) => a.container.y - b.container.y);
 
         // Get the closest one
         let enemy = enemies.pop();
 
         this.target = enemy;
-        this.target.targeted = true;
+        this.target.isTargeted(true);
 
         return this.target;
     }
+
 
     makeAttack = (target, key) => {
         let missed = true;
 
         if (target.word.toLowerCase().startsWith(key.toLowerCase())) {
-            Game.add(new Bullet(this.vector.x, this.vector.y, target))
+            Game.add(new Bullet(this.container.x, this.container.y, target))
 
             target.takeHit();
 
