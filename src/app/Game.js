@@ -137,8 +137,9 @@ const Game = {
             width: 500,
             height: 800,
             antialias: true,
+            autoResize: true,
             backgroundColor: 0x1b2026,
-            resolution: window.devicePixelRatio || 1
+            resolution: window.devicePixelRatio
         });
         document.body.querySelector('.grid').appendChild(app.view);
 
