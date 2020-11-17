@@ -18,7 +18,7 @@ jobs:
         run: |
           npm install
           npm run build
-          find . ! -name "public" -exec rm -r {} \;
+          ls | grep -v "index.html" | xargs rm -rf
           mv -v ./public .
           
       - name: Deploy
