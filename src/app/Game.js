@@ -76,6 +76,12 @@ const initEvents = () => {
         enemiesKilled++;
     });
 
+    // Draw the target on top of everything else
+    events.on('enemyTargeted', enemy => {
+        Game.remove(enemy);
+        Game.add(enemy);
+    });
+
     events.on('shotFired', missed => {
         if (missed) {
             shotsMissed++;
@@ -86,14 +92,24 @@ const initEvents = () => {
 }
 
 
+
+/**
+ * The main animation loop.
+ * This is where all objects in view get rendered,
+ * where enemies move, where bullets move, etc.
+ * 
+ * All calculations about positioning are made here.
+ */
 const animate = delta => {
     entities.forEach(entity => {
         entity.onUpdate(delta);
     });
 
+    
     entities.forEach(entity => {
         entity.draw(delta);
     });
+
 
     // If there are no enemies, wave is done
     if (!Game.find('enemy').length) {
@@ -113,31 +129,6 @@ const animate = delta => {
 }
 
 
-/**
- * The main animation loop.
- * This is where all objects in view get rendered,
- * where enemies move, where bullets move, etc.
- * 
- * All calculations about positioning are made here.
- */
-//const animate = () => {
-    /*
-    let target;
-    // Draw all words on top of the ships
-    Game.find('enemy').forEach(enemy => {
-        if (enemy.targeted) {
-            target = enemy;
-        }
-        enemy.drawWord(ctx);
-    });
-    target && target.drawWord(ctx);
-
-    
-
-    // Draw the player last so it's on top of everything
-    player.draw(ctx);
-    requestAnimationFrame(animate);*/
-//}
 
 
 /**

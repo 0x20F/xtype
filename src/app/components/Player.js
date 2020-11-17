@@ -49,7 +49,7 @@ class Player {
         const { key } = event;
 
         if (this.shouldResetTarget(key)) {
-            this.target.targeted = false;
+            this.target.isTargeted(false);
             this.target = null;
         }
 
@@ -80,7 +80,7 @@ class Player {
         let enemy = enemies.pop();
 
         this.target = enemy;
-        this.target.targeted = true;
+        this.target.isTargeted(true);
 
         return this.target;
     }

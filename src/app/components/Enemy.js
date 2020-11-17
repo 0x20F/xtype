@@ -152,6 +152,14 @@ class Enemy {
     isDead = () => {
         return this.dead || this.dying;
     }
+
+    isTargeted = (status) => {
+        if (status) {
+            events.emit('enemyTargeted', this);
+        }
+
+        this.targeted = status;
+    }
 }
 
 
