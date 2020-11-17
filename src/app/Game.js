@@ -15,17 +15,11 @@ let app;
 let width;
 let height;
 
-
-
-
-
-
 let player;
 
 let words = [ 'lmao' ];
 let entities = [];
 let paused = false;
-let lastUpdate;
 
 let waveStart = 0;
 let waveEnd = 0;
@@ -157,9 +151,6 @@ const Game = {
         player = new Player(playerName, width / 2, height - 60);
         Game.add(player);
 
-        // Intialize word list
-        lastUpdate = performance.now();
-
         // Start event listeners
         initEvents();
 
@@ -181,7 +172,7 @@ const Game = {
 
     add: entity => {
         entities.push(entity);
-        app.stage.addChild(entity.entity);
+        app.stage.addChild(entity.container);
     },
 
     find: tag => {

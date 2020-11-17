@@ -9,19 +9,11 @@ import * as PIXI from 'pixi.js';
 
 
 
-class Enemy {
-    entity;
-    ship;
-    text;
-    blackBar;
-
+class Enemy extends Entity {
     angle = 0;
     playerDelta;
 
     alertTime = 1000;
-
-    color = 'white';
-    targetedColor = 'orange';
 
     word;
     originalWord;
@@ -37,48 +29,24 @@ class Enemy {
 
 
     constructor(word, target) {
-        let container = new PIXI.Container();
-        let sprite = new PIXI.Sprite.from(createIdenticon(word));
+        super(
+            Math.random() * (400 - 20) + 20,
+            Math.random() * (-100 - 50) + -50
+        );
 
-        sprite.anchor.set(0.5);
-        sprite.width = 30;
-        sprite.height = 30;
 
-        container.pivot.x = Math.round(container.width / 2);
-        container.pivot.y = Math.round(container.height / 2);
+        this.sprite(createIdenticon(word));
+        this.part('sprite').width = 30;
+        this.part('sprite').height = 30;
 
-        container.x = Math.random() * (400 - 20) + 20;
-        container.y = Math.random() * (-100 - 50) + -50;
+        
+        let text = this.createWordText(word);
+        let style = text.style;
+        let textMetrics = PIXI.TextMetrics.measureText(word, style);
 
-        let textStyle = new PIXI.TextStyle({ 
-            fontFamily: 'Poppins', 
-            fontSize: 16,
-            align: 'center',
-            fill: 0xffffff
-        });
-        let text = new PIXI.Text(word, textStyle);
-        let textMetrics = PIXI.TextMetrics.measureText(word, textStyle);
+        this.add('blackBar', this.createBlackBar(textMetrics.width, textMetrics.height));
+        this.add('text', text);
 
-        text.anchor.set(0.5);
-        text.y = 30;
-
-        let block = new PIXI.Sprite.from(PIXI.Texture.WHITE);
-        block.anchor.set(0.5);
-        block.width = textMetrics.width;
-        block.height = textMetrics.height;
-        block.tint = 0x000000;
-        block.y = 30;
-
-        this.ship = sprite;
-        container.addChild(this.ship);
-
-        this.blackBar = block;
-        container.addChild(this.blackBar);
-
-        this.text = text;
-        container.addChild(this.text);
-
-        this.entity = container;
 
         this.life = word.length;
         this.tag = "enemy";
@@ -88,19 +56,19 @@ class Enemy {
         this.alertTime = Math.floor(Math.random() * 3000) + 1000;
 
         this.playerDelta = new AngleDelta(
-            this.entity.x,
-            this.entity.y,
-            this.target.entity.x,
-            this.target.entity.y
+            this.container.x,
+            this.container.y,
+            this.target.container.x,
+            this.target.container.y
         );
     }
 
 
     draw = (delta) => {
         if (this.targeted) {
-            this.text.style.fill = 0xff8f00;
+            this.part('text').style.fill = 0xff8f00;
         } else {
-            this.text.style.fill = 0xffffff;
+            this.part('text').style.fill = 0xffffff;
         }
 
         this.drawWord();
@@ -108,28 +76,28 @@ class Enemy {
 
 
     drawWord = () => {
-        let textMetrics = PIXI.TextMetrics.measureText(this.word, this.text.style);
-        this.blackBar.width = textMetrics.width + 10;
+        let textMetrics = PIXI.TextMetrics.measureText(this.word, this.part('text').style);
+        this.part('blackBar').width = textMetrics.width + 10;
 
         if (this.word === '') {
-            this.blackBar.alpha = 0;   
+            this.part('blackBar').alpha = 0;   
         }
 
-        this.text.text = this.word;
+        this.part('text').text = this.word;
     }
 
-    onEvent = () => {}
 
     onUpdate = (delta) => {
         if(this.dying) {
-            this.ship.alpha -= 0.1 * delta;
+            this.part('sprite').alpha -= 0.1 * delta;
         }
 
         let vec = this.playerDelta.getVector(this.playerDelta.distance, this.playerDelta.angle);
 
-        this.entity.x += vec.x * (delta / 1000);
-        this.entity.y += vec.y * (delta / 1000);
+        this.container.x += vec.x * (delta / 1000);
+        this.container.y += vec.y * (delta / 1000);
     }
+
 
     takeDamage = () => {
         this.life--;
@@ -140,6 +108,7 @@ class Enemy {
         }
     }
 
+
     takeHit = () => {
         this.word = this.word.substring(1);
 
@@ -149,9 +118,11 @@ class Enemy {
         }
     }
 
+
     isDead = () => {
         return this.dead || this.dying;
     }
+
 
     isTargeted = (status) => {
         if (status) {
@@ -159,6 +130,35 @@ class Enemy {
         }
 
         this.targeted = status;
+    }
+
+
+    createBlackBar = (width, height) => {
+        let block = new PIXI.Sprite.from(PIXI.Texture.WHITE);
+
+        block.anchor.set(0.5);
+        block.width = width;
+        block.height = height;
+        block.tint = 0x000000;
+        block.y = 30;
+
+        return block;
+    }
+
+
+    createWordText = (from) => {
+        let textStyle = new PIXI.TextStyle({ 
+            fontFamily: 'Poppins', 
+            fontSize: 16,
+            align: 'center',
+            fill: 0xffffff
+        });
+        let text = new PIXI.Text(from, textStyle);
+
+        text.anchor.set(0.5);
+        text.y = 30;
+
+        return text;
     }
 }
 

@@ -1,5 +1,6 @@
 import AngleDelta from 'foundation/math/AngleDelta';
 import { createIdenticon } from 'foundation/Identicon';
+import Entity from "foundation/components/Entity";
 import Game from "../Game";
 
 import * as PIXI from 'pixi.js';
@@ -8,10 +9,7 @@ import * as PIXI from 'pixi.js';
 const bulletSprite = createIdenticon('bullet');
 
 
-class Bullet {
-    entity;
-    sprite;
-
+class Bullet extends Entity {
     width = 10;
     height = 10;
 
@@ -19,48 +17,34 @@ class Bullet {
     enemyDelta;
 
     constructor(x, y, target) {
-        let container = new PIXI.Container();
-        let sprite = new PIXI.Sprite.from(bulletSprite);
+        super(x, y);
 
-        sprite.anchor.set(0.5);
-        sprite.width = this.width;
-        sprite.height = this.height;
+        this.sprite(bulletSprite);
 
-        container.pivot.x = Math.round(container.width / 2);
-        container.pivot.y = Math.round(container.height / 2);
-
-        container.x = x;
-        container.y = y;
-
-        this.sprite = sprite;
-        container.addChild(this.sprite);
-
-        this.entity = container;
+        this.part('sprite').width = this.width;
+        this.part('sprite').height = this.height;
 
         this.target = target;
 
         // These never changev
         this.enemyDelta = new AngleDelta(
-            this.entity.x,
-            this.entity.y,
-            this.target.entity.x,
-            this.target.entity.y
+            this.container.x,
+            this.container.y,
+            this.target.container.x,
+            this.target.container.y
         );
     }
 
 
-    onEvent = () => {}
-
-
     onUpdate = (delta) => {
         if (this.target.dead || this.target.dying) {
-            this.sprite.alpha -= 0.1 * (delta / 2);
+            this.part('sprite').alpha -= 0.1 * (delta / 2);
         }
 
         let vec = this.enemyDelta.getVector(this.enemyDelta.distance, this.enemyDelta.angle);
 
-        this.entity.x += vec.x * (delta / 30);
-        this.entity.y += vec.y * (delta / 30);
+        this.container.x += vec.x * (delta / 30);
+        this.container.y += vec.y * (delta / 30);
 
         if (this.hit()) {
             this.target.takeDamage();
@@ -71,11 +55,12 @@ class Bullet {
 
     hit = () => {
         let t = this.target;
-        let ty = t.entity.y;
+        let ty = t.container.y;
 
         if (
-            this.entity.y > ty && this.entity.y < ty + t.height
+            this.container.y > ty && this.container.y < ty + t.container
         ) {
+            console.log('Bullet hit!');
             return true;
         }
 
