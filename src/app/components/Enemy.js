@@ -10,7 +10,13 @@ import * as PIXI from 'pixi.js';
 
 class Enemy extends Entity {
     angle = 0;
+    velocity = 2;
+    maxVelocity = 2;
+    minVelocity = 1.5;
+    rotationSpeed = 0.01;
+    maxRotationSpeed = 0.02;
     playerDelta;
+    follow = false;
 
     alertTime = 1000;
 
@@ -33,12 +39,14 @@ class Enemy extends Entity {
             Math.random() * (-100 - 50) + -50
         );
 
-
         this.sprite(createIdenticon(word));
         this.part('sprite').width = 30;
         this.part('sprite').height = 30;
 
-        
+        //get randomized speeds and rotation
+        this.velocity = (Math.floor(Math.random() * (this.maxVelocity*10 - this.minVelocity*10 + 1)) + this.minVelocity*10) / 10
+        this.rotationSpeed = (Math.floor(Math.random() * (this.maxRotationSpeed*10000)) + 100)/ 10000
+
         let text = this.createWordText(word);
         let style = text.style;
         let textMetrics = PIXI.TextMetrics.measureText(word, style);
@@ -46,14 +54,16 @@ class Enemy extends Entity {
         this.add('blackBar', this.createBlackBar(textMetrics.width, textMetrics.height));
         this.add('text', text);
 
-
         this.life = word.length;
         this.tag = "enemy";
         this.word = word;
         this.originalWord = word;
         this.target = target;
-        this.alertTime = Math.floor(Math.random() * 3000) + 1000;
+        this.alertTime = Math.floor(Math.random() * (3000-1000)) + 1000;
 
+        let startRotation = Math.floor(Math.random() * 60)-30
+
+        this.angle = (-90+startRotation) * Math.PI / 180
         this.playerDelta = new AngleDelta(
             this.container.x,
             this.container.y,
@@ -91,10 +101,41 @@ class Enemy extends Entity {
             this.part('sprite').alpha -= 0.1 * delta;
         }
 
-        let vec = this.playerDelta.getVector(this.playerDelta.distance, this.playerDelta.angle);
+        if (!this.follow) {
+            this.follow = (this.timeSinceSpawned() - this.alertTime) > 0;
+            if (this.container.x < 150 && this.container.x > 350) {
+                this.follow = true;
+            }
+        }
 
-        this.container.x += vec.x * (delta / 1000);
-        this.container.y += vec.y * (delta / 1000);
+        let dx = this.container.x - this.target.container.x;
+        let dy = this.container.y - this.target.container.y;
+        let angle = Math.atan2(dy, dx);
+
+        let dangle = angle - this.angle;
+
+        if (this.follow && dangle !== 0) {
+            if (dangle > 0) {
+                this.angle += this.rotationSpeed * delta
+            } else {
+                this.angle -= this.rotationSpeed * delta
+            }
+
+            if (dangle > -0.01 && dangle < 0.01) {
+                this.angle = angle;
+            }
+        }
+
+        let oldX = this.container.x
+        let oldY = this.container.y
+
+        this.container.x -= this.velocity * delta * Math.cos(this.angle);
+        this.container.y -= this.velocity * delta * Math.sin(this.angle);
+
+        this.part('sprite').angle = Math.atan2(
+            oldY - this.container.y,
+            oldX - this.container.x
+        )*180/Math.PI + 90
     }
 
 
