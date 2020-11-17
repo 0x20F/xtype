@@ -29,3 +29,16 @@ jobs:
           BRANCH: pages
           FOLDER: .
           CLEAN: true
+
+      - name: Notify
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+          severity: info
+          username: Gara
+          color: '#181b21'
+          avatarUrl: https://i.imgur.com/FYRnwoh.jpg
+          text: https://0x20F.github.io/xtype
+          description: Deploy complete
+          footer: ${{ github.sha }}
+          webhookUrl: ${{ secrets.WEBHOOK_URL }}
