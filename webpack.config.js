@@ -24,7 +24,7 @@ module.exports = (env, argv) => {
             // Output to the root if production is passed as param
             path: dev ? path.resolve(__dirname, 'public') : path.resolve(__dirname),
             filename: dev ? 'bundle.js' : '[contenthash].js',
-            publicPath: '/'
+            publicPath: dev ? '/' : ''
         },
 
         resolve: {
