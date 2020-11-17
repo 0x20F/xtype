@@ -38,7 +38,6 @@ jobs:
           username: Gara
           color: '#181b21'
           avatarUrl: https://i.imgur.com/FYRnwoh.jpg
-          text: https://0x20F.github.io/xtype
-          description: Deploy complete
+          description: Deploy complete. ([Site here](https://0x20F.github.io/xtype))
           footer: ${{ github.sha }}
           webhookUrl: ${{ secrets.WEBHOOK_URL }}
