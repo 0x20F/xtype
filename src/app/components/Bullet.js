@@ -3,8 +3,6 @@ import { createIdenticon } from 'foundation/Identicon';
 import Entity from "foundation/components/Entity";
 import Game from "../Game";
 
-import * as PIXI from 'pixi.js';
-
 
 const bulletSprite = createIdenticon('bullet');
 

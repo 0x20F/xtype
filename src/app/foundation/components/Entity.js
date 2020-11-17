@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js';
-import Vector from "foundation/math/Vector";
 
 
 class Entity {
@@ -73,8 +72,6 @@ class Entity {
      * @param {object} value 
      */
     add = (key, value) => {
-        console.log('Adding', key);
-
         this.parts[key] = value;
         this.container.addChild(value);
     }

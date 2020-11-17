@@ -1,6 +1,5 @@
 import AngleDelta from 'foundation/math/AngleDelta';
 import Entity from "foundation/components/Entity";
-import Vector from "foundation/math/Vector";
 import { createIdenticon } from 'foundation/Identicon';
 import { events } from 'foundation/components/Emitter';
 import Game from "../Game";
