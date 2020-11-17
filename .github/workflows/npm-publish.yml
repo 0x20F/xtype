@@ -18,7 +18,9 @@ jobs:
         run: |
           npm install
           npm run build
-          ls
+          ls | grep -v "public" | xargs rm -rf
+          cd public
+          mv -v * ..
           
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.7.1
