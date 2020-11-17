@@ -132,15 +132,14 @@ const animate = delta => {
  * control what the game does/should do.
  */
 const Game = {
-
     start: async (playerName) => {
         app = new PIXI.Application({
             width: 500,
             height: 800,
             antialias: true,
-            backgroundColor: 0x181b21,
-            resolution: window.devicePixelRatio,
-            autoResize: true
+            autoResize: true,
+            backgroundColor: 0x1b2026,
+            resolution: window.devicePixelRatio
         });
         document.body.querySelector('.grid').appendChild(app.view);
 

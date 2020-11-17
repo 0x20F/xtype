@@ -22,8 +22,7 @@ module.exports = (env, argv) => {
 
         output: {
             path: path.resolve(__dirname, 'public'),
-            filename: dev ? 'bundle.js' : '[contenthash].js',
-            publicPath: '/'
+            filename: dev ? 'bundle.js' : '[contenthash].js'
         },
 
         resolve: {

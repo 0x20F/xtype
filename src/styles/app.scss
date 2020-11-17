@@ -39,6 +39,8 @@ body {
     background-size: $dot-space $dot-space;
 
     .grid {
+        background-color: $bg-color;
+
         display: grid;
         grid-template-columns: repeat(5, 100px);
         grid-template-rows: repeat(8, 100px);
