@@ -17,7 +17,7 @@ let height;
 
 let player;
 
-let words = [ 'lmao' ];
+let words = [];
 let entities = [];
 let paused = false;
 
