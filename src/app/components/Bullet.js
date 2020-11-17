@@ -58,9 +58,8 @@ class Bullet extends Entity {
         let ty = t.container.y;
 
         if (
-            this.container.y > ty && this.container.y < ty + t.container
+            this.container.y > ty && this.container.y < ty + t.container.height
         ) {
-            console.log('Bullet hit!');
             return true;
         }
 

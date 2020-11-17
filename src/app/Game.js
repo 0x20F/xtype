@@ -180,7 +180,7 @@ const Game = {
     },
 
     remove: entity => {
-        app.stage.removeChild(entity.entity);
+        app.stage.removeChild(entity.container);
 
         const index = entities.indexOf(entity);
         if (index > -1) {
