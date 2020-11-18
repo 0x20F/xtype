@@ -86,7 +86,21 @@ const initEvents = () => {
     });
 
     events.on('playerDeath', () => {
+        // Don't do anything if already registered
+        if (dead) {
+            return;
+        }
         dead = true;
+
+        waveEnd = Date.now();
+
+        events.emit('gameOver', {
+            waveStart,
+            waveEnd,
+            enemiesKilled,
+            shotsFired,
+            shotsMissed
+        });
     });
 }
 
@@ -175,6 +189,7 @@ const Game = {
         waveStart = Date.now();
         shotsFired = 0;
         shotsMissed = 0;
+        enemiesKilled = 0;
 
         spawnEnemies(5 * number);
         app.ticker.start();

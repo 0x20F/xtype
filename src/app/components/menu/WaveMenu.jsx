@@ -85,8 +85,8 @@ class WaveMenu extends AnimatedComponent {
         const finishedWave = waveData.length;
         const wave = _.last(waveData);
 
-        const accuracy = calculateAccuracy(wave);
-        const wpm = calculateWpm(wave);
+        const accuracy = calculateAccuracy(wave).toFixed(2);
+        const wpm = calculateWpm(wave).toFixed(2);
         const score = abbreviateNumber(wave.enemiesKilled);
 
         return this.smoothly(

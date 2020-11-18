@@ -1,0 +1,16 @@
+.leaderboardMenu {
+    .buttonContainer {
+        position: absolute;
+        bottom: 50px;
+    }
+
+    .leaderboardEntry {
+        width: 400px;
+        height: 70px;
+        background-color: $bg-color;
+        margin-bottom: 10px;
+        border-radius: 7px;
+
+        @include flex();
+    }
+}

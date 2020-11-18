@@ -9,6 +9,9 @@ import LeaderboardMenu from 'components/menu/LeaderboardMenu';
 import WaveMenu from 'components/menu/WaveMenu';
 import { events } from 'foundation/components/Emitter';
 import { storage } from 'foundation/components/LocalStorage';
+import { calculateAccuracy, calculateWpm } from 'foundation/math/PlayerData';
+import { abbreviateNumber } from 'support/Helpers';
+import { addEntry } from 'foundation/Leaderboard';
 
 
 
@@ -92,6 +95,25 @@ export default class App extends Component {
          * Pause events
          */
         events.on('unpause', this.handlePause);
+
+        /**
+         * Game over events
+         */
+        events.on('gameOver', lastWave => {
+            this.waveData.push(lastWave);
+            let totalWaves = this.waveData.length;
+
+            let accuracy = this.waveData.map(w => calculateAccuracy(w)).reduce((a, b) => a + b, 0);
+            let wpm = this.waveData.map(w => calculateWpm(w)).reduce((a, b) => a + b, 0);
+            let score = this.waveData.map(w => w.enemiesKilled).reduce((a, b) => a + b, 0);
+
+            addEntry(
+                this.state.playerName,
+                (accuracy / totalWaves).toFixed(2),
+                (wpm / totalWaves).toFixed(2),
+                abbreviateNumber(score)
+            );
+        });
     }
     componentWillUnmount() { document.removeEventListener('keydown', this._handleKeyDown, false); }
 

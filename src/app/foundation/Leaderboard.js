@@ -46,3 +46,18 @@ export const addEntry = (who, accuracy, wpm, score) => {
 
     return items;
 }
+
+
+/**
+ * Returns all leaderboard entries as an array
+ * of objects
+ */
+export const allEntries = () => {
+    let entries = storage.get('leaderboard');
+
+    if (!entries) {
+        return [];
+    }
+    
+    return JSON.parse(entries);
+}
