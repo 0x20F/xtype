@@ -16,6 +16,7 @@ let width;
 let height;
 
 let player;
+let dead = false;
 
 let words = [];
 let entities = [];
@@ -83,6 +84,10 @@ const initEvents = () => {
 
         shotsFired++;
     });
+
+    events.on('playerDeath', () => {
+        dead = true;
+    });
 }
 
 
@@ -95,6 +100,11 @@ const initEvents = () => {
  * All calculations about positioning are made here.
  */
 const animate = delta => {
+    if (dead) {
+        app.ticker.stop();
+        return;
+    }
+
     entities.forEach(entity => {
         entity.onUpdate(delta);
     });

@@ -101,6 +101,17 @@ class Enemy extends Entity {
             this.part('sprite').alpha -= 0.1 * delta;
         }
 
+        // Check if we hit the player (the ugly way)
+        if (
+            this.container.x >= this.target.container.x - this.target.container.width / 2 &&
+            this.container.x <= this.target.container.x + this.target.container.width / 2 &&
+            this.container.y >= this.target.container.y - this.target.container.height / 2 &&
+            this.container.y <= this.target.container.y + this.target.container.height / 2
+        ) {
+            events.emit('playerDeath');
+            console.log('Player should be dead now. Killed by word: ', this.word);
+        }
+
         if (!this.follow) {
             this.follow = (this.timeSinceSpawned() - this.alertTime) > 0;
             if (this.container.x < 150 && this.container.x > 350) {
