@@ -7,7 +7,11 @@ class Leaderboard {
     items;
 
     constructor() {
-        this.items = storage.get('leaderboard') ?? [];
+        if (!storage.get('leaderboard')) {
+            this.items = [];
+        } else {
+            this.items = JSON.parse(storage.get('leaderboard'));
+        }
     }
 
 
@@ -36,10 +40,12 @@ class Leaderboard {
             this.items = this.items.slice(0, this.maxEntries);
         }
 
+        storage.set('leaderboard', JSON.stringify(this.items));
+
         return this.items;
     }
 
-    
+
     sortEntry = (a, b) => {
         return a.score < b.score;
     }
