@@ -10,15 +10,6 @@ import { addEntry } from 'foundation/Leaderboard';
 class LeaderboardMenu extends AnimatedComponent {
     constructor(props) {
         super(props);
-
-        // Add some placeholder data
-        addEntry('tomato', '50%', '123', Math.random() * 500);
-        addEntry('tomato', '50%', '123', Math.random() * 500);
-        addEntry('tomato', '50%', '123', Math.random() * 500);
-        addEntry('tomato', '50%', '123', Math.random() * 500);
-        addEntry('tomato', '50%', '123', Math.random() * 500);
-        addEntry('tomato', '50%', '123', Math.random() * 500);
-        addEntry('tomato', '50%', '123', Math.random() * 500);
     }
 
 
