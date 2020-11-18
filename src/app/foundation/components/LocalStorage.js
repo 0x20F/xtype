@@ -119,8 +119,8 @@ export const storage = {
     /**
      * Check if the given key is set to something
      */
-    exists = (key) => {
-        let val = get(key);
+    exists: (key) => {
+        let val = localStorage.getItem(key);
 
         if (val) {
             return true;

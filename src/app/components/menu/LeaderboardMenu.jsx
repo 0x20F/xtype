@@ -3,7 +3,7 @@ import React from 'react';
 import Button from 'components/general/Button';
 import AnimatedComponent from 'foundation/components/AnimatedComponent';
 import { events } from 'foundation/components/Emitter';
-import Leaderboard from 'foundation/Leaderboard';
+import { addEntry } from 'foundation/Leaderboard';
 
 
 
@@ -12,16 +12,13 @@ class LeaderboardMenu extends AnimatedComponent {
         super(props);
 
         // Add some placeholder data
-        this.leaderboard = new Leaderboard();
-
-        this.leaderboard.addEntry('tomato', '50%', '123', Math.random() * 500);
-        this.leaderboard.addEntry('tomato', '50%', '123', Math.random() * 500);
-        this.leaderboard.addEntry('tomato', '50%', '123', Math.random() * 500);
-        this.leaderboard.addEntry('tomato', '50%', '123', Math.random() * 500);
-        this.leaderboard.addEntry('tomato', '50%', '123', Math.random() * 500);
-        this.leaderboard.addEntry('tomato', '50%', '123', Math.random() * 500);
-        this.leaderboard.addEntry('tomato', '50%', '123', Math.random() * 500);
-        this.leaderboard.addEntry('tomato', '50%', '123', Math.random() * 500);
+        addEntry('tomato', '50%', '123', Math.random() * 500);
+        addEntry('tomato', '50%', '123', Math.random() * 500);
+        addEntry('tomato', '50%', '123', Math.random() * 500);
+        addEntry('tomato', '50%', '123', Math.random() * 500);
+        addEntry('tomato', '50%', '123', Math.random() * 500);
+        addEntry('tomato', '50%', '123', Math.random() * 500);
+        addEntry('tomato', '50%', '123', Math.random() * 500);
     }
 
 
