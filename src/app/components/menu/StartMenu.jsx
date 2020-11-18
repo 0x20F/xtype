@@ -22,6 +22,11 @@ class StartMenu extends AnimatedComponent {
     }
 
 
+    openLeaderboard = () => {
+        events.emit('leaderboardOpened');
+    }
+
+
     render() {
         const { playerName } = this.props;
 
@@ -38,7 +43,7 @@ class StartMenu extends AnimatedComponent {
                 <div className='spacer'></div>
                 
                 <Button mini={true} hint='S' text='Settings' onClick={ this.openSettings }/>
-                <Button disabled={true} mini={true} hint='L' text='Leaderboard' onClick={ () => console.log('Leaderboard is WIP') }/>
+                <Button mini={true} hint='L' text='Leaderboard' onClick={ this.openLeaderboard }/>
             </div>
         );
     }
