@@ -22,6 +22,7 @@ export default class App extends Component {
             paused: false,
             started: false,
             inSettings: false,
+            inLeaderboard: false,
             intermission: false,
 
             playerName: storage.get('playerName') || '0x20F',
@@ -62,6 +63,12 @@ export default class App extends Component {
 
             storage.set('playerName', playerName);
         });
+
+        /**
+         * Leaderboard events
+         */
+        events.on('leaderboardOpened', () => this.setState({ inLeaderboard: true }));
+        events.on('leaderboardClosed', () => this.setState({ inLeaderboard: false }));
 
         /**
          * Game events
