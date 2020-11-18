@@ -5,6 +5,7 @@ import Background from 'components/general/Background';
 import PauseMenu from 'components/menu/PauseMenu';
 import StartMenu from 'components/menu/StartMenu';
 import SettingsMenu from 'components/menu/SettingsMenu';
+import LeaderboardMenu from 'components/menu/LeaderboardMenu';
 import WaveMenu from 'components/menu/WaveMenu';
 import { events } from 'foundation/components/Emitter';
 import { storage } from 'foundation/components/LocalStorage';
@@ -101,6 +102,10 @@ export default class App extends Component {
      * @param {object} e Keydown event from javascript
      */
     _handleKeyDown = e => {
+        if (!this.state.started) {
+            return;
+        }
+
         switch (e.key) {
             case 'Escape':
                 this.handlePause();
@@ -152,11 +157,12 @@ export default class App extends Component {
 
 
     render() {
-        const { inMenu, paused, started, inSettings, playerName, intermission } = this.state;
+        const { inMenu, paused, started, inSettings, inLeaderboard, playerName, intermission } = this.state;
 
         return (
             <>
-                { !started && !inSettings &&    <StartMenu playerName={ playerName }/> }
+                { !started && inLeaderboard &&                      <LeaderboardMenu/> }
+                { !started && !inSettings && !inLeaderboard &&      <StartMenu playerName={ playerName }/> }
                 { paused && !intermission &&    <PauseMenu/> }
                 { inSettings &&                 <SettingsMenu playerName={ playerName }/> }
                 { intermission && paused &&     <WaveMenu waveData={ this.waveData }/> }
