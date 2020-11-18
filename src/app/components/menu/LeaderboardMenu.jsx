@@ -35,7 +35,7 @@ class LeaderboardMenu extends AnimatedComponent {
 
         return this.smoothly(
             <div className='leaderboardMenu menu'>
-                <Button hint='c' text='Close' onClick={ this.closeLeaderboard }/>
+                <Button hint='esc' text='Close' onClick={ this.closeLeaderboard }/>
             </div>
         );
     }
