@@ -7,7 +7,7 @@
  * @returns {number} A percentage with 2 decimals
  */
 export const calculateAccuracy = wave => {
-    return ((1 - (wave.shotsMissed / wave.shotsFired)) * 100).toFixed(2);
+    return ((1 - (wave.shotsMissed / wave.shotsFired)) * 100);
 }
 
 
@@ -24,5 +24,5 @@ export const calculateWpm = wave => {
     let shotsHit = wave.shotsFired - wave.shotsMissed;
     let waveTime = (wave.waveEnd - wave.waveStart) / 1000 / 60;
 
-    return ((shotsHit / 5) / waveTime).toFixed(2);
+    return ((shotsHit / 5) / waveTime);
 }

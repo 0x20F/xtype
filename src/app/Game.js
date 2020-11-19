@@ -16,6 +16,7 @@ let width;
 let height;
 
 let player;
+let dead = false;
 
 let words = [];
 let entities = [];
@@ -83,6 +84,24 @@ const initEvents = () => {
 
         shotsFired++;
     });
+
+    events.on('playerDeath', () => {
+        // Don't do anything if already registered
+        if (dead) {
+            return;
+        }
+        dead = true;
+
+        waveEnd = Date.now();
+
+        events.emit('gameOver', {
+            waveStart,
+            waveEnd,
+            enemiesKilled,
+            shotsFired,
+            shotsMissed
+        });
+    });
 }
 
 
@@ -95,6 +114,11 @@ const initEvents = () => {
  * All calculations about positioning are made here.
  */
 const animate = delta => {
+    if (dead) {
+        app.ticker.stop();
+        return;
+    }
+
     entities.forEach(entity => {
         entity.onUpdate(delta);
     });
@@ -165,6 +189,7 @@ const Game = {
         waveStart = Date.now();
         shotsFired = 0;
         shotsMissed = 0;
+        enemiesKilled = 0;
 
         spawnEnemies(5 * number);
         app.ticker.start();

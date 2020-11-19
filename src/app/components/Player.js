@@ -10,11 +10,13 @@ class Player extends Entity {
     width = 50;
     height = 50;
     target;
+    name;
 
 
     constructor(playerName, x, y) {
         super(x, y);
 
+        this.name = playerName;
         this.sprite(createIdenticon(playerName));
     }
 

@@ -37,15 +37,19 @@ export const storage = {
      * @param {string} value 
      */
     push: (key, value) => {
-        let array = get[key];
+        let array = get(key);
 
-        if (!array || typeof array !== 'object') {
+        if (array) {
+            array = JSON.parse(array);
+        }
+        
+        if (typeof array !== 'object') {
             array = [];
         } 
 
-        exists.push(value);
+        array.push(value);
 
-        set(key, exists);
+        set(key, JSON.stringify(array));
     },
 
     /**
@@ -57,11 +61,18 @@ export const storage = {
     pop: (key) => {
         let array = get(key);
 
-        if (!array || typeof array !== 'object') {
+        if (array) {
+            array = JSON.parse(array);
+        }
+
+        if (typeof array !== 'object') {
             return null;
         }
 
-        return array.pop();
+        let val = array.pop();
+
+        set(key, JSON.stringify(array));
+        return val;
     },
 
     /**
@@ -102,5 +113,19 @@ export const storage = {
         }
 
         return array[array.length - 1];
+    },
+
+
+    /**
+     * Check if the given key is set to something
+     */
+    exists: (key) => {
+        let val = localStorage.getItem(key);
+
+        if (val) {
+            return true;
+        }
+
+        return false;
     }
 }

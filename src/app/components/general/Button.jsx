@@ -20,6 +20,10 @@ class Button extends Component {
             hint = 'Enter';
         }
 
+        if (hint.toLowerCase() === 'esc') {
+            hint = 'Escape';
+        }
+
         if (key.toLowerCase() !== hint.toLowerCase()) {
             return;
         }
