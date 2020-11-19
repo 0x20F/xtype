@@ -7,8 +7,8 @@ import Game from "../Game";
 
 
 class Player extends Entity {
-    width = 50;
-    height = 50;
+    width = 40;
+    height = 40;
     target;
     name;
 
@@ -18,6 +18,8 @@ class Player extends Entity {
 
         this.name = playerName;
         this.sprite(createIdenticon(playerName));
+        this.part('sprite').width = this.width;
+        this.part('sprite').height = this.height;
     }
 
 
