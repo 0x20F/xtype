@@ -9,7 +9,7 @@ let items = [];
 
 
 const sortEntry = (a, b) => {
-    return a.score < b.score;
+    return b.totalWaves - a.totalWaves || b.score - a.score;
 }
 
 
