@@ -20,7 +20,7 @@ class LeaderboardMenu extends AnimatedComponent {
     }
 
 
-    leaderBoardEntry = (data, i) => {
+    leaderboardEntry = (data, i) => {
         return (
         <div className='leaderboardEntry' key={i}>
             <div className='playerInfo'>
@@ -35,6 +35,13 @@ class LeaderboardMenu extends AnimatedComponent {
                 <div className='data score'>{ data.score }</div>
             </div>
         </div>);
+    }
+
+
+    leaderboardSeparator = (level, i) => {
+        return (
+            <div className='levelDisplay' key={ i * i }>Wave { level }</div>
+        );
     }
 
 
@@ -59,15 +66,15 @@ class LeaderboardMenu extends AnimatedComponent {
 
         all.forEach((e, i) => {
             if (i === 0) {
-                entries.push(<div key={ i * i }>Wave { lastLevel }</div>);
+                entries.push(this.leaderboardSeparator(lastLevel, i));
             }
 
             if (e.totalWaves !== lastLevel) {
                 lastLevel = e.totalWaves;
-                entries.push(<div key={ i * i }>Wave { lastLevel }</div>);
+                entries.push(this.leaderboardSeparator(lastLevel, i));
             }
 
-            entries.push(this.leaderBoardEntry(e, i));
+            entries.push(this.leaderboardEntry(e, i));
         })
 
 
