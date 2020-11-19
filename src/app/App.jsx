@@ -111,7 +111,8 @@ export default class App extends Component {
                 this.state.playerName,
                 (accuracy / totalWaves).toFixed(2),
                 (wpm / totalWaves).toFixed(2),
-                abbreviateNumber(score)
+                abbreviateNumber(score),
+                totalWaves
             );
         });
     }
