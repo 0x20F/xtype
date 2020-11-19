@@ -29,37 +29,41 @@ class LeaderboardMenu extends AnimatedComponent {
 
         return this.smoothly(
             <div className='leaderboardMenu menu'>
-                <header>
-                    <div className='playerName'>
-                        Player
-                    </div>
+                { allEntries().length === 0 && <div className='nothingHere'>You haven't set any scores yet!</div>}
 
-                    <div className='dataNames'>
-                        <div className='item accuracy'>Acc</div>
-                        <div className='separator'></div>
-                        <div className='item wpm'>Wpm</div>
-                        <div className='separator'></div>
-                        <div className='item score'>Score</div>
-                    </div>
-                </header>
+                { allEntries().length > 0 && <>
+                    <header>
+                        <div className='playerName'>
+                            Player
+                        </div>
 
-                <Anime {...animeProps}>
-                    { allEntries().map((e, i) => {
-                        return <div className='leaderboardEntry' key={i}>
-                            <div className='playerInfo'>
-                                <img src={ e.playerAvatar }/>
-                                <div className='playerName'>{ truncate(e.playerName, 10) }</div>
-                            </div>
+                        <div className='dataNames'>
+                            <div className='item accuracy'>Acc</div>
+                            <div className='separator'></div>
+                            <div className='item wpm'>Wpm</div>
+                            <div className='separator'></div>
+                            <div className='item score'>Score</div>
+                        </div>
+                    </header>
 
-                            <div className='playerData'>
-                                <div className='data accuracy'>{ e.accuracy }</div>
-                                <div className='spacer'></div>
-                                <div className='data wpm'>{ e.wpm }</div>
-                                <div className='data score'>{ e.score }</div>
-                            </div>
-                        </div>;
-                    }) }
-                </Anime>
+                    <Anime {...animeProps}>
+                        { allEntries().map((e, i) => {
+                            return <div className='leaderboardEntry' key={i}>
+                                <div className='playerInfo'>
+                                    <img src={ e.playerAvatar }/>
+                                    <div className='playerName'>{ truncate(e.playerName, 10) }</div>
+                                </div>
+
+                                <div className='playerData'>
+                                    <div className='data accuracy'>{ e.accuracy }</div>
+                                    <div className='spacer'></div>
+                                    <div className='data wpm'>{ e.wpm }</div>
+                                    <div className='data score'>{ e.score }</div>
+                                </div>
+                            </div>;
+                        }) }
+                    </Anime>
+                </> }
                 <Button hint='esc' text='Close' onClick={ this.closeLeaderboard }/>
             </div>
         );
