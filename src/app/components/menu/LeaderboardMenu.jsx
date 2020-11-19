@@ -64,7 +64,7 @@ class LeaderboardMenu extends AnimatedComponent {
                         }) }
                     </Anime>
                 </> }
-                <Button hint='esc' text='Close' onClick={ this.closeLeaderboard }/>
+                <Button mini={true} hint='esc' text='Close' onClick={ this.closeLeaderboard }/>
             </div>
         );
     }
