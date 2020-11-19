@@ -29,7 +29,7 @@ class LeaderboardMenu extends AnimatedComponent {
             </div>
 
             <div className='playerData'>
-                <div className='data accuracy'>{ data.accuracy }</div>
+                <div className='data accuracy'>{ data.accuracy }%</div>
                 <div className='spacer'></div>
                 <div className='data wpm'>{ data.wpm }</div>
                 <div className='data score'>{ data.score }</div>
@@ -61,7 +61,7 @@ class LeaderboardMenu extends AnimatedComponent {
             return b.totalWaves - a.totalWaves || b.score - a.score
         });
         let entries = [];
-        let lastLevel = all[0].totalWaves;
+        let lastLevel = all[0].totalWaves ?? 0;
 
 
         all.forEach((e, i) => {
@@ -83,20 +83,6 @@ class LeaderboardMenu extends AnimatedComponent {
                 { entries.length === 0 && <div className='nothingHere'>You haven't set any scores yet!</div>}
 
                 { entries.length > 0 && <>
-                    <header>
-                        <div className='playerName'>
-                            Player
-                        </div>
-
-                        <div className='dataNames'>
-                            <div className='item accuracy'>Acc</div>
-                            <div className='separator'></div>
-                            <div className='item wpm'>Wpm</div>
-                            <div className='separator'></div>
-                            <div className='item score'>Score</div>
-                        </div>
-                    </header>
-
                     <Anime {...animeProps}>
                         { entries }
                     </Anime>

@@ -7,36 +7,6 @@
 }
 
 .leaderboardMenu {
-    header {
-        @include flex($justify: space-between);
-        height: 50px;
-        width: 400px;
-        margin-bottom: 10px;
-        margin-top: -50px;
-        padding: 0 10px 0 10px;
-        box-sizing: border-box;
-        color: $text-subtext;
-        opacity: 0.3;
-
-        .dataNames {
-            @include flex();
-
-            .separator {
-                height: 70%;
-                width: 1px;
-                margin: 0 10px 0 15px;
-                opacity: 0.1;
-
-                background-color: $text-subtext;
-            }
-
-            .wpm {
-                margin: 0 5px 0 10px;
-            }
-        }
-    }
-
-
     .levelDisplay {
         width: 400px;
         height: 40px;
