@@ -34,3 +34,16 @@ export const abbreviateNumber = (value) => {
     
     return newValue;
 }
+
+
+
+/**
+ * Cut the given string if too long and append 
+ * three dots (...) to the end of it
+ * 
+ * @param {string} str 
+ * @param {number} length 
+ */
+export const truncate = (str, length) => {
+    return (str.length > length) ? str.substr(0, length-1) + '&hellip;' : str;
+}
