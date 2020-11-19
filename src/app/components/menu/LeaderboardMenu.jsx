@@ -61,7 +61,7 @@ class LeaderboardMenu extends AnimatedComponent {
             return b.totalWaves - a.totalWaves || b.score - a.score
         });
         let entries = [];
-        let lastLevel = all[0].totalWaves ?? 0;
+        let lastLevel = all[0] ? all[0].totalWaves : 0;
 
 
         all.forEach((e, i) => {
