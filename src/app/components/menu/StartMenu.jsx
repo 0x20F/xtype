@@ -43,7 +43,7 @@ class StartMenu extends AnimatedComponent {
                 <div className='spacer'></div>
                 
                 <Button mini={true} hint='S' text='Settings' onClick={ this.openSettings }/>
-                <Button disabled={true} mini={true} hint='L' text='Leaderboard' onClick={ this.openLeaderboard }/>
+                <Button mini={true} hint='L' text='Leaderboard' onClick={ this.openLeaderboard }/>
             </div>
         );
     }
