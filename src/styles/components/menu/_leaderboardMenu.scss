@@ -1,0 +1,102 @@
+.leaderboardMenu {
+    header {
+        @include flex($justify: space-between);
+        height: 50px;
+        width: 400px;
+
+        border-radius: 7px;
+        margin-bottom: 10px;
+        margin-top: -50px;
+        padding: 0 10px 0 10px;
+        box-sizing: border-box;
+        color: $text-subtext;
+
+        .dataNames {
+            @include flex();
+
+            .separator {
+                height: 70%;
+                width: 1px;
+                margin: 0 10px 0 15px;
+                opacity: 0.1;
+
+                background-color: $text-subtext;
+            }
+
+            .wpm {
+                margin: 0 5px 0 10px;
+            }
+        }
+    }
+
+
+    .buttonContainer {
+        position: absolute;
+        bottom: 50px;
+    }
+
+    .leaderboardEntry {
+        width: 400px;
+        height: 56px;
+        background-color: $bg-color;
+        margin-bottom: 10px;
+        border-radius: 7px;
+
+        overflow: hidden;
+
+        @include flex();
+
+        .playerInfo {
+            position: relative;
+            @include flex($justify: flex-start);
+            height: 100%;
+            width: 230px;
+
+            color: $text-bright;
+
+            img {
+                position: absolute;
+                left: 0;
+                height: 160%;
+                margin: 0 20px 0 0;
+                transform: rotate(45deg);
+                opacity: 0.2;
+                z-index: 1;
+            }
+
+            .playerName {
+                margin-left: 20px;
+                z-index: 2;
+            }
+        }
+
+        .playerData {
+            height: 100%;
+            width: 270px;
+            
+            @include flex($justify: flex-end);
+
+            .data {
+                @include flex();
+                height: 100%;
+                width: 33%;
+                color: $text-subtext;
+            }
+
+            .spacer {
+                height: 70%;
+                width: 1px;
+                margin: 0 10px 0 10px;
+                opacity: 0.1;
+
+                background-color: $text-subtext;
+            }
+
+            .score {
+                background-color: $text-accent;
+                margin-left: 10px;
+                color: $text-dark;
+            }
+        }
+    }
+}

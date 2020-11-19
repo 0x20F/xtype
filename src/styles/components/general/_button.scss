@@ -1,0 +1,97 @@
+.buttonContainer {
+    width: 60%;
+    height: 80px;
+    margin-bottom: 5px;
+
+    font-family: Poppins;
+    font-size: 16px;
+    text-transform: lowercase;
+    @include flex();
+
+    &.sub {
+        width: 45%;
+        height: 40px;
+        font-size: 14px;
+
+        div:first-child {
+            color: $text-subtext !important;
+
+            &:hover {
+                background-color: $text-subtext;
+                color: $text-dark !important;
+            }
+        }
+
+        .shortcutHint {
+            background-color: $text-subtext;
+        }
+    }
+
+    &.disabled {
+        opacity: 0.3 !important;
+
+        .shortcutHint {
+            display: none;
+        }
+
+        div:first-child {
+            border-radius: 7px !important;
+            width: 100% !important;    
+        }
+    }
+
+    .rounded {
+        border-radius: 7px !important;
+        width: 100% !important;
+    }
+
+    .shortcutHint {
+        width: 20%;
+        height: 100%;
+
+        color: $text-dark;
+        background-color: $text-accent;
+        border-radius: 0 7px 7px 0;
+        border-left: none;
+        transition: all .5s;
+        
+        cursor: default;
+
+        @include flex();
+
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    div:first-child {
+        width: 80%;
+        height: 100%;
+        outline: none;
+        border: none;
+        background: none;
+        margin: 0;
+        padding: 0;
+
+        transition: all .5s;
+
+        color: $text-accent;
+        background-color: $bg-button;
+        border-radius: 7px 0 0 7px;
+
+        @include flex();
+
+        font-family: inherit;
+        font-size: inherit;
+        text-transform: inherit;
+
+        &:hover {
+            background-color: $text-accent;
+            color: $text-dark;
+            cursor: pointer;
+        }
+    }
+
+    div:first-child:hover + .shortcutHint{
+        background-color: #fff !important;
+    }
+}

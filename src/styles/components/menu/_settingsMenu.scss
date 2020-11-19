@@ -1,0 +1,34 @@
+@import '~styles/components/menu/menu';
+
+
+.settingsMenu {
+
+    .settingsHeader {
+        width: 200px;
+        height: 200px;
+        margin-bottom: 50px;
+
+        background-color: $bg-button;
+        padding: 50px;
+        border-radius: 11px;
+    }
+
+    input {
+        border-radius: 7px;
+        border: none;
+        background: none;
+        background-color: $bg-button;
+        color: #fff;
+    
+        text-align: center;
+        font-family: 'Poppins';
+        font-size: 18px;
+        outline: none;
+
+        height: 70px;
+        width: 60%;
+        padding: 0;
+
+        margin-bottom: 10px;
+    }
+}

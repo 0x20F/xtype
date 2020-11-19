@@ -1,0 +1,108 @@
+.hud {
+    width: 100%;
+    height: 100%;
+
+    @include flex($direction: column);
+
+    canvas {
+        background-color: transparent;
+    }
+
+    .wave {
+        position: relative;
+        width: 300px;
+        height: 150px;
+        margin-top: -80px;
+
+        margin-bottom: 50px;
+
+        border-radius: 11px;
+        font-size: 24px;
+        color: #fff;
+        text-align: center;
+
+        .waveNumber {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            background-color: $bg-transparent;
+
+            @include flex();
+        }
+
+        .score {
+            width: 70px;
+            height: 70px;
+
+            position: absolute;
+            bottom: 0;
+            left: 70%;
+
+            font-size: 15px;
+            border-radius: 50%;
+
+            background-color: $text-subtext;
+            color: $text-dark;
+
+            @include flex();
+        }
+    }
+
+    .timer {
+        font-size: 32px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+
+        color: #fff;
+        padding: 10px 50px;
+        height: 100px;
+        margin-top: 50px;
+
+        @include flex($direction: column);
+
+        header {
+            font-size: 16px;
+        }
+    }
+
+    .waveStats {
+        width: 100%;
+        height: auto;
+        box-sizing: border-box;
+        padding: 20px 40px;
+        
+        @include flex();
+        flex-wrap: wrap;
+
+        .stat {
+            margin: 5px 15px;
+            color: #fff;
+            @include flex();
+
+            .faded {
+                opacity: 0.3;
+            }
+
+            .marker {
+                width: 25px;
+                height: 15px;
+                border-radius: 3px;
+                margin-right: 5px;
+
+                &.accuracy {
+                    background-image: linear-gradient(130deg, #6c52d9 0%, #1eaafc 85%, #3edfd7 100%);
+                }
+
+                &.wpm {
+                    background-image: linear-gradient(130deg, #52d963 0%, #1efcfc 85%, #3eb2df 100%);
+                }
+            }
+        }
+    }
+}
