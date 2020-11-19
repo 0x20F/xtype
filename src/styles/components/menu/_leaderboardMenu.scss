@@ -10,6 +10,9 @@
     @include flex();
     justify-content: flex-start !important;
     padding-top: 20px;
+    height: 700px;
+    max-height: 700px;
+    overflow-y: scroll;
 
     .levelDisplay {
         width: 400px;
