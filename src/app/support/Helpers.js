@@ -45,5 +45,5 @@ export const abbreviateNumber = (value) => {
  * @param {number} length 
  */
 export const truncate = (str, length) => {
-    return (str.length > length) ? str.substr(0, length-1) + '&hellip;' : str;
+    return (str.length > length) ? str.substr(0, length-1) + '...' : str;
 }
