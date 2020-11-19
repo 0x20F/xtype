@@ -22,13 +22,14 @@ const sortEntry = (a, b) => {
  * @param {string} wpm The average wpm over all rounds
  * @param {number} score Entire score for the run
  */
-export const addEntry = (who, accuracy, wpm, score) => {
+export const addEntry = (who, accuracy, wpm, score, totalWaves) => {
     let entry = {
         playerName: who,
         playerAvatar: createIdenticon(who),
         accuracy,
         wpm,
-        score
+        score,
+        totalWaves
     };
 
     if (storage.exists('leaderboard')) {
