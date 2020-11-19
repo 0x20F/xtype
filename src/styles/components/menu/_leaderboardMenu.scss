@@ -16,8 +16,7 @@
         padding: 0 10px 0 10px;
         box-sizing: border-box;
         color: $text-subtext;
-
-        border-bottom: 1px solid $text-subtext;
+        opacity: 0.3;
 
         .dataNames {
             @include flex();
@@ -56,7 +55,7 @@
 
     .buttonContainer {
         position: absolute;
-        bottom: 50px;
+        bottom: 15px;
     }
 
     .leaderboardEntry {
