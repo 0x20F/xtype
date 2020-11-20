@@ -155,6 +155,7 @@ export default class App extends Component {
             });
 
             this.waveData = [];
+            this.score = 0;
 
             Game.reset();
         })
