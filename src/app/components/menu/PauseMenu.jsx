@@ -17,11 +17,17 @@ class PauseMenu extends AnimatedComponent {
     }
 
 
+    restartGame = () => {
+        events.emit('restartGame');
+    }
+
+
     render() {
         return this.smoothly(
             <div className='pauseMenu menu'>
                 <h1 className='pauseHeader header'>Paused</h1>
                 <Button hint='esc' text='Continue' onClick={ this.unpauseGame }/>
+                <Button danger={true} text='Back to Menu' onClick={ this.restartGame }/>
             </div>
         );
     }
