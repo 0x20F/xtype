@@ -5,6 +5,7 @@ import WordList from 'foundation/WordList';
 import { sleep } from 'support/Helpers';
 
 import * as PIXI from 'pixi.js';
+import Velocity from './foundation/components/Velocity';
 
 
 
@@ -28,6 +29,7 @@ let enemiesKilled = 0;
 let shotsFired = 0;
 let shotsMissed = 0;
 
+let velocity = new Velocity();
 
 
 
@@ -40,9 +42,9 @@ let shotsMissed = 0;
  * 
  * @param {number} amount How many enemies to spawn
  */
-const spawnEnemies = async amount => {
+const spawnEnemies = async (amount, wave) => {
     for (let i = 1; i <= amount; i++) {
-        Game.add(new Enemy(words.next(), player));
+        Game.add(new Enemy(words.next(), player, wave, velocity));
         
         if (i % 3 === 0) {
             await sleep(1000);
@@ -191,7 +193,7 @@ const Game = {
         shotsMissed = 0;
         enemiesKilled = 0;
 
-        spawnEnemies(5 * number);
+        spawnEnemies(5 * number/5, number);
         app.ticker.start();
     },
 

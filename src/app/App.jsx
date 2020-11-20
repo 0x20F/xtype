@@ -168,13 +168,13 @@ export default class App extends Component {
 
     nextWave = () => {
         // Unpause the game and move to the next wave
-        this.game.nextWave(this.state.wave);
         this.setState(old => { 
             return { 
                 wave: old.wave + 1,
                 intermission: false
             }; 
         });
+        this.game.nextWave(this.state.wave);
         this.handlePause();
     }
 
