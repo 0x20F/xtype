@@ -80,14 +80,14 @@ class WaveMenu extends AnimatedComponent {
 
 
     render() {
-        const { waveData } = this.props;
+        const { waveData, score } = this.props;
 
         const finishedWave = waveData.length;
         const wave = _.last(waveData);
 
         const accuracy = calculateAccuracy(wave).toFixed(2);
         const wpm = calculateWpm(wave).toFixed(2);
-        const score = abbreviateNumber(wave.enemiesKilled);
+        const abbreviatedScore = abbreviateNumber(score);
 
         return this.smoothly(
             <div className='hud'>
@@ -99,7 +99,7 @@ class WaveMenu extends AnimatedComponent {
                     </div>
 
                     <div className='score'>
-                        {score}
+                        {abbreviatedScore}
                     </div>
                 </div>
 
