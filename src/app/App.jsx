@@ -36,6 +36,7 @@ export default class App extends Component {
             wave: 1
         }
 
+        this.score = 0;
         this.waveData = [];
     }
 
@@ -47,6 +48,18 @@ export default class App extends Component {
      */
     componentDidMount() { 
         document.addEventListener('keydown', this._handleKeyDown, false);
+
+        events.on('shotFired', (missed) => {
+            if (this.score >= 10 && missed) {
+                this.score -= 10;
+            } else {
+                this.score += 1;
+            }
+        });
+
+        events.on('enemyDeath', () => {
+            this.score += 100;
+        });
 
         events.on('nextWave', this.nextWave);
         events.on('waveEnd', (data) => {
@@ -108,7 +121,7 @@ export default class App extends Component {
 
             let accuracy = this.waveData.map(w => calculateAccuracy(w)).reduce((a, b) => a + b, 0);
             let wpm = this.waveData.map(w => calculateWpm(w)).reduce((a, b) => a + b, 0);
-            let score = this.waveData.map(w => w.enemiesKilled).reduce((a, b) => a + b, 0);
+            let score = this.score;
 
             addEntry(
                 this.state.playerName,
@@ -219,7 +232,7 @@ export default class App extends Component {
                 { !started && !inSettings && !inLeaderboard &&      <StartMenu playerName={ playerName }/> }
                 { paused && !intermission &&    <PauseMenu/> }
                 { inSettings &&                 <SettingsMenu playerName={ playerName }/> }
-                { intermission && paused &&     <WaveMenu waveData={ this.waveData }/> }
+                { intermission && paused &&     <WaveMenu waveData={ this.waveData } score={ this.score }/> }
                 
                 <Background hidden={ !inMenu }/>
             </>
