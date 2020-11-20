@@ -44,8 +44,6 @@ class Enemy extends Entity {
         this.part('sprite').width = 30;
         this.part('sprite').height = 30;
 
-        //get randomized speeds and rotation
-        this.velocity = (Math.floor(Math.random() * (this.maxVelocity*10 - this.minVelocity*10 + 1)) + this.minVelocity*10) / 10
         this.velocity = velocityCalculator.calculate(wave);
         this.rotationSpeed = (Math.floor(Math.random() * (this.maxRotationSpeed*10000)) + 100)/ 10000
 
