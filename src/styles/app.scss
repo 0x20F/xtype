@@ -82,3 +82,17 @@ body {
         }
     }
 }
+
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 7px;
+    background-color: $bg-color;
+}

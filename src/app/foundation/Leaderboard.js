@@ -2,7 +2,7 @@ import { storage } from 'foundation/components/LocalStorage';
 import { createIdenticon } from 'foundation/Identicon';
 
 
-const maxEntries = 5;
+const maxEntries = 15;
 let items = [];
 
 
