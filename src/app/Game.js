@@ -21,12 +21,14 @@ let dead = false;
 let words = [];
 let entities = [];
 let paused = false;
+let restarted = false;
 
 let waveStart = 0;
 let waveEnd = 0;
 let enemiesKilled = 0;
 let shotsFired = 0;
 let shotsMissed = 0;
+
 
 
 
@@ -56,6 +58,12 @@ const spawnEnemies = async amount => {
  * get called.
  */
 const initEvents = () => {
+    if (restarted) {
+        return;
+    }
+
+    console.log('Setting up events');
+
     window.addEventListener('keydown', e => {
         // Don't do anything if paused
         if (paused) {
@@ -222,6 +230,20 @@ const Game = {
         } else {
             app.ticker.start();
         }
+    },
+
+    reset: () => {
+        restarted = true;
+
+        shotsFired = 0;
+        shotsMissed = 0;
+        enemiesKilled = 0;
+        dead = false;
+
+        app.ticker.destroy();
+        words = [];
+        entities = [];
+        player = null;
     }
 }
 

@@ -8,6 +8,21 @@
     text-transform: lowercase;
     @include flex();
 
+    &.danger {
+        div:first-child {
+            color: $text-danger !important;
+
+            &:hover {
+                background-color: $text-danger !important;
+                color: $text-dark !important;
+            }
+        }
+
+        .shortcutHint {
+            background-color: $text-danger;
+        }
+    }
+
     &.sub {
         width: 45%;
         height: 40px;
