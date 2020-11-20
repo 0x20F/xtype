@@ -7,11 +7,13 @@ import StartMenu from 'components/menu/StartMenu';
 import SettingsMenu from 'components/menu/SettingsMenu';
 import LeaderboardMenu from 'components/menu/LeaderboardMenu';
 import WaveMenu from 'components/menu/WaveMenu';
+import GameOverMenu from 'components/menu/GameOverMenu';
 import { events } from 'foundation/components/Emitter';
 import { storage } from 'foundation/components/LocalStorage';
 import { calculateAccuracy, calculateWpm } from 'foundation/math/PlayerData';
 import { abbreviateNumber } from 'support/Helpers';
 import { addEntry } from 'foundation/Leaderboard';
+
 
 
 
@@ -28,6 +30,7 @@ export default class App extends Component {
             inSettings: false,
             inLeaderboard: false,
             intermission: false,
+            gameOver: false,
 
             playerName: storage.get('playerName') || '0x20F',
             wave: 1
@@ -114,7 +117,34 @@ export default class App extends Component {
                 abbreviateNumber(score),
                 totalWaves
             );
+
+            this.setState({ 
+                gameOver: true,
+                inMenu: true
+            });
         });
+
+        /**
+         * Restart
+         */
+        events.on('restartGame', () => {
+            // Reset everything, ugly but oh well
+            this.setState({
+                started: false,
+                inMenu: true,
+                paused: false,
+                inSettings: false,
+                intermission: false,
+                gameOver: false,
+                inLeaderboard: false,
+
+                wave: 1
+            });
+
+            this.waveData = [];
+
+            Game.reset();
+        })
     }
     componentWillUnmount() { document.removeEventListener('keydown', this._handleKeyDown, false); }
 
@@ -180,10 +210,11 @@ export default class App extends Component {
 
 
     render() {
-        const { inMenu, paused, started, inSettings, inLeaderboard, playerName, intermission } = this.state;
+        const { inMenu, paused, started, inSettings, inLeaderboard, gameOver, playerName, intermission } = this.state;
 
         return (
             <>
+                { gameOver && <GameOverMenu/> }
                 { !started && inLeaderboard &&                      <LeaderboardMenu/> }
                 { !started && !inSettings && !inLeaderboard &&      <StartMenu playerName={ playerName }/> }
                 { paused && !intermission &&    <PauseMenu/> }

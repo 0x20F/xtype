@@ -6,14 +6,9 @@ import { events } from 'foundation/components/Emitter';
 
 
 
-class PauseMenu extends AnimatedComponent {
+class GameOverMenu extends AnimatedComponent {
     constructor(props) {
         super(props);
-    }
-
-
-    unpauseGame = () => {
-        events.emit('unpause');
     }
 
 
@@ -24,14 +19,13 @@ class PauseMenu extends AnimatedComponent {
 
     render() {
         return this.smoothly(
-            <div className='pauseMenu menu'>
-                <h1 className='pauseHeader header'>Paused</h1>
-                <Button hint='esc' text='Continue' onClick={ this.unpauseGame }/>
-                <Button danger={true} text='Back to Menu' onClick={ this.restartGame }/>
+            <div className='gameOverMenu menu'>
+                <h1 className='gameOverHeader header'>Game Over</h1>
+                <Button danger={true} hint='ret' text='Back to Menu' onClick={ this.restartGame }/>
             </div>
         );
     }
 }
 
 
-export default PauseMenu;
+export default GameOverMenu;
