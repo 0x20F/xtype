@@ -11,8 +11,7 @@ import * as PIXI from 'pixi.js';
 class Enemy extends Entity {
     angle = 0;
     velocity = 2;
-    maxVelocity = 2;
-    minVelocity = 1.5;
+
     rotationSpeed = 0.01;
     maxRotationSpeed = 0.02;
     playerDelta;
@@ -32,8 +31,10 @@ class Enemy extends Entity {
     height = 30;
     life = 1;
 
+    velocityCalculator;
 
-    constructor(word, target) {
+
+    constructor(word, target, wave, velocityCalculator) {
         super(
             Math.random() * (400 - 20) + 20,
             Math.random() * (-100 - 50) + -50
@@ -45,6 +46,7 @@ class Enemy extends Entity {
 
         //get randomized speeds and rotation
         this.velocity = (Math.floor(Math.random() * (this.maxVelocity*10 - this.minVelocity*10 + 1)) + this.minVelocity*10) / 10
+        this.velocity = velocityCalculator.calculate(wave);
         this.rotationSpeed = (Math.floor(Math.random() * (this.maxRotationSpeed*10000)) + 100)/ 10000
 
         let text = this.createWordText(word);
