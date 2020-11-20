@@ -40,10 +40,11 @@ class Button extends Component {
 
 
     render() {
-        const { hint, text, onClick, mini, disabled } = this.props;
+        const { hint, text, onClick, mini, disabled, danger } = this.props;
 
         let classes = !hint ? 'rounded' : '';
         let containerClasses = 'buttonContainer' 
+            + (danger ? ' danger' : '')
             + (mini ? ' sub' : '')
             + (disabled ? ' disabled' : '');
         let click = disabled ? () => {} : onClick;
