@@ -234,6 +234,7 @@ const Game = {
 
     reset: () => {
         restarted = true;
+        paused = false;
 
         shotsFired = 0;
         shotsMissed = 0;
