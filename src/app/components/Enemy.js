@@ -23,13 +23,13 @@ class Enemy extends Entity {
     originalWord;
     targeted = false;
     dead = false;
-    dying = false;
     target = null;
 
     image;
     width = 30;
     height = 30;
     life = 1;
+    stunned = 0;
 
     velocityCalculator;
 
@@ -97,8 +97,14 @@ class Enemy extends Entity {
 
 
     onUpdate = (delta) => {
-        if(this.dying) {
-            this.part('sprite').alpha -= 0.1 * delta;
+        if (this.stunned) {
+            this.stunned -= PIXI.Ticker.shared.elapsedMS;
+
+            if (this.stunned <= 0) {
+                this.stunned = 0;
+            }
+
+            return;
         }
 
         // Check if we hit the player (the ugly way)
@@ -152,26 +158,61 @@ class Enemy extends Entity {
 
     takeDamage = () => {
         this.life--;
+        this.stunned = 100;
 
         if (this.life === 0) {
-            this.dead = true;
-            Game.remove(this);
+            events.emit('enemyDeath');
+
+            this.deathAnimation(() => {
+                Game.remove(this);
+            })
         }
+    }
+
+    deathAnimation = (callback) => {
+        let rndImages = [
+            createIdenticon('asd'),
+            createIdenticon('3433'),
+            createIdenticon('dsds'),
+            createIdenticon('Math.random()'),
+            createIdenticon('ssssMath.random()')
+        ];
+        let textureArray = [];
+
+        for (let i=0; i < 4; i++)
+        {
+            let texture = PIXI.Texture.from(rndImages[i]);
+            textureArray.push(texture);
+        };
+
+        this.parts.sprite.removeChild();
+
+        let animation = new PIXI.AnimatedSprite(textureArray);
+        animation.width = 30;
+        animation.height = 30;
+        animation.anchor.set(0.5);
+
+        animation.onComplete = () => {
+            callback()
+        };
+
+        animation.loop = false;
+        this.container.addChild(animation);
+        animation.play();
     }
 
 
     takeHit = () => {
         this.word = this.word.substring(1);
 
-        if (this.word === '') {
-            events.emit('enemyDeath');
-            this.dying = true;
+        if (this.word.length === 0) {
+            this.dead = true;
         }
     }
 
 
     isDead = () => {
-        return this.dead || this.dying;
+        return this.dead
     }
 
 
