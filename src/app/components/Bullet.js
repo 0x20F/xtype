@@ -35,10 +35,6 @@ class Bullet extends Entity {
 
 
     onUpdate = (delta) => {
-        if (this.target.dead || this.target.dying) {
-            this.part('sprite').alpha -= 0.1 * (delta / 2);
-        }
-
         let vec = this.enemyDelta.getVector(this.enemyDelta.distance, this.enemyDelta.angle);
 
         this.container.x += vec.x * (delta / 30);
@@ -52,11 +48,11 @@ class Bullet extends Entity {
 
 
     hit = () => {
-        let t = this.target;
-        let ty = t.container.y;
-
         if (
-            this.container.y > ty && this.container.y < ty + t.container.height
+            this.container.x >= this.target.container.x - this.target.container.width / 2 &&
+            this.container.x <= this.target.container.x + this.target.container.width / 2 &&
+            this.container.y >= this.target.container.y - this.target.container.height / 2 &&
+            this.container.y <= this.target.container.y + this.target.container.height / 2
         ) {
             return true;
         }
