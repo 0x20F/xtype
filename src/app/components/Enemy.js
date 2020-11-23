@@ -160,6 +160,11 @@ class Enemy extends Entity {
         this.life--;
         this.stunned = 100;
 
+        this.parts.sprite.tint = 0xff0000
+        setTimeout(() => {
+            this.parts.sprite.tint = 0xFFFFFF
+        }, 100)
+
         if (this.life === 0) {
             events.emit('enemyDeath');
 
