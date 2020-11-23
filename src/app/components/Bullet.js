@@ -37,8 +37,8 @@ class Bullet extends Entity {
     onUpdate = (delta) => {
         let vec = this.enemyDelta.getVector(this.enemyDelta.distance, this.enemyDelta.angle);
 
-        this.container.x += vec.x * (delta / 30);
-        this.container.y += vec.y * (delta / 30);
+        this.container.x += vec.x * (delta / 10);
+        this.container.y += vec.y * (delta / 10);
 
         if (this.hit()) {
             this.target.takeDamage();
