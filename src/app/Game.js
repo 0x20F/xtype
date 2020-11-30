@@ -209,7 +209,7 @@ const Game = {
         // by the specified multiplier
         let roundsMultiplier = 4;
 
-        spawnEnemies(emeies + (Math.ceil(number / roundsMultiplier) * multiplier), number);
+        spawnEnemies(enemies + (Math.ceil(number / roundsMultiplier) * multiplier), number);
         app.ticker.start();
     },
 
