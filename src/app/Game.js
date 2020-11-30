@@ -201,7 +201,10 @@ const Game = {
         shotsMissed = 0;
         enemiesKilled = 0;
 
-        spawnEnemies(5 * number/5, number);
+        let multiplier = 3;
+        let roundsMultiplier = 4;
+
+        spawnEnemies(Math.ceil(number / roundsMultiplier) * multiplier, number);
         app.ticker.start();
     },
 
