@@ -201,13 +201,15 @@ const Game = {
         shotsMissed = 0;
         enemiesKilled = 0;
 
+        // Minimum amount of enemies
+        let enemies = 3;
         // How many new enemies per round
         let multiplier = 3;
         // How many rounds until enemy amount increases
         // by the specified multiplier
         let roundsMultiplier = 4;
 
-        spawnEnemies(Math.ceil(number / roundsMultiplier) * multiplier, number);
+        spawnEnemies(emeies + (Math.ceil(number / roundsMultiplier) * multiplier), number);
         app.ticker.start();
     },
 
