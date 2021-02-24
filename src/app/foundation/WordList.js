@@ -6,7 +6,7 @@ class WordList {
     text;
     list;
     counter = 0;
-    orderedMode = true;
+    orderedMode = false;
 
 
     load = async () => {
