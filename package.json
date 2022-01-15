@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/0x20F/xtype#readme",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "chart.js": "^2.9.4",
     "identicon.js": "^2.3.3",
     "pixi.js": "^5.3.3",
