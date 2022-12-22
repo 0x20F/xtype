@@ -43,10 +43,10 @@ export default class App extends Component {
 
     /**
      * Events need to be added and removed in
-     * unison with the component being born and 
+     * unison with the component being born and
      * dying.
      */
-    componentDidMount() { 
+    componentDidMount() {
         document.addEventListener('keydown', this._handleKeyDown, false);
 
         events.on('shotFired', (missed) => {
@@ -66,7 +66,7 @@ export default class App extends Component {
             this.waveData.push(data);
 
             this.handlePause();
-            this.setState({ 
+            this.setState({
                 intermission: true
             });
         });
@@ -76,7 +76,7 @@ export default class App extends Component {
          */
         events.on('settingsOpened', () => this.setState({ inSettings: true }));
         events.on('settingsSaved', playerName => {
-            this.setState({ 
+            this.setState({
                 playerName,
                 inSettings: false
             });
@@ -98,7 +98,7 @@ export default class App extends Component {
 
             await this.game.start(playerName, this.emitter);
             this.game.nextWave(wave);
-            
+
             this.toggleMenu();
             this.setState(old => {
                 return {
@@ -131,7 +131,7 @@ export default class App extends Component {
                 totalWaves
             );
 
-            this.setState({ 
+            this.setState({
                 gameOver: true,
                 inMenu: true
             });
@@ -165,7 +165,7 @@ export default class App extends Component {
 
     /**
      * This is where the menu controls are defined.
-     * 
+     *
      * @param {object} e Keydown event from javascript
      */
     _handleKeyDown = e => {
@@ -212,11 +212,11 @@ export default class App extends Component {
 
     nextWave = () => {
         // Unpause the game and move to the next wave
-        this.setState(old => { 
-            return { 
+        this.setState(old => {
+            return {
                 wave: old.wave + 1,
                 intermission: false
-            }; 
+            };
         });
         this.game.nextWave(this.state.wave);
         this.handlePause();
@@ -234,7 +234,7 @@ export default class App extends Component {
                 { paused && !intermission &&    <PauseMenu/> }
                 { inSettings &&                 <SettingsMenu playerName={ playerName }/> }
                 { intermission && paused &&     <WaveMenu waveData={ this.waveData } score={ this.score }/> }
-                
+
                 <Background hidden={ !inMenu }/>
             </>
         );

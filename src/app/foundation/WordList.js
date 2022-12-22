@@ -29,7 +29,9 @@ class WordList {
         let words = this.text
             .split(/[\s,.()\/\\=?<>`´!"#¤%&\[\]§_:;\*'^~¨\-\+{}|]/gm)
             .filter(w => w.length > 0)
-            .map(w => w.toLowerCase());
+            .map(w => w.toLowerCase().trim());
+
+        console.log('Words is', words);
 
         // An array for each character in the english alphabet.
         // Horrible to look at but it works for now.
@@ -86,19 +88,19 @@ class WordList {
 
 
     /**
-     * Retrieves a word from the entire list, either 
+     * Retrieves a word from the entire list, either
      * randomly or orderly based on what orderedMode is
      * set to.
-     * 
+     *
      * @returns {string} The next word in your sequence
      */
     next = () => {
-        if (this.counter >= this.list.length) {
+        if (this.counter >= this.list.length - 1) {
             this.counter = 0;
         }
 
         let wordGroup = this.list[this.counter];
-        let word = _.sample(wordGroup).trim();
+        let word = _.sample(wordGroup);
 
         this.counter++;
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'underscore';
-import Chart from 'chart.js';
+import { Chart } from 'chart.js';
 
 import Timer from 'components/general/Timer';
 import AnimatedComponent from 'foundation/components/AnimatedComponent';
@@ -16,7 +16,6 @@ class WaveMenu extends AnimatedComponent {
         this.chart = React.createRef();
         this.graph;
     }
-
 
     componentDidMount() {
         let waves = this.props.waveData;
@@ -108,7 +107,7 @@ class WaveMenu extends AnimatedComponent {
                         <div className='marker accuracy'></div>
                         <span className='faded'>accuracy</span>&nbsp;{accuracy}%
                     </div>
-                    
+
                     <div className='stat'>
                         <div className='marker wpm'></div>
                         <span className='faded'>wpm </span>&nbsp;{wpm}

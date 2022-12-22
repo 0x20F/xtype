@@ -10,7 +10,9 @@
  *
  * @returns {string}
  */
-export const hashFnv32a = (str, seed) => {
+export const hashFnv32a = (string, seed) => {
+    let str = string;
+
     let i, l, hval = (seed === undefined) ? 0x811c9dc5 : seed;
 
     for (i = 0, l = str.length; i < l; i++) {

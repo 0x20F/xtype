@@ -41,13 +41,19 @@ let velocity = new Velocity();
 
 /**
  * Spawns a specific number of enemies
- * 
+ *
  * @param {number} amount How many enemies to spawn
  */
 const spawnEnemies = async (amount, wave) => {
     for (let i = 1; i <= amount; i++) {
-        Game.add(new Enemy(words.next(), player, wave, velocity));
-        
+        let newWord = words.next();
+
+        while (!newWord) {
+            newWord = words.next();
+        }
+
+        Game.add(new Enemy(newWord, player, wave, velocity));
+
         if (i % 3 === 0) {
             await sleep(1000);
         }
@@ -120,7 +126,7 @@ const initEvents = () => {
  * The main animation loop.
  * This is where all objects in view get rendered,
  * where enemies move, where bullets move, etc.
- * 
+ *
  * All calculations about positioning are made here.
  */
 const animate = delta => {
@@ -133,7 +139,7 @@ const animate = delta => {
         entity.onUpdate(delta);
     });
 
-    
+
     entities.forEach(entity => {
         entity.draw(delta);
     });
@@ -161,8 +167,8 @@ const animate = delta => {
 
 /**
  * The Game.
- * 
- * An interface to the outside world in order to 
+ *
+ * An interface to the outside world in order to
  * control what the game does/should do.
  */
 const Game = {
