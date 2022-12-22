@@ -15,9 +15,5 @@ export default defineConfig({
 			'assets': path.resolve(__dirname, 'src/assets')
 		},
   	},
-	mode: 'development',
-	build: {
-		minify: false
-	},
   	plugins: [react()],
 })
