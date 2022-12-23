@@ -18,6 +18,7 @@ const sortEntry = (a, b) => {
 /**
  * Adds a new entry to the local storage leaderboard,
  * while making sure the amount doesn't exceed the limit.
+ * The limit does not apply to the global database, however.
  *
  * @param {{ name: string, signature: string }} who The player name
  * @param {string} accuracy The average accuracy over all rounds

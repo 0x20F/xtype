@@ -7,6 +7,7 @@ import { events } from 'foundation/components/Emitter';
 import { allEntries } from 'foundation/Leaderboard';
 import { truncate } from 'support/Helpers';
 import {createIdenticon} from "../../foundation/Identicon";
+import {sha512} from "../../foundation/math/Hashes";
 
 const animeProps = {
     opacity: [0, 1],
@@ -20,14 +21,19 @@ class LeaderboardMenu extends AnimatedComponent {
         super(props);
 
         this.state = {
-            isGlobal: false,
+            isGlobal: true,
+            signedSignature: props.playerSignature,
             leaderboardEntries: []
         }
     }
 
 
-    componentDidMount() {
-        this.getEntries('local');
+    async componentDidMount() {
+        this.setState({
+           signedSignature: await sha512(this.props.playerSignature)
+        });
+
+        await this.getEntries('global');
     }
 
 
@@ -42,10 +48,48 @@ class LeaderboardMenu extends AnimatedComponent {
         events.emit('leaderboardClosed');
     }
 
+    topLeaderboardEntry = (data) => {
+        if (!data) {
+            return null;
+        }
+
+        return (
+            <div className='top-leaderboard-entry'>
+                <div className='wrapper'>
+                    <div className='playerInfo'>
+                        <img src={ createIdenticon(data.playerName) }/>
+                        <div className='playerName'>{ truncate(data.playerName, 15) }</div>
+                    </div>
+
+                    <div className='playerData'>
+                        <div className='data-top'>
+                            <div className='accuracy'>{ data.accuracy }%</div>
+                            <div className='wpm'>{ data.wpm } wpm</div>
+                        </div>
+
+                        <div className='score'>
+                            { data.score }
+                        </div>
+                    </div>
+                </div>
+
+                <div className='signature'>
+                    { data.signature ?
+                        data.signature.substring(0, 20)
+                        :
+                        'score set before global update'
+                    }
+                </div>
+            </div>);
+    }
 
     leaderboardEntry = (data, i) => {
+        const isPlayer = data.signature === this.state.signedSignature;
+
         return (
         <div className='leaderboardEntry' key={i}>
+            { (isPlayer && this.state.isGlobal) && <div className='personal-identifier'/> }
+
             <div className='playerInfo'>
                 <img src={ createIdenticon(data.playerName) }/>
                 <div className='playerName'>{ truncate(data.playerName, 15) }</div>
@@ -76,7 +120,7 @@ class LeaderboardMenu extends AnimatedComponent {
 
 
     render() {
-        const { isGlobal, leaderboardEntries } = this.state;
+        const { isGlobal, leaderboardEntries, signedSignature } = this.state;
 
         /**
          * Sort the scores first on the level the player reached (what wave)
@@ -88,8 +132,29 @@ class LeaderboardMenu extends AnimatedComponent {
         let entries = [];
         let lastLevel = all[0] ? all[0].totalWaves : 0;
 
+        const findMe = (from) => {
+            return from.findIndex(player =>
+                player.playerName === this.props.playerName &&
+                player.signature === signedSignature
+            )
+        }
 
-        all.forEach((e, i) => {
+        const me = findMe(all);
+        let aroundMe = [];
+
+        if (me !== -1) {
+            const min = Math.min(0, me - 5);
+            const max = Math.max(all.length, me + 5);
+
+            // Get an array between those values
+            aroundMe = all.slice(min, max);
+        }
+
+        let filtered = me !== -1 ?
+            aroundMe : all;
+
+
+        filtered.forEach((e, i) => {
             if (i === 0) {
                 entries.push(this.leaderboardSeparator(lastLevel, i));
             }
@@ -123,10 +188,49 @@ class LeaderboardMenu extends AnimatedComponent {
                     </Anime>
                 </> }
 
-                { isGlobal && entries.length > 0 && <>
+                { isGlobal && all.length > 0 && <>
                     <Anime {...animeProps}>
-                        { entries }
+                        <div className='top-three-globally'>
+                            <div className='second-place'>
+                                { all[1] ?
+                                    this.topLeaderboardEntry(all[1])
+                                    :
+                                    <div className='empty-plaque'>Not set yet...</div>
+                                }
+                                <div className='place'>🥈</div>
+                            </div>
+
+                            <div className='first-place'>
+                                { all[0] ?
+                                    this.topLeaderboardEntry(all[0])
+                                    :
+                                    <div className='empty-plaque'>Not set yet...</div>
+                                }
+                                <div className='place'>🥇</div>
+                            </div>
+
+                            <div className='third-place'>
+                                { all[2] ?
+                                    this.topLeaderboardEntry(all[2])
+                                    :
+                                    <div className='empty-plaque'>Not set yet...</div>
+                                }
+                                <div className='place'>🥉</div>
+                            </div>
+                        </div>
                     </Anime>
+
+                    <div className='personal-standings-globally'>
+                        <div className='category-text'>
+                            Standings around you
+                        </div>
+
+                        { entries.length > 0 && <>
+                            <Anime {...animeProps}>
+                                { entries }
+                            </Anime>
+                        </> }
+                    </div>
                 </> }
 
                 <div className='button-container'>
@@ -135,12 +239,12 @@ class LeaderboardMenu extends AnimatedComponent {
                         mini={true}
                         hint='g'
                         text={ !isGlobal ? 'show global' : 'show local' }
-                        onClick={ () => {
+                        onClick={ async () => {
+                            await this.getEntries(!isGlobal ? 'global' : 'local');
+
                             this.setState(old => ({
                                 isGlobal: !old.isGlobal
-                            }), () => {
-                                this.getEntries(!isGlobal ? 'global' : 'local');
-                            });
+                            }));
                         } }/>
                 </div>
             </div>

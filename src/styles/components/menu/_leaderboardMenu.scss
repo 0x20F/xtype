@@ -10,11 +10,153 @@
     @include flex();
     justify-content: flex-start !important;
     padding-top: 20px;
-    height: 700px;
-    max-height: 700px;
+    height: 660px;
+    max-height: 660px;
     overflow-y: scroll;
+    overflow-x: hidden;
     scrollbar-width: thin;
     scrollbar-color: rgba(0, 0, 0, 0) $bg-color;
+
+    .personal-identifier {
+        width: 6px;
+        height: 6px;
+        background-color: $text-accent;
+        border-radius: 99px;
+        position: absolute;
+        left: -15px;
+    }
+
+    .top-three-globally {
+        width: 470px;
+        margin-left: 15px;
+        @include flex($align: flex-start);
+        overflow: hidden;
+
+        & > div {
+            position: relative;
+            width: 33%;
+            height: 230px;
+            box-sizing: border-box;
+            margin: 6px;
+            padding: 5px;
+            background-color: transparentize(#272f3a, 0.4);
+            border: 1px solid transparentize($text-subtext, .97);
+            border-radius: 8px;
+
+            .signature {
+                width: 100%;
+                text-align: center;
+                font-size: 10px;
+                margin-top: 5px;
+                color: transparentize($text-subtext, .6);
+            }
+
+            .wrapper {
+                position: relative;
+                width: 100%;
+                height: 200px;
+                overflow: hidden;
+                border-radius: 8px;
+            }
+
+            .empty-plaque {
+                width: 100%;
+                height: 100%;
+                @include flex();
+                transform: rotate(45deg);
+                color: $text-subtext;
+            }
+
+            .playerInfo {
+                position: relative;
+                width: 100%;
+                height: 110px;
+                border-radius: 8px;
+
+                img {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    height: 240%;
+                    margin: 0 20px 0 0;
+                    transform: rotate(45deg) translate(-25%);
+                    opacity: 0.2;
+                    z-index: 1;
+                }
+
+                .playerName {
+                    position: absolute;
+                    left: 50%;
+                    top: 45px;
+                    color: #fff;
+                    word-wrap: break-word;
+                    width: 70%;
+                    text-align: center;
+                    transform: translateX(-50%);
+                    font-size: 18px;
+                    z-index: 2;
+                }
+            }
+
+            .playerData {
+                position: relative;
+                width: 100%;
+                height: 120px;
+                z-index: 2;
+                @include flex($direction: column);
+
+                .data-top {
+                    width: 100%;
+                    @include flex($justify: space-evenly);
+                    color: $text-subtext;
+                    margin-bottom: 5px;
+                    font-size: 12px;
+                }
+
+                .score {
+                    width: 100%;
+                    background-color: transparentize($text-accent, 0.1);
+                    @include flex();
+                    height: 50px;
+                }
+            }
+
+            &.first-place {
+                .place {
+                    color: gold;
+                }
+            }
+
+            &.second-place {
+                margin-top: 30px;
+            }
+
+            &.third-place {
+                margin-top: 30px;
+            }
+
+            .place {
+                position: absolute;
+                top: 5px;
+                left: 50%;
+                transform: translateX(-50%);
+                color: $text-subtext;
+            }
+        }
+    }
+
+    .personal-standings-globally {
+        width: 450px;
+        margin-top: 30px;
+        @include flex($direction: column);
+
+        .category-text {
+            width: 100%;
+            font-size: 14px;
+            color: $text-subtext;
+            text-align: center;
+        }
+    }
 
     .levelDisplay {
         width: 400px;

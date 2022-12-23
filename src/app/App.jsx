@@ -28,7 +28,7 @@ export default class App extends Component {
             paused: false,
             started: false,
             inSettings: false,
-            inLeaderboard: false,
+            inLeaderboard: true,
             intermission: false,
             gameOver: false,
 
@@ -240,7 +240,7 @@ export default class App extends Component {
         return (
             <>
                 { gameOver && <GameOverMenu/> }
-                { !started && inLeaderboard &&                      <LeaderboardMenu/> }
+                { !started && inLeaderboard &&                      <LeaderboardMenu playerName={ playerName } playerSignature={ playerSignature }/> }
                 { !started && !inSettings && !inLeaderboard &&      <StartMenu playerName={ playerName } playerSignature={ playerSignature }/> }
                 { paused && !intermission &&    <PauseMenu/> }
                 { inSettings &&                 <SettingsMenu playerName={ playerName } playerSignature={ playerSignature }/> }
