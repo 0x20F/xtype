@@ -6,6 +6,7 @@ import 'styles/app.scss'
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -22,6 +23,11 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 //const analytics = getAnalytics(app);
+
+const appCheck = initializeAppCheck(app, {
+    provider: new ReCaptchaV3Provider('6LfjSqAjAAAAAOP73cuujtlpJ6d-sNEhghNCfN3c'),
+    isTokenAutoRefreshEnabled: true
+})
 
 
 ReactDOM.render(<App/>, document.getElementById('root'))
