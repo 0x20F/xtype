@@ -90,12 +90,13 @@ class SettingsMenu extends AnimatedComponent {
                 <input
                     type='password'
                     placeholder='input unique signature'
+                    defaultValue={ playerSignature }
                     onChange={ this.handleSignatureChange }
                     onFocus={ this.handleFocus }
                     required/>
 
                 <div className='signature-description-text'>
-                    identification on the global leaderboard
+                    identification on the global leaderboard (keep this to yourself)
                 </div>
 
                 <Button

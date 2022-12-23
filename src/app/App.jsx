@@ -126,18 +126,22 @@ export default class App extends Component {
             let accuracy = this.waveData.map(w => calculateAccuracy(w)).reduce((a, b) => a + b, 0);
             let wpm = this.waveData.map(w => calculateWpm(w)).reduce((a, b) => a + b, 0);
             let score = this.score;
+            const playerData = {
+                name: this.state.playerName,
+                signature: this.state.playerSignature
+            };
 
             addEntry(
-                this.state.playerName,
+                playerData,
                 (accuracy / totalWaves).toFixed(2),
                 (wpm / totalWaves).toFixed(2),
                 abbreviateNumber(score),
                 totalWaves
-            );
-
-            this.setState({
-                gameOver: true,
-                inMenu: true
+            ).then(() => {
+                this.setState({
+                    gameOver: true,
+                    inMenu: true
+                });
             });
         });
 
@@ -237,7 +241,7 @@ export default class App extends Component {
             <>
                 { gameOver && <GameOverMenu/> }
                 { !started && inLeaderboard &&                      <LeaderboardMenu/> }
-                { !started && !inSettings && !inLeaderboard &&      <StartMenu playerName={ playerName }/> }
+                { !started && !inSettings && !inLeaderboard &&      <StartMenu playerName={ playerName } playerSignature={ playerSignature }/> }
                 { paused && !intermission &&    <PauseMenu/> }
                 { inSettings &&                 <SettingsMenu playerName={ playerName } playerSignature={ playerSignature }/> }
                 { intermission && paused &&     <WaveMenu waveData={ this.waveData } score={ this.score }/> }

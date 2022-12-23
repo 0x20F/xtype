@@ -1,5 +1,6 @@
 import { storage } from 'foundation/components/LocalStorage';
 import { createIdenticon } from 'foundation/Identicon';
+import {sha512} from "./math/Hashes";
 
 
 const maxEntries = 15;
@@ -16,15 +17,18 @@ const sortEntry = (a, b) => {
 /**
  * Adds a new entry to the local storage leaderboard,
  * while making sure the amount doesn't exceed the limit.
- * 
- * @param {string} who The player name
+ *
+ * @param {{ name: string, signature: string }} who The player name
  * @param {string} accuracy The average accuracy over all rounds
  * @param {string} wpm The average wpm over all rounds
  * @param {number} score Entire score for the run
  */
-export const addEntry = (who, accuracy, wpm, score, totalWaves) => {
+export const addEntry = async (who, accuracy, wpm, score, totalWaves) => {
+    const { name, signature } = who;
+
     let entry = {
-        playerName: who,
+        playerName: name,
+        signature: await sha512(signature),
         playerAvatar: createIdenticon(who),
         accuracy,
         wpm,
@@ -59,6 +63,6 @@ export const allEntries = () => {
     if (!entries) {
         return [];
     }
-    
+
     return JSON.parse(entries);
 }
