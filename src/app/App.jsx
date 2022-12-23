@@ -135,7 +135,7 @@ export default class App extends Component {
                 playerData,
                 (accuracy / totalWaves).toFixed(2),
                 (wpm / totalWaves).toFixed(2),
-                abbreviateNumber(score),
+                score,
                 totalWaves
             ).then(() => {
                 this.setState({

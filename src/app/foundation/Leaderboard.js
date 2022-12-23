@@ -57,6 +57,8 @@ export const addEntry = async (who, accuracy, wpm, score, totalWaves) => {
             if (entry.score > old.score) {
                 await setDoc(docRef, entry);
             }
+        } else {
+            await setDoc(docRef, entry);
         }
     } catch (e) {
         console.error(e);

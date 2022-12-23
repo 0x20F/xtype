@@ -8,6 +8,7 @@ import { allEntries } from 'foundation/Leaderboard';
 import { truncate } from 'support/Helpers';
 import {createIdenticon} from "../../foundation/Identicon";
 import {sha512} from "../../foundation/math/Hashes";
+import {abbreviateNumber} from "../../support/Helpers";
 
 const animeProps = {
     opacity: [0, 1],
@@ -68,7 +69,7 @@ class LeaderboardMenu extends AnimatedComponent {
                         </div>
 
                         <div className='score'>
-                            { data.score }
+                            { abbreviateNumber(data.score) }
                         </div>
                     </div>
                 </div>
@@ -106,7 +107,7 @@ class LeaderboardMenu extends AnimatedComponent {
                 <div className='data accuracy'>{ data.accuracy }%</div>
                 <div className='spacer'></div>
                 <div className='data wpm'>{ data.wpm }</div>
-                <div className='data score'>{ data.score }</div>
+                <div className='data score'>{ abbreviateNumber(data.score) }</div>
             </div>
         </div>);
     }
