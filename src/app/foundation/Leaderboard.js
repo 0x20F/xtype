@@ -1,6 +1,7 @@
 import { storage } from 'foundation/components/LocalStorage';
-import { createIdenticon } from 'foundation/Identicon';
 import {sha512} from "./math/Hashes";
+import { collection, doc, setDoc } from 'firebase/firestore';
+import {useFirestore} from "../support/Database";
 
 
 const maxEntries = 15;
@@ -24,9 +25,11 @@ const sortEntry = (a, b) => {
  * @param {number} score Entire score for the run
  */
 export const addEntry = async (who, accuracy, wpm, score, totalWaves) => {
+    const db = useFirestore();
     const { name, signature } = who;
 
     let entry = {
+        id: await sha512(signature + name),
         playerName: name,
         signature: await sha512(signature),
         accuracy,
@@ -35,6 +38,21 @@ export const addEntry = async (who, accuracy, wpm, score, totalWaves) => {
         totalWaves
     };
 
+    // We want to overwrite any entries for this ID in
+    // the global database, but just append in the local database
+
+    // Add to firebase
+    try {
+        const collectionRef = collection(db, 'global-leaderboard');
+        const docRef = doc(collectionRef, entry.id);
+
+        await setDoc(docRef, entry);
+    } catch (e) {
+        console.error(e);
+        console.log('Could not set score to global database... Oh well...');
+    }
+
+    // Add to local storage
     if (storage.exists('leaderboard')) {
         items = JSON.parse(storage.get('leaderboard'));
     }
