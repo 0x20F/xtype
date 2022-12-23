@@ -1,6 +1,6 @@
 import { storage } from 'foundation/components/LocalStorage';
 import {sha512} from "./math/Hashes";
-import { collection, doc, setDoc } from 'firebase/firestore';
+import { collection, doc, setDoc, getDocs } from 'firebase/firestore';
 import {useFirestore} from "../support/Database";
 
 
@@ -25,7 +25,6 @@ const sortEntry = (a, b) => {
  * @param {number} score Entire score for the run
  */
 export const addEntry = async (who, accuracy, wpm, score, totalWaves) => {
-    const db = useFirestore();
     const { name, signature } = who;
 
     let entry = {
@@ -43,6 +42,7 @@ export const addEntry = async (who, accuracy, wpm, score, totalWaves) => {
 
     // Add to firebase
     try {
+        const db = useFirestore();
         const collectionRef = collection(db, 'global-leaderboard');
         const docRef = doc(collectionRef, entry.id);
 
@@ -74,12 +74,27 @@ export const addEntry = async (who, accuracy, wpm, score, totalWaves) => {
  * Returns all leaderboard entries as an array
  * of objects
  */
-export const allEntries = () => {
-    let entries = storage.get('leaderboard');
+export const allEntries = async (from) => {
+    if (from === 'local') {
+        let entries = storage.get('leaderboard');
 
-    if (!entries) {
-        return [];
+        if (!entries) {
+            return [];
+        }
+
+        return JSON.parse(entries);
     }
 
-    return JSON.parse(entries);
+    if (from === 'global') {
+        const db = useFirestore();
+        const collectionRef = collection(db, 'global-leaderboard');
+        const docs = await getDocs(collectionRef);
+
+        const final = [];
+        docs.forEach(doc => {
+            final.push(doc.data());
+        })
+
+        return final;
+    }
 }

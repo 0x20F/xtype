@@ -8,11 +8,33 @@ import { allEntries } from 'foundation/Leaderboard';
 import { truncate } from 'support/Helpers';
 import {createIdenticon} from "../../foundation/Identicon";
 
-
+const animeProps = {
+    opacity: [0, 1],
+    translateX: [-64, 0],
+    delay: (el, i) => i * 100,
+    duration: 500
+};
 
 class LeaderboardMenu extends AnimatedComponent {
     constructor(props) {
         super(props);
+
+        this.state = {
+            isGlobal: false,
+            leaderboardEntries: []
+        }
+    }
+
+
+    componentDidMount() {
+        this.getEntries('local');
+    }
+
+
+    getEntries = async (from) => {
+        this.setState({
+            leaderboardEntries: await allEntries(from)
+        });
     }
 
 
@@ -54,18 +76,13 @@ class LeaderboardMenu extends AnimatedComponent {
 
 
     render() {
-        let animeProps = {
-            opacity: [0, 1],
-            translateX: [-64, 0],
-            delay: (el, i) => i * 200
-        };
-
+        const { isGlobal, leaderboardEntries } = this.state;
 
         /**
          * Sort the scores first on the level the player reached (what wave)
          * and then on the scores the player got
          */
-        let all = allEntries().sort((a, b) => {
+        let all = leaderboardEntries.sort((a, b) => {
             return b.totalWaves - a.totalWaves || b.score - a.score
         });
         let entries = [];
@@ -83,19 +100,49 @@ class LeaderboardMenu extends AnimatedComponent {
             }
 
             entries.push(this.leaderboardEntry(e, i));
-        })
+        });
 
+        const classes = [
+            'leaderboardMenu menu',
+            isGlobal ? 'global' : 'local'
+        ]
 
         return this.smoothly(
-            <div className='leaderboardMenu menu'>
-                { entries.length === 0 && <div className='nothingHere'>You haven't set any scores yet!</div>}
+            <div className={ classes.join(' ') }>
+                { entries.length === 0 && <div className='nothingHere'>
+                    { isGlobal ?
+                        'Nobody has set any scores yet...'
+                        :
+                        'You haven\'t set any scores yet!'
+                    }
+                </div>}
 
-                { entries.length > 0 && <>
+                { !isGlobal && entries.length > 0 && <>
                     <Anime {...animeProps}>
                         { entries }
                     </Anime>
                 </> }
-                <Button mini={true} hint='esc' text='Close' onClick={ this.closeLeaderboard }/>
+
+                { isGlobal && entries.length > 0 && <>
+                    <Anime {...animeProps}>
+                        { entries }
+                    </Anime>
+                </> }
+
+                <div className='button-container'>
+                    <Button mini={true} hint='esc' text='Close' onClick={ this.closeLeaderboard }/>
+                    <Button
+                        mini={true}
+                        hint='g'
+                        text={ !isGlobal ? 'show global' : 'show local' }
+                        onClick={ () => {
+                            this.setState(old => ({
+                                isGlobal: !old.isGlobal
+                            }), () => {
+                                this.getEntries(!isGlobal ? 'global' : 'local');
+                            });
+                        } }/>
+                </div>
             </div>
         );
     }

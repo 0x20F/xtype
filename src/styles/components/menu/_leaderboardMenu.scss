@@ -31,9 +31,11 @@
 
     }
 
-    .buttonContainer {
+    .button-container {
+        width: 100%;
         position: absolute;
         bottom: 15px;
+        @include flex($direction: column);
     }
 
     .leaderboardEntry {
