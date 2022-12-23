@@ -4,7 +4,7 @@
   "description": "Multiplayer type racing game",
   "main": "index.js",
   "scripts": {
-    "start": "vite",
+    "dev": "vite",
     "build": "vite build --base=/xtype/"
   },
   "repository": {
