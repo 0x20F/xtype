@@ -7,7 +7,10 @@
  * @returns {number} A percentage with 2 decimals
  */
 export const calculateAccuracy = wave => {
-    return ((1 - (wave.shotsMissed / wave.shotsFired)) * 100);
+    const a = wave.shotsMissed ?? 1;
+    const b = wave.shotsFired ?? 1;
+
+    return ((1 - (a / b)) * 100);
 }
 
 

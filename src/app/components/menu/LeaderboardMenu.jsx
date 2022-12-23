@@ -140,7 +140,6 @@ class LeaderboardMenu extends AnimatedComponent {
             return b.totalWaves - a.totalWaves || b.score - a.score
         });
         let entries = [];
-        let lastLevel = all[0] ? all[0].totalWaves : 0;
 
         const findMe = (from) => {
             return from.findIndex(player =>
@@ -164,6 +163,7 @@ class LeaderboardMenu extends AnimatedComponent {
 
         let filtered = me !== -1 ?
             aroundMe : all;
+        let lastLevel = filtered[0] ? filtered[0].totalWaves : 0;
 
 
         filtered.forEach((e, i) => {

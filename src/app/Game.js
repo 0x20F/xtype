@@ -149,13 +149,15 @@ const animate = delta => {
     if (!Game.find('enemy').length) {
         waveEnd = Date.now();
 
-        events.emit('waveEnd', {
+        const data = {
             waveStart,
             waveEnd,
             enemiesKilled,
             shotsFired,
             shotsMissed
-        });
+        };
+
+        events.emit('waveEnd', data);
 
         app.ticker.stop();
         return;
