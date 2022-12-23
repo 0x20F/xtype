@@ -32,7 +32,7 @@ export default class App extends Component {
             intermission: false,
             gameOver: false,
 
-            playerName: storage.get('playerName') || '0x20F',
+            playerName: storage.get('playerName') || 'Input name here',
             playerSignature: storage.get('playerSignature'),
 
             wave: 1
