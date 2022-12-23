@@ -155,8 +155,6 @@ class LeaderboardMenu extends AnimatedComponent {
             const min = Math.max(0, me - 5);
             const max = Math.min(all.length, me + 5);
 
-            console.log('Getting array between min', min, 'and max', max);
-
             // Get an array between those values
             aroundMe = all.slice(min, max);
         }
