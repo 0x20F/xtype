@@ -22,3 +22,17 @@ export const hashFnv32a = (string, seed) => {
 
     return ("00000000" + (hval >>> 0).toString(16)).substr(-8);
 }
+
+export const sha512 = async from => {
+    const buf = await crypto.subtle.digest('SHA-512', new TextEncoder().encode(from))
+
+    return Array
+        .prototype
+        .map
+        .call(
+            new Uint8Array(buf),
+            x => (( '00' + x.toString(16)).slice(-2))
+        )
+        .join('');
+}
+
