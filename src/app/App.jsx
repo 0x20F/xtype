@@ -28,7 +28,7 @@ export default class App extends Component {
             paused: false,
             started: false,
             inSettings: false,
-            inLeaderboard: true,
+            inLeaderboard: false,
             intermission: false,
             gameOver: false,
 
