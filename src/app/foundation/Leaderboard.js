@@ -1,6 +1,6 @@
 import { storage } from 'foundation/components/LocalStorage';
 import {sha512} from "./math/Hashes";
-import { collection, doc, setDoc, getDocs } from 'firebase/firestore';
+import { collection, doc, setDoc, getDocs, getDoc } from 'firebase/firestore';
 import {useFirestore} from "../support/Database";
 
 
@@ -47,7 +47,17 @@ export const addEntry = async (who, accuracy, wpm, score, totalWaves) => {
         const collectionRef = collection(db, 'global-leaderboard');
         const docRef = doc(collectionRef, entry.id);
 
-        await setDoc(docRef, entry);
+        const docSnap = await getDoc(docRef);
+
+        // Update it
+        if (docSnap.exists()) {
+            const old = docSnap.data();
+
+            // Only update if the score is higher
+            if (entry.score > old.score) {
+                await setDoc(docRef, entry);
+            }
+        }
     } catch (e) {
         console.error(e);
         console.log('Could not set score to global database... Oh well...');
