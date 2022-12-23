@@ -144,8 +144,10 @@ class LeaderboardMenu extends AnimatedComponent {
         let aroundMe = [];
 
         if (me !== -1) {
-            const min = Math.min(0, me - 5);
-            const max = Math.max(all.length, me + 5);
+            const min = Math.max(0, me - 5);
+            const max = Math.min(all.length, me + 5);
+
+            console.log('Getting array between min', min, 'and max', max);
 
             // Get an array between those values
             aroundMe = all.slice(min, max);
@@ -223,7 +225,7 @@ class LeaderboardMenu extends AnimatedComponent {
 
                     <div className='personal-standings-globally'>
                         <div className='category-text'>
-                            Standings around you
+                            { me === -1 ? 'Top 50 players' : 'Standings around you' }
                         </div>
 
                         { entries.length > 0 && <>
