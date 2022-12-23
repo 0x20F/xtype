@@ -23,6 +23,7 @@ class LeaderboardMenu extends AnimatedComponent {
 
         this.state = {
             isGlobal: true,
+            loading: false,
             signedSignature: props.playerSignature,
             leaderboardEntries: []
         }
@@ -40,8 +41,16 @@ class LeaderboardMenu extends AnimatedComponent {
 
     getEntries = async (from) => {
         this.setState({
-            leaderboardEntries: await allEntries(from)
-        });
+            loading: true
+        }, async () => {
+            this.setState({
+                leaderboardEntries: await allEntries(from)
+            }, () => {
+                this.setState({
+                    loading: false
+                })
+            })
+        })
     }
 
 
@@ -121,7 +130,7 @@ class LeaderboardMenu extends AnimatedComponent {
 
 
     render() {
-        const { isGlobal, leaderboardEntries, signedSignature } = this.state;
+        const { isGlobal, leaderboardEntries, signedSignature, loading } = this.state;
 
         /**
          * Sort the scores first on the level the player reached (what wave)
@@ -185,13 +194,17 @@ class LeaderboardMenu extends AnimatedComponent {
                     }
                 </div>}
 
-                { !isGlobal && entries.length > 0 && <>
+                { loading && <div className='nothingHere'>
+                    Loading scores...
+                </div> }
+
+                { !isGlobal && entries.length > 0 && !loading && <>
                     <Anime {...animeProps}>
                         { entries }
                     </Anime>
                 </> }
 
-                { isGlobal && all.length > 0 && <>
+                { isGlobal && all.length > 0 && !loading && <>
                     <Anime {...animeProps}>
                         <div className='top-three-globally'>
                             <div className='second-place'>
