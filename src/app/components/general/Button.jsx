@@ -7,7 +7,6 @@ class Button extends Component {
         super(props);
     }
 
-
     _handleKeyDown = e => {
         let key = e.key;
         let hint = this.props.hint;
@@ -43,7 +42,7 @@ class Button extends Component {
         const { hint, text, onClick, mini, disabled, danger } = this.props;
 
         let classes = !hint ? 'rounded' : '';
-        let containerClasses = 'buttonContainer' 
+        let containerClasses = 'buttonContainer'
             + (danger ? ' danger' : '')
             + (mini ? ' sub' : '')
             + (disabled ? ' disabled' : '');
@@ -51,7 +50,9 @@ class Button extends Component {
 
         return (
             <div className={containerClasses}>
-                <div className={ classes } onClick={ click }>{ text }</div>
+                <div className={ classes } onClick={ click }>
+                    { disabled ? disabled : text }
+                </div>
                 { hint && <div className="shortcutHint">{ hint }</div> }
             </div>
         );

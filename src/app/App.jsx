@@ -33,6 +33,8 @@ export default class App extends Component {
             gameOver: false,
 
             playerName: storage.get('playerName') || '0x20F',
+            playerSignature: storage.get('playerSignature'),
+
             wave: 1
         }
 
@@ -75,13 +77,15 @@ export default class App extends Component {
          * Settings events
          */
         events.on('settingsOpened', () => this.setState({ inSettings: true }));
-        events.on('settingsSaved', playerName => {
+        events.on('settingsSaved', (playerName, playerSignature) => {
             this.setState({
                 playerName,
+                playerSignature,
                 inSettings: false
             });
 
             storage.set('playerName', playerName);
+            storage.set('playerSignature', playerSignature);
         });
 
         /**
@@ -224,7 +228,10 @@ export default class App extends Component {
 
 
     render() {
-        const { inMenu, paused, started, inSettings, inLeaderboard, gameOver, playerName, intermission } = this.state;
+        const {
+            inMenu, paused, started, inSettings, inLeaderboard, gameOver, intermission,
+            playerName, playerSignature
+        } = this.state;
 
         return (
             <>
@@ -232,7 +239,7 @@ export default class App extends Component {
                 { !started && inLeaderboard &&                      <LeaderboardMenu/> }
                 { !started && !inSettings && !inLeaderboard &&      <StartMenu playerName={ playerName }/> }
                 { paused && !intermission &&    <PauseMenu/> }
-                { inSettings &&                 <SettingsMenu playerName={ playerName }/> }
+                { inSettings &&                 <SettingsMenu playerName={ playerName } playerSignature={ playerSignature }/> }
                 { intermission && paused &&     <WaveMenu waveData={ this.waveData } score={ this.score }/> }
 
                 <Background hidden={ !inMenu }/>

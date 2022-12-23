@@ -13,6 +13,7 @@ class SettingsMenu extends AnimatedComponent {
 
         this.state = {
             playerName: props.playerName,
+            playerSignature: props.playerSignature,
             playerShip: ''
         }
 
@@ -30,7 +31,7 @@ class SettingsMenu extends AnimatedComponent {
     handleFocus = e => e.target.select();
 
 
-    handleChange = e => {
+    handleNameChange = e => {
         e.stopPropagation();
         e.preventDefault();
 
@@ -38,6 +39,16 @@ class SettingsMenu extends AnimatedComponent {
             playerName: e.target.value
         }, () => {
             this.updateShip();
+        });
+    }
+
+
+    handleSignatureChange = e => {
+        e.stopPropagation();
+        e.preventDefault();
+
+        this.setState({
+            playerSignature: e.target.value
         });
     }
 
@@ -52,28 +63,46 @@ class SettingsMenu extends AnimatedComponent {
 
 
     saveSettings = () => {
-        events.emit('settingsSaved', this.state.playerName);
+        const { playerName, playerSignature } = this.state;
+
+        events.emit('settingsSaved', playerName, playerSignature);
     }
 
 
     render() {
-        const { playerShip, playerName } = this.state;
+        const { playerShip, playerName, playerSignature } = this.state;
 
-        let content = 
+        let content =
             <div className='settingsMenu menu'>
                 <div className='settingsHeader'>
                     <img src={playerShip} alt='Visual representation of the player ship'/>
                 </div>
-                
-                <input 
-                    type='text' 
+
+                <input
+                    type='text'
+                    placeholder='input ship name'
                     defaultValue={ playerName }
-                    onChange={ this.handleChange } 
+                    onChange={ this.handleNameChange }
                     onFocus={ this.handleFocus }
-                    required 
+                    required
                     autoFocus/>
 
-                <Button text='Save' hint='ret' onClick={ this.saveSettings }/>
+                <input
+                    type='password'
+                    placeholder='input unique signature'
+                    onChange={ this.handleSignatureChange }
+                    onFocus={ this.handleFocus }
+                    required/>
+
+                <div className='signature-description-text'>
+                    identification on the global leaderboard
+                </div>
+
+                <Button
+                    text='Save'
+                    hint='ret'
+                    onClick={ this.saveSettings }
+                    disabled={ (!playerName || !playerSignature) && 'fill in all fields to continue' }/>
             </div>;
 
         return this.changed ? content : this.smoothly(content);
