@@ -49,7 +49,7 @@
 
         .playerInfo {
             position: relative;
-            @include flex($justify: flex-start);
+            @include flex($justify: flex-start, $direction: column);
             height: 100%;
             width: 230px;
 
@@ -69,12 +69,22 @@
                 margin-left: 20px;
                 z-index: 2;
             }
+
+            .signature {
+                z-index: 2;
+                margin-left: 20px;
+                font-size: 10px;
+                font-weight: lighter;
+                color: $text-subtext;
+                margin-top: -5px;
+                opacity: 0.5;
+            }
         }
 
         .playerData {
             height: 100%;
             width: 270px;
-            
+
             @include flex($justify: flex-end);
 
             .data {

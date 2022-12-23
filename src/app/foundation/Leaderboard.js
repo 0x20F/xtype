@@ -29,7 +29,6 @@ export const addEntry = async (who, accuracy, wpm, score, totalWaves) => {
     let entry = {
         playerName: name,
         signature: await sha512(signature),
-        playerAvatar: createIdenticon(who),
         accuracy,
         wpm,
         score,

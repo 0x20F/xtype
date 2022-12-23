@@ -6,6 +6,7 @@ import AnimatedComponent from 'foundation/components/AnimatedComponent';
 import { events } from 'foundation/components/Emitter';
 import { allEntries } from 'foundation/Leaderboard';
 import { truncate } from 'support/Helpers';
+import {createIdenticon} from "../../foundation/Identicon";
 
 
 
@@ -24,8 +25,15 @@ class LeaderboardMenu extends AnimatedComponent {
         return (
         <div className='leaderboardEntry' key={i}>
             <div className='playerInfo'>
-                <img src={ data.playerAvatar }/>
-                <div className='playerName'>{ truncate(data.playerName, 10) }</div>
+                <img src={ createIdenticon(data.playerName) }/>
+                <div className='playerName'>{ truncate(data.playerName, 15) }</div>
+                <div className='signature'>
+                    { data.signature ?
+                        data.signature.substring(0, 20)
+                        :
+                        'score set before global update'
+                    }
+                </div>
             </div>
 
             <div className='playerData'>
@@ -52,7 +60,7 @@ class LeaderboardMenu extends AnimatedComponent {
             delay: (el, i) => i * 200
         };
 
-        
+
         /**
          * Sort the scores first on the level the player reached (what wave)
          * and then on the scores the player got
