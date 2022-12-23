@@ -186,7 +186,7 @@ class LeaderboardMenu extends AnimatedComponent {
 
         return this.smoothly(
             <div className={ classes.join(' ') }>
-                { entries.length === 0 && <div className='nothingHere'>
+                { entries.length === 0 && !loading && <div className='nothingHere'>
                     { isGlobal ?
                         'Nobody has set any scores yet...'
                         :
